@@ -1,12 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
-import { Search } from './Components/JobSearch/Search';
+import Header from './Components/Layout/Header/Header';
+import Home from './Components/Layout/Forms/SearchForm';
+import { ThemeProvider } from '@material-ui/core';
+import theme from './Utils/theme';
+import Routes from './Routes/Routes';
 
 function App() {
   return (
-    <div className="App">
-      <Search />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Header />
+        <Routes />
+      </div>
+    </ThemeProvider>
   );
 }
 

@@ -13,8 +13,6 @@ export  function Search() {
     const handleSearch=e=>{
         e.preventDefault()
         dispatch(getSearchData({query,location}))
-
-
     }
     return (
         <div>
