@@ -41,35 +41,34 @@ const useStyles = makeStyles((theme) => ({
 function SearchForm(props) {
     const classes = useStyles();
     return (
-        <Container className={classes.form_container}>
             <form action="" className={classes.searchForm}>
-            <Grid container spacing={1}>
-                <Grid item lg={5} md={5} sm={5} xs={12}>
-                    <Typography variant='h5'>
-                        What?
-                    </Typography>
-                    <FormHelperText className={classes.removeMargin}>Job title, keywords, or company</FormHelperText>
-                    <OutlinedInput
-                    className={classes.input}
-                    />
-                </Grid>
-                <Grid item lg={5} md={5} sm={5} xs={12}>
-                    <Typography variant='h5' >
-                        Where
-                    </Typography>
-                    <FormHelperText className={classes.removeMargin}>City, state, or pin code</FormHelperText>
+                <Grid container spacing={1}>
+                    <Grid item lg={5} md={5} sm={5} xs={12}>
+                        <Typography variant='h5'>
+                            What?
+                        </Typography>
+                        <FormHelperText className={classes.removeMargin}>Job title, keywords, or company</FormHelperText>
                         <OutlinedInput
                         className={classes.input}
                         />
+                    </Grid>
+                    <Grid item lg={5} md={5} sm={5} xs={12}>
+                        <Typography variant='h5' >
+                            Where
+                        </Typography>
+                        <FormHelperText className={classes.removeMargin}>City, state, or pin code</FormHelperText>
+                            <OutlinedInput
+                            className={classes.input}
+                            />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={12} className={classes.btn_Container}>
+                        <Button color={'primary'} variant='contained'>
+                            Find Jobs
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item lg={2} md={2} sm={2} xs={12} className={classes.btn_Container}>
-                    <Button color={'primary'} variant='contained'>
-                        Find Jobs
-                    </Button>
-                </Grid>
-            </Grid>
-        </form>
-        </Container>
+            </form>
+       
         
     );
 }
