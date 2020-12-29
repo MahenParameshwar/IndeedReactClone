@@ -18,7 +18,7 @@ function Home(props) {
         <Container className={classes.container}>
             <SearchForm />
             <div>
-                <Link>
+                <Link to="/">
                     Employers Yours next job is
                 </Link>
             </div>
