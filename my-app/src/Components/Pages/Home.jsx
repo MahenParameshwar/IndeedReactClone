@@ -10,17 +10,27 @@ const useStyles = makeStyles((theme) => ({
     container:{
         padding:'0px 10vw',
         marginTop:'80px'
+    },
+    linkContainer:{
+        textAlign:'center',
+        marginTop:'30px'
+    },
+    link:{
+        fontWeight:'bolder',
+        color:theme.palette.primary.main
     }
   }))
+
 function Home(props) {
     const classes = useStyles();
     return (
         <Container className={classes.container}>
             <SearchForm />
-            <div>
-                <Link to="/">
-                    Employers Yours next job is
+            <div className={classes.linkContainer}>
+                <Link className={classes.link} to="/" >
+                    {`Employers Yours next job is - `} 
                 </Link>
+                Your next hire is here
             </div>
             <RecentSearch />
         </Container>
