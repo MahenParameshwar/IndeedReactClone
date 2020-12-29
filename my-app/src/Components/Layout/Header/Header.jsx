@@ -69,10 +69,10 @@ export default function Header() {
                         <Typography component={NavLink} variant='h6' to='/' >
                             Find Jobs
                         </Typography>
-                        <Typography component={NavLink} variant='h6' to='/' >
+                        <Typography component={NavLink} variant='h6' to='/companies' >
                             Company Reviews
                         </Typography>
-                        <Typography component={NavLink} variant='h6' to='/' >
+                        <Typography component={NavLink} variant='h6' to='/carrer/salary' >
                             Find Salary
                         </Typography>
                     </Box>
