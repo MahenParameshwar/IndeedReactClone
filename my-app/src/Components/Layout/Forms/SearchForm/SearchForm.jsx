@@ -1,11 +1,9 @@
-import { Box, Button, Container, Grid, TextField, Typography } from '@material-ui/core';
+import {  Button, Grid, Typography } from '@material-ui/core';
 import React, { useState , useRef, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import classNames from "classnames";
-import LocationInput from './LocationInput';
-import JobInput from './JobInput';
+import Input from './Input';
+import InputGrid from './InputGrid';
 
 const useStyles = makeStyles((theme) => ({
     form_container:{
@@ -62,27 +60,22 @@ function SearchForm(props) {
     const classes = useStyles();
     const [job,setJob] = useState('')
     const [location,setLocation] = useState('');
+    const [jobOptions,setJobOptions] = useState(['Java Developer','Javascript Developer','React Developer','Government','Account']);
+    const [locationOptions,setLocationOptions] = useState(['Bangalore','Mumbai','Delhi','Kolkata','Chennai']);
 
     return (
             <form action="" className={classes.searchForm}>
                 <Grid container spacing={1}>
                     
-                    <Grid item   lg={5} md={5} sm={5} xs={12}>
-                        <Typography variant='h5'>
-                            What?
-                        </Typography>
-                        <FormHelperText className={classes.removeMargin}>Job title, keywords, or company</FormHelperText>
-                        <JobInput setJob={setJob} job={job} classes={classes} />
-                    </Grid>
+                    <InputGrid setValue={setJob} value={job} label={'What?'} 
+                    helperText={'City, state, or pin code'} classes={classes}
+                    options={jobOptions}
+                    />
 
-                    <Grid item lg={5} md={5} sm={5} xs={12}>
-                        <Typography variant='h5' >
-                            Where
-                        </Typography>
-                        <FormHelperText className={classes.removeMargin}>City, state, or pin code</FormHelperText>
-                        <LocationInput setLocation={setLocation} location={location} classes={classes} />
-                    </Grid>
-                    
+                    <InputGrid setValue={setLocation} value={location} label={'Where'}
+                    helperText='City, state, or pin code' classes={classes}
+                    options={locationOptions} />
+
                     <Grid item lg={2} md={2} sm={2} xs={12} className={classes.btn_Container}>
                         <Button color={'primary'} variant='contained'>
                             Find Jobs

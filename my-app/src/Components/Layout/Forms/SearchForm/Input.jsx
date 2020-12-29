@@ -1,13 +1,11 @@
-import { Box, Button, Container, Grid, TextField, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import React, { useState , useRef, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import classNames from "classnames";
 
-function JobInput({classes,setJob,job}) {
+
+function Input({classes,setValue,value,options}) {
     const [display,setDisplay] = useState(false); 
-    const [jobOptions,setJobOptions] = useState(['Java Developer','Javascript Developer','React Developer','Government','Account']);
+    
     const wrapperRef = useRef(null);
 
     useEffect(() => {
@@ -29,18 +27,18 @@ function JobInput({classes,setJob,job}) {
                                 <OutlinedInput
                                 className={classes.input }
                                 onClick={()=>setDisplay(!display)}
-                                value={job}
-                                onChange={event => setJob(event.target.value)}
+                                value={value}
+                                onChange={event => setValue(event.target.value)}
                                 />
                                 {
                                     display && (
                                         <div style={{position:'absolute'}} className={classes.autocontainer}>
                                             {
-                                                jobOptions.filter(option => option.toLowerCase().indexOf(job.toLowerCase()) > -1).map((option,index)=>{
+                                                options.filter(option => option.toLowerCase().indexOf(value.toLowerCase()) > -1).map((option,index)=>{
                                                     return (
                                                         <div key={index}
                                                         onClick={()=>{
-                                                            setJob(option)
+                                                            setValue(option)
                                                             setDisplay(false)
                                                         }}
                                                         style={{cursor:'pointer'}}
@@ -59,4 +57,4 @@ function JobInput({classes,setJob,job}) {
     );
 }
 
-export default JobInput;
+export default Input;

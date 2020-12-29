@@ -2,7 +2,7 @@ import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SearchForm from '../Layout/Forms/SearchForm';
+import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import RecentSearch from '../Layout/RecentSearch';
 
 
