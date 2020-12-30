@@ -2,9 +2,17 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem'
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme=>({
+    menu:{
+        fontSize:'12px',
+        margin:'20px 20px 60px 0px',
+    }
+}))
 
 function FillterButton({setType,type,typeStr,typeArr,formatDate}) {
-
+    const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -13,11 +21,12 @@ function FillterButton({setType,type,typeStr,typeArr,formatDate}) {
   
     const handleClose = (type) => {
         setAnchorEl(null);
-        setType(type)
+        if(typeof type === 'string' || typeof type === 'number' )
+            setType(type)
     };
     return (
         <>
-             <Button variant='contained' aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+             <Button style={{zIndex:'-1'}} className={classes.menu} variant='contained' aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                     {
                         !type ? typeStr : formatDate ? `Last ${type === 1 ? '24 hours' : `${type} days` }` : type }
                 </Button>
@@ -29,16 +38,18 @@ function FillterButton({setType,type,typeStr,typeArr,formatDate}) {
                     onClose={handleClose}
                 >
                     {
-                        typeArr.map((type,index)=> <MenuItem key={index} onClick={()=>handleClose(type)}>
+                        typeArr.map( (type,index) => <MenuItem key={index} onClick={()=>handleClose(type)}>
                             
                             {formatDate ? `Last ${type === 1 ? '24 hours' : `${type} days` }` : type }
                             
-                            </MenuItem>)
+                            </MenuItem>
+                            
+                         )
                     }
                 
                 </Menu>
         </>
-    );
+    )
 }
 
 export default FillterButton;
