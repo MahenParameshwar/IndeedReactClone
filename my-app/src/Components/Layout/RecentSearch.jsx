@@ -1,5 +1,6 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { loadData, saveData } from '../../Utils/localStorage';
 
 const useStyles = makeStyles((theme) => ({
     recentSearchContainer:{
@@ -32,7 +33,28 @@ const useStyles = makeStyles((theme) => ({
   }))
 function RecentSearch(props) {
     const classes = useStyles();
-    const [isEditClicked,setIsEditIsClicked] = useState(true);
+    const [isEditClicked,setIsEditIsClicked] = useState(false);
+    const [recent, setRecent] = useState([]) 
+
+    useEffect(() => {
+        let data = loadData("recent") || []
+        console.log(data,"recent")
+        setRecent(data)
+    }, [])
+    
+    console.log(recent)
+    const handleClearRecent=()=>{
+        saveData("recent",[])
+        setRecent([])
+    }
+
+    const handleDeleteRecent=(key)=>{
+        let data = recent.filter((item,index)=>index !== key?item :null )
+        console.log(data)
+        saveData("recent",data)
+        setRecent(data)
+    }
+
     return (
         <Box className={classes.recentSearchContainer}>
             <Box className={classes.recentSearchHeader}>
@@ -40,9 +62,9 @@ function RecentSearch(props) {
                     Recent Searches
                 </Typography>
                 {
-                    isEditClicked ? 
+                    isEditClicked && recent.length !==0 ? 
                     <Box>
-                        <Button variant='contained' style={{marginRight:'10px'}}>
+                        <Button variant='contained' style={{marginRight:'10px'}} onClick ={()=>handleClearRecent()}>
                             Clear
                         </Button >
                         <Button variant='contained' onClick={()=>setIsEditIsClicked(false)}>
@@ -56,7 +78,7 @@ function RecentSearch(props) {
                 
             </Box>
                 <ul className={classes.recentSearchList}>
-                    <li>
+                    {/* <li>
                         <span className={classes.recentSearchText}>
                             java developer - Mumbai, Maharashtra
                         </span>
@@ -68,7 +90,22 @@ function RecentSearch(props) {
                             <></> 
                         }
                         
-                    </li>
+                    </li> */}
+                    {
+                        recent?.map((item,index)=>(
+                            // console.log(item,"item")
+                            <li key = {index}>
+                            <span className={classes.recentSearchText}>
+                                {/* java developer - Mumbai, Maharashtra */}
+                                {item}
+                            </span>
+                                <Button style={{fontWeight:'bolder'}} onClick={()=>handleDeleteRecent(index)}>
+                                    X
+                                </Button> 
+                            </li>
+                        ))
+                    }
+
                     
                 </ul>
         </Box>

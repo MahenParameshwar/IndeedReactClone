@@ -74,13 +74,13 @@ const getJobsId = payload=>dispatch=>{
 
 export const getSearchData = payload =>dispatch=>{
     dispatch(fetchloading())
-    const {query ,location} = payload
-    // console.log(query,location)
+    const {job ,location} = payload
+    // console.log(job,location)
 
 
     var config = {
         method: 'GET',
-        url: `https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch?publisher=7778623931867371&q=${query}&l=${location}&latlong=1&limit=20&co=us&chnl=&userip=1.2.3.4&v=2&format=json`  
+        url: `https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch?publisher=7778623931867371&q=${job}&l=${location}&latlong=1&limit=20&co=in&chnl=&userip=1.2.3.4&v=2&format=json`  
     //   headers: { 
     //     'Cookie': 'CTK=1eqmm5d4tocjg800'
     //   }
