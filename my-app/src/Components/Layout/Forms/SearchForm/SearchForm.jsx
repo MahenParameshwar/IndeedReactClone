@@ -10,13 +10,8 @@ import { loadData, saveData } from '../../../../Utils/localStorage';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-    form_container:{
-        padding:'0px 10vw',
-        marginTop:'80px'
-    },
-    margin: {
-      margin: theme.spacing(1),
-    },
+
+   
     input:{
         width:'100%',
         height:'45px',
@@ -72,7 +67,8 @@ function SearchForm(props) {
     const handleSearch=e=>{
         
         e.preventDefault()
-        dispatch(getSearchData({job,location}))
+        let start = 0
+        dispatch(getSearchData({job,location,start}))
         
         let data = loadData("recent") || []
         let str = job !== "" && location !== "" ? `${job} - ${location}` : job === "" && location !== "" ? `${location}` : `${job}`
@@ -90,15 +86,20 @@ function SearchForm(props) {
         }
 
         saveData("recent",data)
-        history.push("/jobs-search")
+        history.push(`/jobs/q=${job}&l=${location}`)
 
         // console.log(str,"str")
 
     }
 
 
+
+    // const handelSubmit = (e)=>{
+    //     e.preventDefault();
+    //     history.push(`/jobs/q=${job}&l=${location}`)
+    // }
     return (
-            <form onSubmit={e=>handleSearch(e)} className={classes.searchForm}>
+            <form  onSubmit={handleSearch} className={classes.searchForm}>
                 <Grid container spacing={1}>
                     
                     <InputGrid setValue={setJob} value={job} label={'What?'} 
@@ -111,7 +112,7 @@ function SearchForm(props) {
                     options={locationOptions} />
 
                     <Grid item lg={2} md={2} sm={2} xs={12} className={classes.btn_Container}>
-                        <Button type="submit" color={'primary'} variant='contained'>
+                        <Button color={'primary'} variant='contained' type='submit'>
                             Find Jobs
                         </Button>
                     </Grid>

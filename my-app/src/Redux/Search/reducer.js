@@ -1,10 +1,15 @@
-import { FETCH_ERROR, FETCH_JOBS_ID_SUCCESS, FETCH_LOADING, FETCH_SUCCESS } from "./actionTypes"
+import { COUNT_TOTAL_RESULT,
+        FETCH_ERROR, 
+        FETCH_JOBS_ID_SUCCESS,
+         FETCH_LOADING, 
+         FETCH_SUCCESS } from "./actionTypes"
 
 const init = {
     isLoading :false,
     isError:false,
     searched:[],
-    jobsById:{}
+    jobsById:{},
+    totalCount:null
 }
 
 export const searchReducer = (state=init, {type,payload}) =>{
@@ -27,6 +32,12 @@ export const searchReducer = (state=init, {type,payload}) =>{
                 isLoading:false,
                 isError:false,
                 searched:payload
+            }
+        
+        case COUNT_TOTAL_RESULT:
+            return{
+                ...state,
+                totalCount:payload
             }
 
         case FETCH_JOBS_ID_SUCCESS:

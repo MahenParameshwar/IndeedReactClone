@@ -1,4 +1,4 @@
-import { FETCH_ERROR, FETCH_JOBS_ID_SUCCESS, FETCH_LOADING, FETCH_SUCCESS } from "./actionTypes"
+import { COUNT_TOTAL_RESULT, FETCH_ERROR, FETCH_JOBS_ID_SUCCESS, FETCH_LOADING, FETCH_SUCCESS } from "./actionTypes"
 import axios from "axios"
 
 const fetchSuccess = payload =>{
@@ -28,10 +28,10 @@ const  putJobsById=(payload)=>{
     }
 }
 
-const addJobsById = payload=>dispatch=>{
+const addJobs = payload=>dispatch=>{
 
     var config = {
-        method: 'put',
+        method: 'post',
         url: 'http://localhost:8000/jobs',
         headers: { 
             'Content-Type': 'application/json'
@@ -39,48 +39,61 @@ const addJobsById = payload=>dispatch=>{
         data : payload
     }
 
-
     axios(config)
-    .then(res=>dispatch(putJobsById(res.data)))
+    .then(res=>(res.data))
     
 }
 
-const getJobsId = payload=>dispatch=>{
+// const getJobsId = payload=>dispatch=>{
 
+//     var config = {
+//         method: 'get',
+//         url: 'http://localhost:8000/jobs',
+//         headers: { }
+//     };
 
-    var config = {
-        method: 'get',
-        url: 'http://localhost:8000/jobs',
-        headers: { }
-    };
-
-    axios(config)
-    .then(res=>{
-        let jobs = res.data
-        console.log(jobs)
-        for(let i =0 ; i<payload.length;i++)
-        {
+//     axios(config)
+//     .then(res=>{
+//         let jobs = res.data
+//         console.log(jobs)
+//         for(let i =0 ; i<payload.length;i++)
+//         {
             
-            if(!jobs[payload[i].jobkey])
-            {
-                jobs[payload[i].jobkey] = payload[i]
-            }
-        }
+//             if(!jobs[payload[i].jobkey])
+//             {
+//                 jobs[payload[i].jobkey] = payload[i]
+//             }
+//         }
 
-        dispatch(addJobsById(jobs))
-    })
+//         dispatch(addJobs(jobs))
+//     })
+// }
+const setCount = payload=>{
+    return {
+        type:COUNT_TOTAL_RESULT,
+        payload
+    }
 }
-
 
 export const getSearchData = payload =>dispatch=>{
     dispatch(fetchloading())
-    const {job ,location} = payload
-    // console.log(job,location)
+    const {job ,location,start} = payload
+    console.log(job,location,start)
 
 
     var config = {
         method: 'GET',
-        url: `https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch?publisher=7778623931867371&q=${job}&l=${location}&latlong=1&limit=20&co=in&chnl=&userip=1.2.3.4&v=2&format=json`  
+        url: `https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch`,
+        params:{
+            publisher:'7778623931867371',
+            q:job,
+            l:location,
+            co:'in',
+            limit:'15',
+            start:start,
+            v:'2',
+            format:'json'
+            }
     //   headers: { 
     //     'Cookie': 'CTK=1eqmm5d4tocjg800'
     //   }
@@ -88,9 +101,11 @@ export const getSearchData = payload =>dispatch=>{
 
     axios(config)
     .then(res=>{
-        console.log("data",res.data.results)
+        // console.log("data",res.data.results)
         dispatch(fetchSuccess(res.data.results))
-        dispatch(getJobsId(res.data.results))
+        dispatch(setCount(res.data.totalResults))
+        // res.data.results.map(item=>dispatch(addJobs(item)))
+
     })
     .catch(err=>dispatch(fetchError()))
 

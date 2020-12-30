@@ -19,5 +19,13 @@ export default createMuiTheme({
         h5:{
             fontWeight:'bold'
         }
+    },
+    overrides:{
+        MuiTypography:{
+            question: {
+                fontSize: '14px',
+                fontWeight: 'bold',
+              }
+        }
     }
 })
