@@ -65,7 +65,7 @@ function SearchForm(props) {
         history.push(`/jobs/q=${job}&l=${location}`)
     }
     return (
-            <form style={{transform:"scale(0.8) translateX(-12%)",zIndex:'1'}}  onSubmit={handelSubmit} className={classes.searchForm}>
+            <form  onSubmit={handelSubmit} className={classes.searchForm}>
                 <Grid container spacing={1}>
                     
                     <InputGrid setValue={setJob} value={job} label={'What?'} 
