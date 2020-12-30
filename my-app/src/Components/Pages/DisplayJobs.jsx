@@ -163,7 +163,7 @@ function DisplayJobs(props) {
             <Box className={classes.sort_container}>
                 <Box>
                     Sort by 
-                    <sapn className={classNames({[classes.sortStyle] : sortDateIsCliked , [classes.bold] : !sortDateIsCliked})} onClick={()=>handleSort('relevance')}> relevance </sapn> 
+                    <span className={classNames({[classes.sortStyle] : sortDateIsCliked , [classes.bold] : !sortDateIsCliked})} onClick={()=>handleSort('relevance')}> relevance </span> 
                     / 
                     <span className={classNames({[classes.sortStyle] : !sortDateIsCliked , [classes.bold] : sortDateIsCliked})} onClick={()=>handleSort('date')}> date </span>
                 </Box>
