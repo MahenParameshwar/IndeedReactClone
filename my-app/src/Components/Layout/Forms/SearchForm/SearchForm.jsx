@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
         borderBottomRightRadius:'5px',
         zIndex:'10',
         paddingBottom:'30px',
+        position:'absolute',
         '& div':{
             marginTop:'30px'
         },

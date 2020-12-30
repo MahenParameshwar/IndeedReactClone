@@ -1,14 +1,15 @@
-import { Box, Container, Grid, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { useHistory, useParams } from 'react-router-dom';
-import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 import Pagination from '@material-ui/lab/Pagination';
 import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles';
+import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import FillterButton from '../Layout/FilterJobsButton/FillterButton';
-import { useDispatch, useSelector } from 'react-redux';
 import { getSearchData } from '../../Redux/Search/actions';
+import JobDescription from '../Layout/JobDescription';
 
 const useStyles = makeStyles(theme=>({
     jobContainer:{
@@ -44,6 +45,7 @@ const useStyles = makeStyles(theme=>({
     },
     job_section:{
         padding:'0 8vw',
+        position:'relative'
     },
     sort_container:{
                     display:'flex',
@@ -89,7 +91,7 @@ function DisplayJobs(props) {
 
     ///////
 
-    let [jobData,setJobData] = useState({})
+    let [jobData,setJobData] = useState(null)
     let totalResults = useSelector(state=>state.search.totalCount)
     const dispatch = useDispatch()
     const history = useHistory()
@@ -160,7 +162,7 @@ function DisplayJobs(props) {
         .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apigetjobs?publisher=7778623931867371&jobkeys=${jobKey}&v=2&format=json`)
         .then(
             res=>{
-                console.log(res.data.results[0])
+                setJobData(res.data.results[0])
             }
         )
     }
@@ -199,31 +201,39 @@ function DisplayJobs(props) {
                         `Page ${Math.floor(start/15) + 1} of ${totalResults} results`
                     }
                 </Box>
+              
             </Box>
-                <Grid className={classes.jobContainer}  container>
+           
+                <Box style={{display:'flex'}}> 
+                    <Grid className={classes.jobContainer}  container>
+                        {
+                            jobs.map((job,index)=>
+                            <Grid onClick={()=>getJobDescription(job.jobkey)} className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
+                                <Typography  className={classes.job_title}>
+                                    {job.jobtitle}
+                                </Typography>
+                                <Typography className={classes.job_subTitle}>
+                                    {job.company}
+                                </Typography>
+                                <Typography className={classes.job_subTitle}>
+                                    {job.city}
+                                </Typography>
+                                <div className={classes.job_snippet} dangerouslySetInnerHTML={{__html: job.snippet}}></div>
+                                <Typography className={classes.greyText}>
+                                    {job.formattedRelativeTime}
+                                </Typography>
+                            </Grid>)
+                        }
+                    </Grid>
                     {
-                        jobs.map((job,index)=>
-                        <Grid onClick={()=>getJobDescription(job.jobkey)} className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
-                            <Typography  className={classes.job_title}>
-                                {job.jobtitle}
-                            </Typography>
-                            <Typography className={classes.job_subTitle}>
-                                {job.company}
-                            </Typography>
-                            <Typography className={classes.job_subTitle}>
-                                {job.city}
-                            </Typography>
-                            <div className={classes.job_snippet} dangerouslySetInnerHTML={{__html: job.snippet}}></div>
-                            <Typography className={classes.greyText}>
-                                {job.formattedRelativeTime}
-                            </Typography>
-                        </Grid>)
+                        jobData ? <JobDescription jobData={jobData} /> : <></> 
                     }
-                </Grid>
+                    
+                </Box>
                 <Pagination onChange={handlePageChange} count={
                     totalResults % 15 === 0 ?
                     Math.floor(totalResults/15) : Math.floor(totalResults/15) + 1 } variant="outlined" shape="rounded" />
-            
+                
         </Container>
     );
 }
