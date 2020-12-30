@@ -5,7 +5,9 @@ import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import axios from 'axios'
 import Pagination from '@material-ui/lab/Pagination';
 
+
 import { makeStyles } from '@material-ui/core/styles';
+import FillterButton from '../Layout/FilterJobsButton/FillterButton';
 
 const useStyles = makeStyles(theme=>({
     jobContainer:{
@@ -59,28 +61,53 @@ function DisplayJobs(props) {
     let job = query.get('q')
     let location = query.get('l')
     let start = query.get('start')
+    
+    let [page,setPage] = useState(1)
+    let [jobType,setJobType] = useState('') 
+    let [fromage,setFromage] = useState(0)
     let [jobs,setJobs] = useState([])
+
     let [jobData,setJobData] = useState({})
     let [totalResults,setTotalResults] = useState(0);
     const history = useHistory()
     
-    
+    useEffect(()=>{
+
+    },[page])
     
     const handlePageChange = (event, page) => {
-        history.push(`/jobs/q=${job}&l=${location}&start=${(page-1)*15}`)
+        setPage(page)
+        // history.push(`/jobs/q=${job}&l=${location}&start=${(page-1)*15}&jt=${jobType}`)
     };
+
+
+  
 
 
     useEffect(()=>{
         axios
-        .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch?publisher=7778623931867371&q=${job}&l=${location}&co=in&limit=15&start=${start}&v=2&format=json`)
+        .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch`,
+        {
+            params:{
+                publisher:'7778623931867371',
+                q:job,
+                l:location,
+                co:'in',
+                limit:15,
+                start:(page-1)*15,
+                jt:jobType,
+                v:2,
+                fromage:fromage,
+                format:'json'
+                }
+        })
         .then(
             res=>{
                 setTotalResults(res.data.totalResults)
                 setJobs(res.data.results)
             }
             )
-    },[job,location,start])
+    },[job,location,page,jobType,fromage])
 
     const getJobDescription = (jobKey)=>{
         
@@ -89,7 +116,6 @@ function DisplayJobs(props) {
         .then(
             res=>{
                 console.log(res.data.results[0])
-                
             }
         )
     }
@@ -100,6 +126,18 @@ function DisplayJobs(props) {
         <Container className={classes.job_section}>
             <Box style={{transform:"scale(0.8) translateX(-12%)"}}>
                 <SearchForm />
+            </Box>
+            <Box>
+                <FillterButton type={jobType} setType={setJobType} 
+                typeArr={['Fulltime','Walk-In','Fresher','Part-time']}
+                formatDate={false}
+                typeStr='JOB TYPE'/>
+
+                <FillterButton type={fromage} setType={setFromage} 
+                typeArr={[1,3,7,14]}
+                formatDate={true}
+                typeStr='DATE POSTED'/>
+            
             </Box>
             <Box className={classes.greyText}>
                 jobs in {location}
