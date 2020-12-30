@@ -8,6 +8,12 @@ const useStyles = makeStyles(theme=>({
     menu:{
         fontSize:'12px',
         margin:'20px 20px 60px 0px',
+        borderRadius:'10px',
+        outline:'none',
+        border:'1px solid #D4D2D0',
+        backgroundColor:'#D4D2D0',
+        padding:'10px',
+        fontWeight:'bold'
     }
 }))
 
@@ -17,6 +23,7 @@ function FillterButton({setType,type,typeStr,typeArr,formatDate}) {
 
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
+      
     };
   
     const handleClose = (type) => {
@@ -26,10 +33,13 @@ function FillterButton({setType,type,typeStr,typeArr,formatDate}) {
     };
     return (
         <>
-             <Button style={{zIndex:'-1'}} className={classes.menu} variant='contained' aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                <button  className={classes.menu}  onClick={handleClick}>
                     {
-                        !type ? typeStr : formatDate ? `Last ${type === 1 ? '24 hours' : `${type} days` }` : type }
-                </Button>
+                        !type ? typeStr : formatDate ? `Last ${type === 1 ? '24 hours' : `${type} days` }` : type 
+                        
+                    }
+                </button>
+
                 <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}
