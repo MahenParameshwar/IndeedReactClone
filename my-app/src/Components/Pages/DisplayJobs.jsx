@@ -8,12 +8,48 @@ import Pagination from '@material-ui/lab/Pagination';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme=>({
+    jobContainer:{
+        width:'450px',
+    },
     card:{
         border:'1px solid black',
+        padding:'15px',
+        cursor:'pointer',
+        '&:hover':{
+            '& $job_title':{
+                textDecoration:'underline'
+            }
+        },
+        borderRadius:'10px',
+        marginBottom:'20px'
     },
-    jobContainer:{
-        width:'450px'
-    }
+    job_title:{
+        fontWeight:'bold',
+        fontSize:'20px'
+    },
+    job_subTitle:{
+        fontSize:'16px'
+    },
+    job_snippet:{
+        margin:'20px 0px 10px 0px',
+        fontSize:'15px',
+        lineHeight:'1.4rem'
+    },
+    greyText:{
+        fontSize:'14px',
+        color:'grey'
+    },
+    job_section:{
+        padding:'0 8vw',
+    },
+    sort_container:{
+                    display:'flex',
+                    justifyContent:"space-between",
+                    width:"450px",
+                    fontSize:'14px',
+                    margin:'10px 0px'
+                }
+    
 }))
 
 function DisplayJobs(props) {
@@ -24,6 +60,7 @@ function DisplayJobs(props) {
     let location = query.get('l')
     let start = query.get('start')
     let [jobs,setJobs] = useState([])
+    let [jobData,setJobData] = useState({})
     let [totalResults,setTotalResults] = useState(0);
     const history = useHistory()
     
@@ -39,43 +76,68 @@ function DisplayJobs(props) {
         .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch?publisher=7778623931867371&q=${job}&l=${location}&co=in&limit=15&start=${start}&v=2&format=json`)
         .then(
             res=>{
-                console.log(res)
                 setTotalResults(res.data.totalResults)
                 setJobs(res.data.results)
             }
             )
     },[job,location,start])
 
-    console.log(jobs) 
-    return (
-        <Container>
-            <div style={{transform:"scale(0.8)",width:'70%'}}>
-                <SearchForm />
+    const getJobDescription = (jobKey)=>{
+        
+        axios
+        .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apigetjobs?publisher=7778623931867371&jobkeys=${jobKey}&v=2&format=json`)
+        .then(
+            res=>{
+                console.log(res.data.results[0])
                 
-            </div>
-            <Grid className={classes.jobContainer}  container>
-                {
-                    jobs.map((job,index)=>
-                    <Grid className={classes.card}  item key={job.jobkey} lg={9} md={12} sm={12} xs={12} >
-                        <Typography variant={'job_title'}>
-                            {job.jobtitle}
-                        </Typography>
-                        <Typography>
-                            {job.company}
-                        </Typography>
-                        <Typography>
-                            {job.city}
-                        </Typography>
-                        <Typography>
-                            {job.snippet}
-                        </Typography>
-                        <Typography>
-                            {job.formattedRelativeTime}
-                        </Typography>
-                    </Grid>)
-                }
-            </Grid>
-            <Pagination onChange={handlePageChange} count={Math.floor(totalResults/15)} variant="outlined" shape="rounded" />
+            }
+        )
+    }
+
+    
+
+    return (
+        <Container className={classes.job_section}>
+            <Box style={{transform:"scale(0.8) translateX(-12%)"}}>
+                <SearchForm />
+            </Box>
+            <Box className={classes.greyText}>
+                jobs in {location}
+            </Box>
+            <Box className={classes.sort_container}>
+                <Box>
+                    Sort by relevence / date
+                </Box>
+                <Box>
+                    {
+                        `Page ${Math.floor(start/15) + 1} of ${totalResults} results`
+                    }
+                </Box>
+            </Box>
+                <Grid className={classes.jobContainer}  container>
+                    {
+                        jobs.map((job,index)=>
+                        <Grid onClick={()=>getJobDescription(job.jobkey)} className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
+                            <Typography  className={classes.job_title}>
+                                {job.jobtitle}
+                            </Typography>
+                            <Typography className={classes.job_subTitle}>
+                                {job.company}
+                            </Typography>
+                            <Typography className={classes.job_subTitle}>
+                                {job.city}
+                            </Typography>
+                            <div className={classes.job_snippet} dangerouslySetInnerHTML={{__html: job.snippet}}></div>
+                            <Typography className={classes.greyText}>
+                                {job.formattedRelativeTime}
+                            </Typography>
+                        </Grid>)
+                    }
+                </Grid>
+                <Pagination onChange={handlePageChange} count={
+                    totalResults % 15 === 0 ?
+                    Math.floor(totalResults/15) : Math.floor(totalResults/15) + 1 } variant="outlined" shape="rounded" />
+            
         </Container>
     );
 }

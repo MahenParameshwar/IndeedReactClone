@@ -18,11 +18,14 @@ export default createMuiTheme({
         },
         h5:{
             fontWeight:'bold'
-        },
-        job_title:{
-            fontWeight:'bold',
-            display:'none'
         }
-        
+    },
+    overrides:{
+        MuiTypography:{
+            question: {
+                fontSize: '14px',
+                fontWeight: 'bold',
+              }
+        }
     }
 })

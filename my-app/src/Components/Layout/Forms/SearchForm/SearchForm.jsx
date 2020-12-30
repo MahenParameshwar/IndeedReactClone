@@ -7,13 +7,8 @@ import InputGrid from './InputGrid';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-    form_container:{
-        padding:'0px 10vw',
-        marginTop:'80px'
-    },
-    margin: {
-      margin: theme.spacing(1),
-    },
+
+   
     input:{
         width:'100%',
         height:'45px',
@@ -69,7 +64,7 @@ function SearchForm(props) {
         history.push(`/jobs/q=${job}&l=${location}`)
     }
     return (
-            <form onSubmit={handelSubmit} className={classes.searchForm}>
+            <form  onSubmit={handelSubmit} className={classes.searchForm}>
                 <Grid container spacing={1}>
                     
                     <InputGrid setValue={setJob} value={job} label={'What?'} 
