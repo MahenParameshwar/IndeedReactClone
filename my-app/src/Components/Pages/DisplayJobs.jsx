@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import axios from 'axios'
 import Pagination from '@material-ui/lab/Pagination';
-
+import classNames from 'classnames'
 
 import { makeStyles } from '@material-ui/core/styles';
 import FillterButton from '../Layout/FilterJobsButton/FillterButton';
@@ -50,8 +50,18 @@ const useStyles = makeStyles(theme=>({
                     width:"450px",
                     fontSize:'14px',
                     margin:'10px 0px'
-                }
-    
+    },
+    sortStyle:{
+        color:theme.palette.primary.main,
+        cursor:'pointer',
+        '&:hover':{
+            textDecoration:'underline'
+        }
+    },
+    bold:{
+        fontWeight:'bolder',
+        cursor:'pointer',
+    }
 }))
 
 function DisplayJobs(props) {
@@ -65,6 +75,10 @@ function DisplayJobs(props) {
     let [page,setPage] = useState(1)
     let [jobType,setJobType] = useState('') 
     let [fromage,setFromage] = useState(0)
+    let [sortType,setSortType] = useState('relevance')
+
+    let [sortDateIsCliked,setSortDateIsCliked] = useState(false)
+
     let [jobs,setJobs] = useState([])
 
     let [jobData,setJobData] = useState({})
@@ -81,7 +95,10 @@ function DisplayJobs(props) {
     };
 
 
-  
+    const handleSort = (sort)=>{
+        setSortDateIsCliked(!sortDateIsCliked)
+        setSortType(sort)
+    }
 
 
     useEffect(()=>{
@@ -98,7 +115,8 @@ function DisplayJobs(props) {
                 jt:jobType,
                 v:2,
                 fromage:fromage,
-                format:'json'
+                format:'json',
+                sort:sortType
                 }
         })
         .then(
@@ -107,7 +125,7 @@ function DisplayJobs(props) {
                 setJobs(res.data.results)
             }
             )
-    },[job,location,page,jobType,fromage])
+    },[job,location,page,jobType,fromage,sortType])
 
     const getJobDescription = (jobKey)=>{
         
@@ -144,7 +162,10 @@ function DisplayJobs(props) {
             </Box>
             <Box className={classes.sort_container}>
                 <Box>
-                    Sort by relevence / date
+                    Sort by 
+                    <sapn className={classNames({[classes.sortStyle] : sortDateIsCliked , [classes.bold] : !sortDateIsCliked})} onClick={()=>handleSort('relevance')}> relevance </sapn> 
+                    / 
+                    <span className={classNames({[classes.sortStyle] : !sortDateIsCliked , [classes.bold] : sortDateIsCliked})} onClick={()=>handleSort('date')}> date </span>
                 </Box>
                 <Box>
                     {
