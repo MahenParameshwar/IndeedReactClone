@@ -142,7 +142,7 @@ function DisplayJobs(props) {
 
     return (
         <Container className={classes.job_section}>
-            <Box style={{transform:"scale(0.8) translateX(-12%)"}}>
+            <Box>
                 <SearchForm />
             </Box>
             <Box>
