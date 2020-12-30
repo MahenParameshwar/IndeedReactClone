@@ -4,15 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from './Input';
 import InputGrid from './InputGrid';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-    form_container:{
-        padding:'0px 10vw',
-        marginTop:'80px'
-    },
-    margin: {
-      margin: theme.spacing(1),
-    },
+
+   
     input:{
         width:'100%',
         height:'45px',
@@ -62,9 +58,13 @@ function SearchForm(props) {
     const [location,setLocation] = useState('');
     const [jobOptions,setJobOptions] = useState(['Java Developer','Javascript Developer','React Developer','Government','Account']);
     const [locationOptions,setLocationOptions] = useState(['Bangalore','Mumbai','Delhi','Kolkata','Chennai']);
-
+    const history = useHistory()
+    const handelSubmit = (e)=>{
+        e.preventDefault();
+        history.push(`/jobs/q=${job}&l=${location}`)
+    }
     return (
-            <form action="" className={classes.searchForm}>
+            <form  onSubmit={handelSubmit} className={classes.searchForm}>
                 <Grid container spacing={1}>
                     
                     <InputGrid setValue={setJob} value={job} label={'What?'} 
@@ -77,7 +77,7 @@ function SearchForm(props) {
                     options={locationOptions} />
 
                     <Grid item lg={2} md={2} sm={2} xs={12} className={classes.btn_Container}>
-                        <Button color={'primary'} variant='contained'>
+                        <Button color={'primary'} variant='contained' type='submit'>
                             Find Jobs
                         </Button>
                     </Grid>
