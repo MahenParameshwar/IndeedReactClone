@@ -4,7 +4,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import axios from 'axios'
 import Pagination from '@material-ui/lab/Pagination';
+import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles';
+import FillterButton from '../Layout/FilterJobsButton/FillterButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearchData } from '../../Redux/Search/actions';
 
@@ -49,8 +51,18 @@ const useStyles = makeStyles(theme=>({
                     width:"450px",
                     fontSize:'14px',
                     margin:'10px 0px'
-                }
-    
+    },
+    sortStyle:{
+        color:theme.palette.primary.main,
+        cursor:'pointer',
+        '&:hover':{
+            textDecoration:'underline'
+        }
+    },
+    bold:{
+        fontWeight:'bolder',
+        cursor:'pointer',
+    }
 }))
 
 function DisplayJobs(props) {
@@ -60,26 +72,87 @@ function DisplayJobs(props) {
     let job = query.get('q')
     let location = query.get('l')
     let start = query.get('start')
+    
+//// Harsh Changes
     let jobs = useSelector(state=>state.search.searched)
+///////
+///// Mahen changes
+    
+    let [page,setPage] = useState(1)
+    let [jobType,setJobType] = useState('') 
+    let [fromage,setFromage] = useState(0)
+    let [sortType,setSortType] = useState('relevance')
+
+    let [sortDateIsCliked,setSortDateIsCliked] = useState(false)
+
+    // let [jobs,setJobs] = useState([])
+
+    ///////
+
     let [jobData,setJobData] = useState({})
     let totalResults = useSelector(state=>state.search.totalCount)
     const dispatch = useDispatch()
     const history = useHistory()
     
-    
+    // useEffect(()=>{
+
+    // },[page])
     
     const handlePageChange = (event, page) => {
-        history.push(`/jobs/q=${job}&l=${location}&start=${(page-1)*15}`)
+        setPage(page)
+        // history.push(`/jobs/q=${job}&l=${location}&start=${(page-1)*15}&jt=${jobType}`)
     };
 
-    console.log(job,location,start)
-    useEffect(()=>{
-                console.log("use effect")
-                dispatch(getSearchData({job,location,start}))
+
+//// Harsh Changes
+    // console.log(job,location,start)
+    // useEffect(()=>{
+    //             console.log("use effect")
+    //             dispatch(getSearchData({job,location,start}))
                 
             
             
-    },[job,location,start])
+    // },[job,location,start])
+
+////////
+////// Mahen Changes
+
+    const handleSort = (sort)=>{
+        setSortDateIsCliked(!sortDateIsCliked)
+        setSortType(sort)
+    }
+
+
+    useEffect(()=>{
+        let start = (page-1)*15
+        console.log(start)
+        dispatch(getSearchData({job,location,start,jobType,fromage,sortType}))
+        // axios
+        // .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch`,
+        // {
+        //     params:{
+        //         publisher:'7778623931867371',
+        //         q:job,
+        //         l:location,
+        //         co:'in',
+        //         limit:15,
+        //         start:(page-1)*15,
+        //         jt:jobType,
+        //         v:2,
+        //         fromage:fromage,
+        //         format:'json',
+        //         sort:sortType
+        //         }
+        // })
+        // .then(
+        //     res=>{
+        //         setTotalResults(res.data.totalResults)
+        //         setJobs(res.data.results)
+        //     }
+        //     )
+    },[job,location,page,jobType,fromage,sortType])
+
+//////
 
     const getJobDescription = (jobKey)=>{
         
@@ -88,7 +161,6 @@ function DisplayJobs(props) {
         .then(
             res=>{
                 console.log(res.data.results[0])
-                
             }
         )
     }
@@ -100,12 +172,27 @@ function DisplayJobs(props) {
             <Box style={{transform:"scale(0.8) translateX(-12%)"}}>
                 <SearchForm />
             </Box>
+            <Box>
+                <FillterButton type={jobType} setType={setJobType} 
+                typeArr={['Fulltime','Walk-In','Fresher','Part-time']}
+                formatDate={false}
+                typeStr='JOB TYPE'/>
+
+                <FillterButton type={fromage} setType={setFromage} 
+                typeArr={[1,3,7,14]}
+                formatDate={true}
+                typeStr='DATE POSTED'/>
+            
+            </Box>
             <Box className={classes.greyText}>
                 jobs in {location}
             </Box>
             <Box className={classes.sort_container}>
                 <Box>
-                    Sort by relevence / date
+                    Sort by 
+                    <span className={classNames({[classes.sortStyle] : sortDateIsCliked , [classes.bold] : !sortDateIsCliked})} onClick={()=>handleSort('relevance')}> relevance </span> 
+                    / 
+                    <span className={classNames({[classes.sortStyle] : !sortDateIsCliked , [classes.bold] : sortDateIsCliked})} onClick={()=>handleSort('date')}> date </span>
                 </Box>
                 <Box>
                     {

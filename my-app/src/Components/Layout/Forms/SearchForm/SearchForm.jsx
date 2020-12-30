@@ -67,25 +67,36 @@ function SearchForm(props) {
     const handleSearch=e=>{
         
         e.preventDefault()
-        let start = 0
-        dispatch(getSearchData({job,location,start}))
+        let start = 0 ,jobType="",formage="",sortType=""
+        dispatch(getSearchData({job,location,start,jobType,formage,sortType}))
         
         let data = loadData("recent") || []
         let str = job !== "" && location !== "" ? `${job} - ${location}` : job === "" && location !== "" ? `${location}` : `${job}`
 
         if(data.length === 4){
             data.reverse()
-            data.shift()
-            data.push(str)
-            data.reverse()
+            if(data.some(item=>item===str)){
+                data = data.filter(item=>item !== str)
+                data.push(str)
+            }
+            else{
+                data.shift()
+                data.push(str)
+            }
+            
         }
         else {
-            data.reverse()
-            data.push(str)
-            data.reverse()
+            if(data.some(item=>item===str)){
+                data = data.filter(item=>item !== str)
+                data.push(str)
+            }
+            else{
+                
+                data.push(str)
+            }
         }
 
-        saveData("recent",data)
+        saveData("recent",data.reverse())
         history.push(`/jobs/q=${job}&l=${location}`)
 
         // console.log(str,"str")

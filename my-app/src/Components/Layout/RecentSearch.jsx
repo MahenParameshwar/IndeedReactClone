@@ -1,6 +1,9 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { loadData, saveData } from '../../Utils/localStorage';
+import {getSearchData} from "../../Redux/Search/actions"
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     recentSearchContainer:{
@@ -34,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
 function RecentSearch(props) {
     const classes = useStyles();
     const [isEditClicked,setIsEditIsClicked] = useState(false);
-    const [recent, setRecent] = useState([]) 
+    const [recent, setRecent] = useState([])
+    const history = useHistory()
+    const dispatch = useDispatch() 
 
     useEffect(() => {
         let data = loadData("recent") || []
@@ -53,6 +58,51 @@ function RecentSearch(props) {
         console.log(data)
         saveData("recent",data)
         setRecent(data)
+    }
+
+
+
+    const handleSearch=value=>{
+        let query = value.split(" - ")
+        console.log(query)
+        let job = query[0]
+        let location =query[1] || ""
+        
+        
+        let start = 0 ,jobType="",formage="",sortType=""
+        dispatch(getSearchData({job,location,start,jobType,formage,sortType}))
+        
+        let data = loadData("recent") || []
+        let str = job !== "" && location !== "" ? `${job} - ${location}` : job === "" && location !== "" ? `${location}` : `${job}`
+
+        if(data.length === 4){
+            data.reverse()
+            if(data.some(item=>item===str)){
+                data = data.filter(item=>item !== str)
+                data.push(str)
+            }
+            else{
+                data.shift()
+                data.push(str)
+            }
+            
+        }
+        else {
+            if(data.some(item=>item===str)){
+                data = data.filter(item=>item !== str)
+                data.push(str)
+            }
+            else{
+                
+                data.push(str)
+            }
+        }
+
+        saveData("recent",data.reverse())
+        history.push(`/jobs/q=${job}&l=${location}`)
+
+        // console.log(str,"str")
+
     }
 
     return (
@@ -95,7 +145,7 @@ function RecentSearch(props) {
                         recent?.map((item,index)=>(
                             // console.log(item,"item")
                             <li key = {index}>
-                            <span className={classes.recentSearchText}>
+                            <span className={classes.recentSearchText} onClick={e=>handleSearch(e.target.innerHTML)}>
                                 {/* java developer - Mumbai, Maharashtra */}
                                 {item}
                             </span>

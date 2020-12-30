@@ -77,7 +77,7 @@ const setCount = payload=>{
 
 export const getSearchData = payload =>dispatch=>{
     dispatch(fetchloading())
-    const {job ,location,start} = payload
+    const {job ,location,start,jobType,fromage,sortType} = payload
     console.log(job,location,start)
 
 
@@ -89,10 +89,13 @@ export const getSearchData = payload =>dispatch=>{
             q:job,
             l:location,
             co:'in',
-            limit:'15',
+            limit:15,
             start:start,
-            v:'2',
-            format:'json'
+            jt:jobType,
+            v:2,
+            fromage:fromage,
+            format:'json',
+            sort:sortType
             }
     //   headers: { 
     //     'Cookie': 'CTK=1eqmm5d4tocjg800'
