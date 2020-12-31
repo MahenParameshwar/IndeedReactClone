@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from "axios";
 
 import { 
     Box, 
@@ -15,7 +14,6 @@ import {
     Button
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeLoginRequest } from '../../Redux/Login/actions';
 import { Link, Redirect } from 'react-router-dom';
 import { makeRegisterRequest } from '../../Redux/Register/actions';
 

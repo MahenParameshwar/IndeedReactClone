@@ -1,6 +1,6 @@
 import { Container,Grid,OutlinedInput,Typography ,InputAdornment, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import React, { useState } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Quill from '../Layout/Quill';
@@ -19,12 +19,30 @@ const useStyles = makeStyles((theme) => ({
   }));
 function PostJob(props) {
     const classes = useStyles();
+    
+    const [companyName,setCompanyName] = useState(); 
+    const [jobTitle,setJobTitle] = useState(); 
+    const [location,setLocation] = useState(); 
+    const [companyUrl,setCompanyUrl] = useState(); 
+    const [jobType,setJobType] = useState('Full-Time'); 
+    const [occupation,setOccupation] = useState('Software'); 
+    const [education,setEducation] = useState(`Bachelor's degree`);
+    const [startSalary,setStartSalary] = useState(''); 
+    const [endSalary,setEndSalary] = useState('') ;
+    const [salaryType,setSalaryType] = useState('Per year') ;
+    const [jobDescription,setJobDescription] = useState('')
+
+    const handelPost = (e)=>{
+        e.prventDefault();
+        console.log(companyName,jobTitle,location,companyUrl,jobType,occupation,education)
+        console.log(startSalary,endSalary,salaryType,jobDescription)
+    }
     return (
         <Container>
             <Typography variant='h4'>
                 Indeed for employers
             </Typography>
-            <form className={classes.root} style={{width:'100%'}}>
+            <form onSubmit={handelPost} className={classes.root} style={{width:'100%'}}>
                 
                 <Grid item lg={12} md={12} sm={12} xs={12} >
                     <label >
@@ -32,7 +50,9 @@ function PostJob(props) {
                     </label>
                     <OutlinedInput
                     style={{width:'100%'}}
-                    className={classes.input }
+                    className={classes.input}
+                    value={companyName}
+                    onChange={(e)=>{setCompanyName(e.target.value)}}
                     />
                 </Grid>
                 
@@ -42,7 +62,9 @@ function PostJob(props) {
                     </label>
                     <OutlinedInput
                     style={{width:'100%'}}
-                    className={classes.input }
+                    className={classes.input}
+                    value = {jobTitle}
+                    onChange={(e)=>{setJobTitle(e.target.value)}}
                     />
                 </Grid>
 
@@ -53,6 +75,8 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input }
+                    value={location}
+                    onChange={(e)=>{setLocation(e.target.value)}}
                     />
                 </Grid>
 
@@ -63,6 +87,8 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input }
+                    value={companyUrl}
+                    onChange={(e)=>{setCompanyUrl(e.target.value)}}
                     />
                 </Grid>
                 
@@ -76,11 +102,12 @@ function PostJob(props) {
                             Job Type
                         </label>
                         <Select
+                        value={jobType}
+                        onChange={(e)=>{setJobType(e.target.value)}}
                         >
-                        <option aria-label="None" value="" />
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
+                        <option value={'Full-Time'}>Full-Time</option>
+                        <option value={'Part-Time'}>Part-Time</option>
+                        <option value={'Contract'}>Contract</option>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -90,12 +117,14 @@ function PostJob(props) {
                             Occupation
                         </label>
                         <Select
+                        value={occupation}
+                        onChange={(e)=>{setOccupation(e.target.value)}}
                         >
-                        <option aria-label="None" value="" />
-                        <option value={10}>Software</option>
-                        <option value={20}>Government</option>
-                        <option value={20}>Account</option>
-                        <option value={30}>Executive and personal assitansts</option>
+                        
+                        <option value={'Software'}>Software</option>
+                        <option value={'Government'}>Government</option>
+                        <option value={'Account'}>Account</option>
+                        <option value={'Executive and personal assitansts'}>Executive and personal assitansts</option>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -105,12 +134,14 @@ function PostJob(props) {
                             Education Level
                         </label>
                         <Select
+                        value={education}
+                        onChange={(e)=>{setEducation(e.target.value)}}
                         >
-                        <option aria-label="None" value="" />
-                        <option value={10}>12th pass</option>
-                        <option value={20}>Diploma</option>
-                        <option value={30}>Bachelor's degree</option>
-                        <option value={30}>Master's degree</option>
+                            <option aria-label="None" value="" />
+                            <option value={'12th pass'}>12th pass</option>
+                            <option value={'Diploma'}>Diploma</option>
+                            <option value={"Bachelor 's degree"}>Bachelor's degree</option>
+                            <option value={"Master's degree"}>Master's degree</option>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -125,9 +156,11 @@ function PostJob(props) {
                     startAdornment={<InputAdornment position="start"> Rs </InputAdornment>}
                     style={{width:'100%'}}
                     className={classes.input }
+                    value={startSalary}
+                    onChange={(e)=>setStartSalary(e.target.value)}
                     /> 
                 </Grid>
-                <Grid item lg={0.5} md={0.5} sm={0.5} xs={0.5}>
+                <Grid item lg={1} md={1} sm={1} xs={1}>
                     <Typography variant='h5'>
                         to
                     </Typography>
@@ -136,17 +169,21 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input }
+                    value={endSalary}
+                    onChange={(e)=>setEndSalary(e.target.value)}
                     />
                 </Grid>
                 <Grid item lg={4} md={4} sm={4} xs={4}>
                     <FormControl variant="outlined" className={classes.select_job_type}>
                         <Select
+                         value={salaryType}
+                         onChange={(e)=>setSalaryType(e.target.value)}
                         >
-                        <option aria-label="None" value="" />
-                        <option value={10}>Per Hour</option>
-                        <option value={20}>Per month</option>
-                        <option value={30}>Per day</option>
-                        <option value={30}>Per year</option>
+                        
+                        <option value={'Per Hour'}>Per Hour</option>
+                        <option value={'Per Day'}>Per month</option>
+                        <option value={'Per Month'}>Per day</option>
+                        <option value={'Per year'}>Per year</option>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -154,8 +191,8 @@ function PostJob(props) {
             <label>
                 Description
             </label>
-            <Quill />
-            <Button variant="contained" color='primary'>
+            <Quill jobDescription={jobDescription} setJobDescription={setJobDescription} />
+            <Button variant="contained" color='primary' type='submit'>
                 Submit
             </Button>
             </form>
