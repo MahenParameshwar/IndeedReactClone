@@ -17,11 +17,12 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { makeLoginRequest } from '../../Redux/Login/actions';
 import { Link, Redirect } from 'react-router-dom';
+import { makeRegisterRequest } from '../../Redux/Register/actions';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         backgroundColor: "#f2f2f2",
-        // height: "100vh",
+        
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -108,7 +109,7 @@ const HelperButton = withStyles((theme) => ({
     },
 }))(Button);
 
-export function Login() {
+export function Register() {
     const isAuth = useSelector(state=>state.login.isAuth)
     const classes = useStyles();
     const[email, setEmail] = useState("");
@@ -124,7 +125,7 @@ export function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(makeLoginRequest({email,password}))
+        dispatch(makeRegisterRequest({email,password}))
     }
 
 
@@ -143,35 +144,10 @@ export function Login() {
                     <Grid item>
                         <Typography className = {classes.h5} variant = "h5">Sign In</Typography>
                     </Grid>
-                    <Grid item>
-                        <form onSubmit = { handleSubmit }>
-                            <FormHelperText className = {classes.formhelperText}>Email Address</FormHelperText>
-                            <OutlinedInput  className = {classes.outlinedInput} onChange = { onEmailChange } value = { email } required type = "text" variant="outlined"/>
-                            <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
-                            <OutlinedInput  className = {classes.outlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
-                            <FormControlLabel className = {classes.checkbox}
-                                control = {<GreenCheckbox  />}
-                                label = "Keep me signed in on this device."
-                            />
-                            <br/>
-                            <SignInButton type = "submit" className = {classes.button} variant = "contained">
-                                Sign In
-                            </SignInButton>
-                        </form>
-                    </Grid>
-                    <Grid style = {{margin: "10px 0"}} container item>
-                        <Grid item>
-                            <hr className = {classes.divider} ></hr>
-                        </Grid>
-                        <Grid style = {{lineHeight : "0px"}} item> or</Grid>
-                        <Grid>
-                            <hr className = {classes.divider} ></hr>
-                        </Grid>
-                    </Grid>
                     <Grid container item spacing = {3}>
                         <Grid item >
                             <HelperButton style = {{border: "2px solid #a6a6a6"}} className = {classes.button} variant = "outlined">
-                                Sign in with Google
+                                Create an Account (it's free)
                             </HelperButton>
                         </Grid>
                         <Grid item >
@@ -185,10 +161,33 @@ export function Login() {
                             </HelperButton>
                         </Grid>
                         <Grid item>
-                            <Typography style = {{cursor: "pointer", color : "#085ff7", margin:"0 115px"}} variant = "subtitle2" component={Link} to="/register">
-                                New to Indeed? Create an account
-                            </Typography>
+                            <Typography style = {{cursor: "pointer", color : "#085ff7", margin:"0 115px"}} variant = "subtitle2">New to Indeed? Create an account</Typography>
                         </Grid>
+                    </Grid>
+                    <Grid style = {{margin: "10px 0"}} container item>
+                        <Grid item>
+                            <hr className = {classes.divider} ></hr>
+                        </Grid>
+                        <Grid style = {{lineHeight : "0px"}} item> or</Grid>
+                        <Grid>
+                            <hr className = {classes.divider} ></hr>
+                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        <form onSubmit = { handleSubmit }>
+                            <FormHelperText className = {classes.formhelperText}>Email Address</FormHelperText>
+                            <OutlinedInput  className = {classes.outlinedInput} onChange = { onEmailChange } value = { email } required type = "text" variant="outlined"/>
+                            <FormHelperText className = {classes.formhelperText}>Password</FormHelperText>
+                            <OutlinedInput  className = {classes.outlinedInput} onChange = { onPasswordChange } value = { password } required type = "password" variant="outlined"/>
+                            <FormControlLabel className = {classes.checkbox}
+                                control = {<GreenCheckbox  />}
+                                label = "Keep me signed in on this device."
+                            />
+                            <br/>
+                            <SignInButton type = "submit" className = {classes.button} variant = "contained">
+                                Create Account
+                            </SignInButton>
+                        </form>
                     </Grid>
                     <hr className = {classes.pageBreak}></hr>
                 </Grid>
@@ -198,6 +197,11 @@ export function Login() {
                 </Typography>
             </Box>
             <Grid container spacing = {3} style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#085ff7"}}>
+                <Grid item>
+                    <Typography variant = "body2" component={Link} to="/login" style = {{cursor: "pointer",color: "#085ff7"}}>
+                        Have an account? Sign in
+                    </Typography>
+                </Grid>
                 <Grid item>
                     <Typography variant = "body2" style = {{cursor: "pointer"}}>
                         Forgot Your Password
