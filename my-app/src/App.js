@@ -1,10 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
 import Header from './Components/Layout/Header/Header';
 import Home from './Components/Layout/Forms/SearchForm/SearchForm';
 import { ThemeProvider } from '@material-ui/core';
 import theme from './Utils/theme';
 import Routes from './Routes/Routes';
+import { Login } from './Components/Pages/Login';
+    
 
 function App() {
   return (
@@ -12,6 +12,8 @@ function App() {
       <div className="App">
         <Header />
         <Routes />
+      <Login />
+    
       </div>
     </ThemeProvider>
   );
