@@ -98,7 +98,7 @@ function SearchForm(props) {
         }
 
         saveData("recent",data.reverse())
-        history.push(`/jobs/q=${job}&l=${location}`)
+        history.push(`/jobs/?q=${job}&l=${location}`)
 
         // console.log(str,"str")
 

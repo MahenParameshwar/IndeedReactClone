@@ -8,8 +8,9 @@ import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles';
 import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import FillterButton from '../Layout/FilterJobsButton/FillterButton';
-import { getSearchData } from '../../Redux/Search/actions';
+import { getSearchData, fetchSuccess, setCount } from '../../Redux/Search/actions';
 import JobDescription from '../Layout/JobDescription';
+import { FETCH_SUCCESS } from '../../Redux/Search/actionTypes';
 
 const useStyles = makeStyles(theme=>({
     jobContainer:{
@@ -102,7 +103,8 @@ function DisplayJobs(props) {
     
     const handlePageChange = (event, page) => {
         setPage(page)
-        // history.push(`/jobs/q=${job}&l=${location}&start=${(page-1)*15}&jt=${jobType}`)
+        
+        history.push(`/jobs/q=${job}&l=${location}&start=${(page-1)*15}&jt=${jobType}`)
     };
 
 
@@ -126,32 +128,9 @@ function DisplayJobs(props) {
 
 
     useEffect(()=>{
-        let start = (page-1)*15
-        console.log(start)
+
+        
         dispatch(getSearchData({job,location,start,jobType,fromage,sortType}))
-        // axios
-        // .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch`,
-        // {
-        //     params:{
-        //         publisher:'7778623931867371',
-        //         q:job,
-        //         l:location,
-        //         co:'in',
-        //         limit:15,
-        //         start:(page-1)*15,
-        //         jt:jobType,
-        //         v:2,
-        //         fromage:fromage,
-        //         format:'json',
-        //         sort:sortType
-        //         }
-        // })
-        // .then(
-        //     res=>{
-        //         setTotalResults(res.data.totalResults)
-        //         setJobs(res.data.results)
-        //     }
-        //     )
     },[job,location,page,jobType,fromage,sortType])
 
 //////
@@ -207,7 +186,7 @@ function DisplayJobs(props) {
                 <Box style={{display:'flex'}}> 
                     <Grid className={classes.jobContainer}  container>
                         {
-                            jobs.map((job,index)=>
+                            jobs?.map((job,index)=>
                             <Grid onClick={()=>getJobDescription(job.jobkey)} className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
                                 <Typography  className={classes.job_title}>
                                     {job.jobtitle}
