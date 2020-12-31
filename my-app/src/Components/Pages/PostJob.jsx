@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Quill from '../Layout/Quill';
+import { useDispatch } from 'react-redux';
+import { makePostJobRequest } from '../../Redux/PostJob/action';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,17 +27,38 @@ function PostJob(props) {
     const [location,setLocation] = useState(); 
     const [companyUrl,setCompanyUrl] = useState(); 
     const [jobType,setJobType] = useState('Full-Time'); 
-    const [occupation,setOccupation] = useState('Software'); 
-    const [education,setEducation] = useState(`Bachelor's degree`);
+    const [occupation,setOccupation] = useState('Software');
+
+    const [education,setEducation] = useState("12th Pass");
+
     const [startSalary,setStartSalary] = useState(''); 
     const [endSalary,setEndSalary] = useState('') ;
     const [salaryType,setSalaryType] = useState('Per year') ;
     const [jobDescription,setJobDescription] = useState('')
 
+    console.log('job_type')
+    const dispatch = useDispatch()
+
     const handelPost = (e)=>{
-        e.prventDefault();
+        e.preventDefault();
         console.log(companyName,jobTitle,location,companyUrl,jobType,occupation,education)
         console.log(startSalary,endSalary,salaryType,jobDescription)
+
+        dispatch(makePostJobRequest({
+            companyName,
+            jobTitle,
+            location,
+            companyUrl,
+            jobType,
+            occupation,
+            education,
+            startSalary,
+            endSalary,
+            salaryType,
+            jobDescription,
+            snippet:"Lrrum Ippsum",
+            date:new Date().getTime()
+        }))
     }
     return (
         <Container>
@@ -51,7 +74,7 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input}
-                    value={companyName}
+                    defaultValue={companyName}
                     onChange={(e)=>{setCompanyName(e.target.value)}}
                     />
                 </Grid>
@@ -63,7 +86,7 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input}
-                    value = {jobTitle}
+                    defaultValue = {jobTitle}
                     onChange={(e)=>{setJobTitle(e.target.value)}}
                     />
                 </Grid>
@@ -75,7 +98,7 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input }
-                    value={location}
+                    defaultValue={location}
                     onChange={(e)=>{setLocation(e.target.value)}}
                     />
                 </Grid>
@@ -87,7 +110,7 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input }
-                    value={companyUrl}
+                    defaultValue={companyUrl}
                     onChange={(e)=>{setCompanyUrl(e.target.value)}}
                     />
                 </Grid>
@@ -101,13 +124,19 @@ function PostJob(props) {
                         <label>
                             Job Type
                         </label>
-                        <Select
-                        value={jobType}
-                        onChange={(e)=>{setJobType(e.target.value)}}
-                        >
-                        <option value={'Full-Time'}>Full-Time</option>
-                        <option value={'Part-Time'}>Part-Time</option>
-                        <option value={'Contract'}>Contract</option>
+                        <Select defaultValue={jobType} native={true} onChange={(e)=>setJobType(e.target.value)}>
+                            <option value={'Full-Time'}>
+                                Full_Time
+                            </option>
+                            <option value={'Part-Time'}>
+                                Part_time
+                            </option>
+                            <option value={'Contract'}>
+                                Contract
+                            </option>
+                            <option value={'Fresher'}>
+                                Fresher
+                            </option>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -117,16 +146,20 @@ function PostJob(props) {
                             Occupation
                         </label>
                         <Select
-                        value={occupation}
-                        onChange={(e)=>{setOccupation(e.target.value)}}
+                        native={true}
+                        defaultValue={occupation}
+                        onChange={e => setOccupation (e.target.value)}
+                        
                         >
                         
                         <option value={'Software'}>Software</option>
                         <option value={'Government'}>Government</option>
                         <option value={'Account'}>Account</option>
                         <option value={'Executive and personal assitansts'}>Executive and personal assitansts</option>
+                        
                         </Select>
                     </FormControl>
+
                 </Grid>
                 <Grid item lg={4} md={4} sm={4} xs={4}>
                     <FormControl variant="outlined" className={classes.select_job_type}>
@@ -134,10 +167,11 @@ function PostJob(props) {
                             Education Level
                         </label>
                         <Select
-                        value={education}
+                        defaultValue={education}
+                        native={true}
                         onChange={(e)=>{setEducation(e.target.value)}}
                         >
-                            <option aria-label="None" value="" />
+                            
                             <option value={'12th pass'}>12th pass</option>
                             <option value={'Diploma'}>Diploma</option>
                             <option value={"Bachelor 's degree"}>Bachelor's degree</option>
@@ -176,7 +210,8 @@ function PostJob(props) {
                 <Grid item lg={4} md={4} sm={4} xs={4}>
                     <FormControl variant="outlined" className={classes.select_job_type}>
                         <Select
-                         value={salaryType}
+                         defaultValue={salaryType}
+                         native={true}
                          onChange={(e)=>setSalaryType(e.target.value)}
                         >
                         
