@@ -104,7 +104,7 @@ export default function Header() {
                             <PersonIcon />
                         </IconButton>
 
-                        <Typography style={{display:'flex',alignItems:'center'}} component={NavLink} variant='h6' to='/' >
+                        <Typography style={{display:'flex',alignItems:'center'}} component={NavLink} variant='h6' to='/postjob' >
                             Employers/jobs
                         </Typography>
                     

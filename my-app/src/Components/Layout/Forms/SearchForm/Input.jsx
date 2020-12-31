@@ -26,7 +26,7 @@ function Input({classes,setValue,value,options}) {
         <Box  ref={wrapperRef} className={classes.suggestionInput}>
                                 <OutlinedInput
                                 className={classes.input }
-                                onKeyUp={()=>setDisplay(value!=""?true:false)}
+                                onKeyUp={()=>setDisplay(value !== ""? true:false)}
                                 value={value}
                                 onChange={event => setValue(event.target.value)}
                                 />

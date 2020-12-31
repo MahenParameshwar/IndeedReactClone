@@ -27,7 +27,7 @@ function Home(props) {
         <Container className={classes.container}>
             <SearchForm />
             <div className={classes.linkContainer}>
-                <Link className={classes.link} to="/" >
+                <Link className={classes.link} to="/postjob" >
                     {`Employers Yours next job is - `} 
                 </Link>
                 Your next hire is here
