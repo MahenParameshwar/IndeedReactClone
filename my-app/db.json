@@ -12,7 +12,8 @@
       "salaries": "39,192",
       "photos": 23,
       "jobs": 173,
-      "questions": 94
+      "questions": 94,
+      "ratings": 5
     },
     {
       "id": 2,
@@ -26,7 +27,8 @@
       "salaries": "10,580",
       "photos": 174,
       "jobs": 2005,
-      "questions": 199
+      "questions": 19,
+      "ratings": 5
     },
     {
       "id": 3,
@@ -40,7 +42,8 @@
       "salaries": "16,949",
       "photos": 72,
       "jobs": 1493,
-      "questions": 224
+      "questions": 22,
+      "ratings": 4
     },
     {
       "id": 4,
@@ -54,7 +57,8 @@
       "salaries": "5,949",
       "photos": 43,
       "jobs": 475,
-      "questions": 133
+      "questions": 13,
+      "ratings": 3
     },
     {
       "id": 5,
@@ -68,7 +72,8 @@
       "salaries": "2,519",
       "photos": 7,
       "jobs": 7,
-      "questions": 34
+      "questions": 34,
+      "ratings": 3
     },
     {
       "id": 6,
@@ -82,7 +87,8 @@
       "salaries": "359",
       "photos": 1,
       "jobs": 3,
-      "questions": 13
+      "questions": 13,
+      "ratings": 4
     }
   ]
   
