@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,  useReducer } from 'react';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import FillterButton from '../Layout/FilterJobsButton/FillterButton';
 import { getSearchData, fetchSuccess, setCount } from '../../Redux/Search/actions';
 import JobDescription from '../Layout/JobDescription';
 import styled from 'styled-components'
-
+import {timeDifference} from '../../Utils/timeDifference'
 import JobMenu from '../Layout/Menu/JobMenu';
 import {makeSaveJobRequest} from '../../Redux/SaveJob/actions'
 const useStyles = makeStyles(theme=>({
@@ -139,20 +139,24 @@ function DisplayJobs(props) {
 
     let job = query.get('q') || ""
     let location = query.get('location') || ""
-    let start = query.get('start')
+    
+     
     let jt = query.get("jt") || ""
     let occu = query.get("occupation") || ""
     let edu = query.get("education") || ""
     let sal = query.get("salary") || ""
     
-//// Harsh Changes
-    let totalResults = useSelector(state=>state.search.totalCount)
-    let jobs = useSelector(state=>state.search.searched)
-    let isLoading = useSelector(state=>state.search.isLoading)
-///////
-///// Mahen changes
+    const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
     
-    let [page,setPage] = useState(1)
+    let jobs = useSelector(state=>state.search.searched)
+
+    let totalCount = useSelector(state=>state.search.totalCount)
+
+    
+    
+    let isLoading = useSelector(state=>state.search.isLoading)
+    
+    let [page,setPage] = useState(query.get('page'))
     let [jobType,setJobType] = useState(jt) 
     let [fromage,setFromage] = useState(0)
     let [sortType,setSortType] = useState('relevance')
@@ -180,7 +184,7 @@ function DisplayJobs(props) {
     const handlePageChange = (event, page) => {
         setPage(page)
         console.log(job)
-        history.push(`/jobs?q=${job}&location=${location}&start=${(page-1)*15}&jt=${jobType}`)
+        history.push(`/jobs?q=${job}&location=${location}&page=${page}`)
     };
 
 
@@ -199,15 +203,31 @@ function DisplayJobs(props) {
 
     const handleSort = (sort)=>{
         setSortDateIsCliked(!sortDateIsCliked)
-        setSortType(sort)
-    }
+        if(sort==='salary'){
+            const newJob = jobs.sort((a,b)=>{
+                return Number(b.startSalary) - Number(a.startSalary)
+
+            })
+            dispatch(fetchSuccess(newJob))
+            }
+        else
+         {
+            const newJob = jobs.sort((a,b)=>{
+                return Number(b.date) - Number(a.date)
+
+            })
+            dispatch(fetchSuccess(newJob))
+        }
+            
+        }
 
 
     useEffect(()=>{
 
         
-        dispatch(getSearchData(job,location,start,jobType,fromage,occupation,education,salary))
-    },[job,location,page,jobType,fromage,sortType,occupation,education,salary])
+        dispatch(getSearchData(job,location,page))
+        forceUpdate()
+    },[job,location,page])
 
 
 
@@ -267,28 +287,34 @@ function DisplayJobs(props) {
                     <>
                         <Box>
                 <FillterButton type={jobType} setType={setJobType} 
-                typeArr={['Fulltime','Walk-In','Fresher','Part-time']}
+                typeArr={['Full-Time','Walk-In','Fresher','Part-Time']}
                 formatDate={false}
+                fiterType='jobType'
+                jobs={jobs}
                 typeStr='JOB TYPE'/>
 
                 <FillterButton type={fromage} setType={setFromage} 
                 typeArr={[1,3,7,14]}
+                jobs={jobs}
                 formatDate={true}
                 typeStr='DATE POSTED'/>
 
                 <FillterButton type={occupation} setType={setOccupation} 
                 typeArr={['Software','Government','Account','Executive and personal assitansts']}
                 formatDate={false}
+                jobs={jobs}
                 typeStr='Occupation'/>
 
                 <FillterButton type={education} setType={setEducation} 
                 typeArr={[`12th`,`Diploma`,`Bachelor's degree`,`Master's degree`]}
                 formatDate={false}
+                jobs={jobs}
                 typeStr='Education'/>
 
                 <FillterButton type={salary} setType={setSalary} 
                 typeArr={["Ascending","Descending"]}
                 formatDate={false}
+                jobs={jobs}
                 typeStr='Salary'/>
             
             </Box>
@@ -298,13 +324,13 @@ function DisplayJobs(props) {
             <Box className={classes.sort_container}>
                 <Box>
                     Sort by 
-                    <span className={classNames({[classes.sortStyle] : sortDateIsCliked , [classes.bold] : !sortDateIsCliked})} onClick={()=>handleSort('relevance')}> relevance </span> 
+                    <span className={classNames({[classes.sortStyle] : sortDateIsCliked , [classes.bold] : !sortDateIsCliked})} onClick={()=>handleSort('salary')}> salary </span> 
                     / 
                     <span className={classNames({[classes.sortStyle] : !sortDateIsCliked , [classes.bold] : sortDateIsCliked})} onClick={()=>handleSort('date')}> date </span>
                 </Box>
                 <Box>
                     {
-                        `Page ${Math.floor(start/15) + 1} of ${totalResults} results`
+                        `Page ${page} of ${totalCount} results`
                     }
                 </Box>
               
@@ -319,17 +345,20 @@ function DisplayJobs(props) {
                             <Grid className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
                                 <Box onClick={()=>getJobDescription(job.jobkey)} >
                                     <Typography  className={classes.job_title}>
-                                        {job.jobtitle}
+                                        {job.jobTitleFormated}
                                     </Typography>
                                     <Typography className={classes.job_subTitle}>
-                                        {job.company}
+                                        {job.companyName}
                                     </Typography>
                                     <Typography className={classes.job_subTitle}>
-                                        {job.city}
+                                        {job.location}
+                                    </Typography>
+                                    <Typography className={classes.job_subTitle}>
+                                        {job.startSalary}
                                     </Typography>
                                     <div className={classes.job_snippet} dangerouslySetInnerHTML={{__html: job.snippet}}></div>
                                     <Typography className={classes.greyText}>
-                                        {job.formattedRelativeTime}
+                                        {timeDifference(job.date)}
                                     </Typography>
                                 </Box>
                                 <JobMenu 
@@ -346,8 +375,8 @@ function DisplayJobs(props) {
                     
                 </Box>
                 <Pagination onChange={handlePageChange} count={
-                    totalResults % 15 === 0 ?
-                    Math.floor(totalResults/15) : Math.floor(totalResults/15) + 1 } variant="outlined" shape="rounded" />
+                    totalCount % 10 === 0 ?
+                    Math.floor(totalCount/10) : Math.floor(totalCount/10) + 1 } variant="outlined" shape="rounded" />
                 
                     </>
                 )

@@ -1,11 +1,26 @@
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "./actionTypes"
 
 const initState = {
-    isAuth:false,
+    isAuth:true,
     isLoading:false,
     isError:false,
     errorMsg:"",
-    loggedUser:null
+    loggedUser: {
+        "email": "m@gmail.com",
+        "password": "123",
+        "user_id": "1dd3a24b-60b4-4c02-bb5e-615b79579ab2",
+        "saved_jobs": {
+          "791deeda881044b4": {
+            "city": "Mumbai",
+            "company": "Accenture",
+            "jobkey": "791deeda881044b4",
+            "jobtitle": "SAP UI5 Fiori Development (HTML5 & Java) Application Developer",
+            "dateSaved": 1609499964973
+          }
+        },
+        "my_reviews": [],
+        "id": 8
+      }
 }
 
 export const loginReducer = (state=initState,{type,payload})=>{

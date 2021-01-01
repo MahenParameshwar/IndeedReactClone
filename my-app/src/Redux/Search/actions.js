@@ -102,48 +102,65 @@ export const dispatchCount =payload=>dispatch=>{
     })
 }
 
-export const getSearchData = (job="",location="",start=0,jobType="",fromage="",occupation="",education="",salary="") =>dispatch=>{
-    dispatch(fetchloading())
-    // const {job ,location:"",start:0,jobType:"",fromage,sortType} = payload
-    let order = salary === "Ascending" ? "asc" : salary === "Descending"? "desc" : ""
-    console.log(job,location,start,jobType,fromage,occupation,education,salary)
-
+export const getSearchData = (job="",location="",page="1") =>dispatch=>{
+    // dispatch(fetchloading())
+    
+    console.log(job,location)
+    let url = `http://localhost:8000/jobs?_page=${page}&_limit=10`
+    
+    if(location !== "" && job!== ""){
+        url = `http://localhost:8000/jobs?location_like=${location}&jobTitle_like=${job}&_page=${page}&_limit=10`
+    }
+    else
+    if(location !== "")
+    {
+        url = `http://localhost:8000/jobs?location_like=${location}&_page=${page}&_limit=10`
+    }
+    else
+    if(job !== ""){
+        url = `http://localhost:8000/jobs?jobTitle_like=${job}&_page=${page}&_limit=10`
+    }
+    else
+    return
 
     var config = {
         method: 'GET',
-        url: `http://localhost:8000/jobs`,
-        params:{
-            q:job,
-            // location_like:location,
-            city_like:location,
-            jobType_like:jobType,
-            // date:fromage,
-            // occupation_like:occupation,
-            // education_like:education,
-            // _sort:"startSalary",
-            // order:order,
-            _start:start,
-            _limit:15
-            // _sort:"date",
-            // _order:""
-            }
+        url: url,
     };
 
-
-    setTimeout(()=>{
-        
             axios(config)
             .then(res=>{
                 console.log("data",res.data)
                 dispatch(fetchSuccess(res.data))
-                dispatch(dispatchCount({job ,location,start,jobType,fromage}))
                 // res.data.results?.map(item=>dispatch(addJobs(item)))
 
+            }).then(()=>{
+                let url = `http://localhost:8000/jobs`
+    
+                if(location !== "" && job!== ""){
+                    url = `http://localhost:8000/jobs?location_like=${location}&jobTitle_like=${job}`
+                }
+                else
+                if(location !== "")
+                {
+                    url = `http://localhost:8000/jobs?location_like=${location}`
+                }
+                else
+                if(job !== ""){
+                    url = `http://localhost:8000/jobs?jobTitle_like=${job}`
+                }
+                axios({
+                    method: 'GET',
+                    url: url,
+                }).then((res)=>{
+                    console.log(res.data.length)
+                    dispatch(setCount(res.data.length))
+                })
             })
             .catch(err=>{   
                 console.log("error")
                 dispatch(fetchError())
             })
-    },1000)
+    
 
 }

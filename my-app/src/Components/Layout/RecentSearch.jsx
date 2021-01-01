@@ -68,9 +68,9 @@ function RecentSearch(props) {
         let job = query[0]
         let location =query[1] || ""
         
-        
+        console.log(job,location)
         let start = 0 ,jobType="",formage="",sortType=""
-        dispatch(getSearchData({job,location,start,jobType,formage,sortType}))
+        dispatch(getSearchData(job,location))
         
         let data = loadData("recent") || []
         let str = job !== "" && location !== "" ? `${job} - ${location}` : job === "" && location !== "" ? `${location}` : `${job}`
@@ -99,7 +99,7 @@ function RecentSearch(props) {
         }
 
         saveData("recent",data.reverse())
-        history.push(`/jobs/q=${job}&l=${location}`)
+        history.push(`/jobs/q=${job}&location=${location}&page=1`)
 
         // console.log(str,"str")
 

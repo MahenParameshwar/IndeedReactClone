@@ -46,7 +46,8 @@ function PostJob(props) {
 
         dispatch(makePostJobRequest({
             companyName,
-            jobTitle,
+            jobTitle:jobTitle.replace(/ +/g, "").toLowerCase(),
+            jobTitleFormated:jobTitle,
             location,
             companyUrl,
             jobType,
