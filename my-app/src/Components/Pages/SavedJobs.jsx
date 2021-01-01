@@ -1,10 +1,11 @@
 import { Box, Button, Container, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { makeSaveJobRequest } from '../../Redux/SaveJob/actions';
 import { timeDifference } from '../../Utils/timeDifference';
-
+import {ApplyModal} from "../Layout/JobApplyModal/ApplyModal"
+import {makeApplyRequest} from "../../Redux/JobApply/actions"
 
 const useStyles = makeStyles((theme)=>({
     applyButton:{
@@ -34,15 +35,18 @@ const useStyles = makeStyles((theme)=>({
 
 function SavedJobs(props) {
     const classes = useStyles();
-    const {saved_jobs} = useSelector(state=>state.login.loggedUser)
+    const {saved_jobs,applied_job} = useSelector(state=>state.login.loggedUser)
     const jobKeys = Object.keys(saved_jobs).reverse()
+    const applied = Object.keys(applied_job).reverse()
     
     const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
 
     const dispatch = useDispatch();
     const loggedUser = useSelector(state=>state.login.loggedUser)
-    console.log(loggedUser)
-    
+    // console.log(loggedUser)
+    const [open, setOpen] = useState(false)
+    const [jobId, setJobId] = useState("")
+
     const removeFromSaved = ({jobkey})=>{
         const {id} = loggedUser
         delete saved_jobs[jobkey]
@@ -50,6 +54,25 @@ function SavedJobs(props) {
         forceUpdate();
     }
 
+    const handleClose=() =>{
+        setOpen(false)
+        setJobId("")
+    }
+
+    const handleOpen=(id)=>{
+        setJobId(id)
+        setOpen(true)
+    }
+
+    const handleApply=()=>{
+        const {id} = loggedUser
+        console.log(jobId)
+        applied_job[jobId]={...saved_jobs[jobId],dateSaved:new Date().getTime()}
+        delete saved_jobs[jobId]
+        dispatch(makeApplyRequest({user_id:id,saved_jobs,applied_job}))
+        setOpen(false)
+        forceUpdate()
+    }
     
     return (
         
@@ -99,12 +122,12 @@ function SavedJobs(props) {
                                                 </Box>
                                             </Box>
                                             <Box style={{display:'flex'}}>
-                                                <Button className={classes.applyButton}>
-                                                    Apply Now
+                                            <Button className={classes.applyButton} onClick={()=>handleOpen(key)} disabled={applied_job[key]?true:false}>
+                                                    {applied_job[key]?"Already applied":"Apply"}
                                                 </Button>
-                                                <Button className={classes.updateButton}>
+                                            <Button className={classes.updateButton}>
                                                     Update
-                                                </Button>
+                                            </Button>
                                             </Box>
                                             <Box onClick={()=>{removeFromSaved({jobkey:key})}} style={{cursor:"pointer",width:"40px",height:'40px',display:'flex',justifyContent:'center',alignItems:'center'}} >
                                                 <span>
@@ -119,7 +142,15 @@ function SavedJobs(props) {
                             
                     
                     </Box>
+                    <ApplyModal 
+                    open={open}
+                    handleClose = {()=>handleClose()}
+                    jobId = {jobId}
+                    handleApply ={()=>handleApply()}
+                    />
                 </Box>
+           
+        
         </Container>
     );
 }

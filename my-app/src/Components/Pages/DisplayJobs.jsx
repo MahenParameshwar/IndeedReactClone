@@ -190,7 +190,7 @@ function DisplayJobs(props) {
 
     const handlePageChange = (event, page) => {
         setPage(page)
-        console.log(job)
+        // console.log(job)
         history.push(`/jobs?q=${job}&location=${location}&page=${page}`)
     };
 
