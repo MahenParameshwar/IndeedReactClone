@@ -138,7 +138,9 @@ export function CompanyReviews() {
                         <Typography style = {{paddingTop: "15px"}} variant = "h5">Companies Hiring Now</Typography>
                     </Grid>
                 </Grid>
-                <Grid container style = {{width: "100%"}}>
+                
+            </Grid>
+            <Grid container spacing={2} style={{maxWidth:'1000px'}}>
                     {
                         companies.map((item,index) => {
                             return(
@@ -151,7 +153,6 @@ export function CompanyReviews() {
                             )
                         })
                     }
-                </Grid>
             </Grid>
             <Grid className = {classes.companiesHiring} container align= "center" xl = {8} lg = {8} md = {10} sm = {12} xs = {12}>
                 <Grid item container  >
@@ -162,9 +163,10 @@ export function CompanyReviews() {
                         <Typography style = {{paddingTop: "15px"}} variant = "h5">Popular Companies</Typography>
                     </Grid>
                 </Grid>
-                <Grid container>
+            </Grid>
+            <Grid container spacing={2} style={{width:'1000px'}}>
                     {
-                        companies?.map((item) => {
+                        companies.map((item,index) => {
                             return(
                                 <CompanyBox 
                                     key = {item.id}
@@ -175,7 +177,6 @@ export function CompanyReviews() {
                             )
                         })
                     }
-                </Grid>
             </Grid>
             <Grid className = {classes.companiesHiring} style = {{borderTop: "10px solid #ff5a1f"}} container align= "center" xl = {8} lg = {8} md = {10} sm = {12} xs = {12}>
                 <Grid item >
