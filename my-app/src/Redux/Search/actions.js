@@ -108,7 +108,7 @@ export const getSearchData = (job="",location="",page="1") =>dispatch=>{
     console.log(job,location)
     let url = `http://localhost:8000/jobs?_page=${page}&_limit=10`
     
-    if(location !== "" && job!== ""){
+    if(location == "" && job== ""){
         url = `http://localhost:8000/jobs?location_like=${location}&jobTitle_like=${job}&_page=${page}&_limit=10`
     }
     else

@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme=>({
 function JobDescription({jobData}) {
     const classes = useStyles()
     const {company,city,url,snippet,jobTitle} = jobData
-    console.log(url)
+    // console.log(url)
     return (
         <Box className={classes.container}>
             <Box>

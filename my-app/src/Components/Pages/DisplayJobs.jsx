@@ -183,7 +183,7 @@ function DisplayJobs(props) {
 
     const handlePageChange = (event, page) => {
         setPage(page)
-        console.log(job)
+        // console.log(job)
         history.push(`/jobs?q=${job}&location=${location}&page=${page}`)
     };
 
@@ -242,13 +242,13 @@ function DisplayJobs(props) {
         )
     }
 
-    const handelSave = ({jobkey,city,company,jobtitle})=>{
+    const handelSave = ({jobkey,location,companyName,jobTitle})=>{
         const {id,saved_jobs} = loggedUser
         saved_jobs[jobkey] = {
-            city,
-            company,
+            location,
+            companyName,
             jobkey,
-            jobtitle,
+            jobTitle,
             dateSaved:new Date().getTime()
         }
         

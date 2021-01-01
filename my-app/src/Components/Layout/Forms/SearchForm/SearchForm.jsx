@@ -70,12 +70,12 @@ function SearchForm(props) {
         dispatch(getSearchData(job === ""?"":job,location=== "" ? "" : location))
         
         let data = loadData("recent") || []
-        let str = job !== "" && location !== "" ? `${job} - ${location}` : job === "" && location !== "" ? `${location}` : `${job}`
+        let str = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
 
         if(data.length === 4){
             data.reverse()
-            if(data.some(item=>item===str)){
-                data = data.filter(item=>item !== str)
+            if(data.some(item=>item.category===str.category && item.query === item.query)){
+                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }
             else{
@@ -85,8 +85,8 @@ function SearchForm(props) {
             
         }
         else {
-            if(data.some(item=>item===str)){
-                data = data.filter(item=>item !== str)
+            if(data.some(item=>item.category===str.category && item.query===str.query)){
+                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }
             else{
