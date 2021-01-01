@@ -1,5 +1,7 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import  Section  from './Section';
 const useStyles = makeStyles(theme=>({
     container:{
         position:'sticky',
@@ -12,40 +14,40 @@ const useStyles = makeStyles(theme=>({
         borderRadius:'10px '
     },
     link:{
-        width:'100%',
+        width:"100px",
         display:'flex',
         alignItems:'center',
+        justifyContent:'center',
+        borderRadius:'10px',
         height:'53px',
         padding:'0 25px',
-        fontSize:'16px',
-        borderRadius:'2px',
+        fontSize:'20px',
+        color:'white',
+        
         backgroundColor:theme.palette.primary.main
     }
 })) 
 function JobDescription({jobData}) {
     const classes = useStyles()
-    const {company,city,url,snippet,jobTitle} = jobData
-    console.log(url)
+    const {companyName,location,companyUrl,snippet,jobTitle,jobDescription,startSalary,endSalary} = jobData
+    
     return (
         <Box className={classes.container}>
-            <Box>
+            <Typography variant={'h5'} style={{marginBottom:'10px'}}>
                 {jobTitle}
+            </Typography>
+            <Box style={{marginBottom:'10px'}}>
+                {companyName},{location}
             </Box>
-            <Box>
-                {company}
+            
+            <Box style={{marginBottom:'10px'}}>
+                ₹ {Number(startSalary).toLocaleString('en-IN')} - ₹ {Number(endSalary).toLocaleString('en-IN')}
             </Box>
-            <Box>
-                {city}
-            </Box>
-            <Box>
-                ₹ 50,000 - 75,000
-            </Box>
-            <a className={classes.link} href={url}>
-                Apply on Company site
+            
+            <a className={classes.link} href={companyUrl} style={{marginBottom:'30px'}}>
+                Apply now
             </a>
-            <Box>
-                {snippet}
-            </Box>
+            <Section jobDescription={jobDescription} summary={snippet} />
         </Box>
     );
 }

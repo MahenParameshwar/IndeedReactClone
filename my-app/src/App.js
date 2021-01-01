@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/core';
 import theme from './Utils/theme';
 import Routes from './Routes/Routes';
 import { useSelector } from 'react-redux';
-    
+import './App.css'    
 
 function App() {
   const isAuth = useSelector(state=>state.login.isAuth)

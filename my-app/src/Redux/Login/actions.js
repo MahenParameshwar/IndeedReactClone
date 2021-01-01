@@ -1,5 +1,5 @@
 import axios from "axios"
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "./actionTypes"
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS , LOGOUT} from "./actionTypes"
 
 
 const loginRequest = ()=>{
@@ -21,6 +21,12 @@ const loginFailure = (errorMsg)=>{
     return {
         type:LOGIN_FAILURE,
         payload:errorMsg
+    }
+}
+
+export const logout = ()=>{
+    return {
+        type:LOGOUT
     }
 }
 
