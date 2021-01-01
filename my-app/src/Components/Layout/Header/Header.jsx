@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PersonIcon from '@material-ui/icons/Person';
+import UserMenu from '../Menu/UserMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,13 +97,9 @@ export default function Header() {
                             <NotificationsIcon />
                         </IconButton>
 
-                        <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        >
-                            <PersonIcon />
-                        </IconButton>
+                        
+                            <UserMenu/>
+                        
 
                         <Typography style={{display:'flex',alignItems:'center'}} component={NavLink} variant='h6' to='/postjob' >
                             Employers/jobs
