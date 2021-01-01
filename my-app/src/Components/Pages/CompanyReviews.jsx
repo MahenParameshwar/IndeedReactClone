@@ -82,12 +82,12 @@ export function CompanyReviews() {
 
     const classes = useStyles();
     const[companies, setCompanies] = useState([]);
-    
+    console.log(companies)
     useEffect(() => {
         axios.get("http://localhost:5000/companies")
             .then((res) => {
+                
                 setCompanies(res.data)
-                console.log(companies)
             })
             .catch((err) => console.log(err))
     },[])
@@ -140,7 +140,7 @@ export function CompanyReviews() {
                 </Grid>
                 <Grid container>
                     {
-                        companies?.map((item) => {
+                        companies.map((item,index) => {
                             return(
                                 <CompanyBox 
                                     key = {item.id}
