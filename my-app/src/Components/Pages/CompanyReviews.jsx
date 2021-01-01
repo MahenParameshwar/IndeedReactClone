@@ -129,7 +129,7 @@ export function CompanyReviews() {
                     </Grid>
                 </Grid>
             </Box>
-            <Grid className = {classes.companiesHiring} container align= "center" xl = {8} lg = {8} md = {10} sm = {12} xs = {12}>
+            <Grid className = {classes.companiesHiring} container align= "center" xl = {10} lg = {10} md = {11} sm = {12} xs = {12}>
                 <Grid item container  >
                     <Grid item>
                         <img src="/Images/location.PNG" alt="location pin" style = {{padding: "5px 0 5px 10px"}} />
@@ -138,13 +138,15 @@ export function CompanyReviews() {
                         <Typography style = {{paddingTop: "15px"}} variant = "h5">Companies Hiring Now</Typography>
                     </Grid>
                 </Grid>
-                <Grid container>
+                <Grid container style = {{width: "100%"}}>
                     {
                         companies.map((item,index) => {
                             return(
                                 <CompanyBox 
                                     key = {item.id}
-                                    companyData = {item} 
+                                    logo = {item.logo}
+                                    name = {item.company}
+                                    rating = {item.ratings}
                                 />
                             )
                         })
@@ -166,7 +168,9 @@ export function CompanyReviews() {
                             return(
                                 <CompanyBox 
                                     key = {item.id}
-                                    companyData = {item} 
+                                    logo = {item.logo}
+                                    name = {item.company}
+                                    rating = {item.ratings}
                                 />
                             )
                         })
