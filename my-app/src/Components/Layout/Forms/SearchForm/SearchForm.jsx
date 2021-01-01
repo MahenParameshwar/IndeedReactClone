@@ -1,9 +1,7 @@
-import {  Button, Grid, Typography } from '@material-ui/core';
-import React, { useState , useRef, useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux"
+import {  Button, Grid} from '@material-ui/core';
+import React, { useState } from 'react';
+import {useDispatch} from "react-redux"
 import { makeStyles } from '@material-ui/core/styles';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from './Input';
 import InputGrid from './InputGrid';
 import { getSearchData } from '../../../../Redux/Search/actions';
 import { loadData, saveData } from '../../../../Utils/localStorage';

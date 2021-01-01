@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from "axios";
 
 import { 
     Box, 
@@ -15,7 +14,6 @@ import {
     Button
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeLoginRequest } from '../../Redux/Login/actions';
 import { Link, Redirect } from 'react-router-dom';
 import { makeRegisterRequest } from '../../Redux/Register/actions';
 
@@ -192,7 +190,6 @@ export function Register() {
                     By creating an account, you agree to Indeed's <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Terms of Service</a>, <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Cookie Policy</a><br/>
                     and <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</a>. You consent to receiving marketing messages from Indeed <br/> 
                     and may opt out from receiving such messages by following the unsubscribe link in our messages, or as detailed in our terms.
-                </Typography>
             </Box>
             <Grid container spacing = {3} style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#085ff7"}}>
                 <Grid item>
