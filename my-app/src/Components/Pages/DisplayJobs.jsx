@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme=>({
 
 function DisplayJobs(props) {
     
-    const query = new URLSearchParams(props.location.pathname.split('/')[2]);
+    const query = new URLSearchParams(props.location.pathname.split('?')[2]);
     const classes = useStyles()
     let job = query.get('q')
     let location = query.get('l')

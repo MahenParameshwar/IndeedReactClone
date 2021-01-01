@@ -52,7 +52,7 @@ export const getCompanyReviews = (payload) => dispatch => {
     
     axios.get(`http://localhost:5000/companies?id=${payload}`)
         .then((res) => {
-            dispatch(fetchCompanyDetails(res.data))
+            dispatch(fetchCompanyDetails(res.data[0]))
         } )
         .catch((err) => console.log(err))
 }
