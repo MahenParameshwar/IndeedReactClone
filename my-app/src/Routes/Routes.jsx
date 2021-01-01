@@ -5,6 +5,7 @@ import DisplayJobs from '../Components/Pages/DisplayJobs';
 import Home from '../Components/Pages/Home';
 import { Login } from '../Components/Pages/Login';
 import { Register } from '../Components/Pages/Register';
+import { Review } from '../Components/Pages/Review';
 import { SearchResult } from '../Components/Pages/SearchResult';
 import PrivateRoute from './PrivateRoute';
 
@@ -21,6 +22,7 @@ function Routes(props) {
                 <PrivateRoute exact path="/" Component={Home} />
                 <PrivateRoute  path="/jobs" Component={DisplayJobs}/>
                 <PrivateRoute  path="/companies" Component={CompanyReviews}/>
+                <Route path = "/reviews" exact render = {(props) => <Review {...props} />} />
                 {/* <Route path='/' exact>
                     <Home/>
                 </Route>

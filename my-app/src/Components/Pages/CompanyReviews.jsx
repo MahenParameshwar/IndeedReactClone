@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 import { CompanyBox } from "../Layout/Companies/CompanyBox";
+import { useHistory } from 'react-router-dom';
+import { searchCompany, getCompanyReviews } from '../../Redux/CompanyReviews/action';
 import SearchIcon from '@material-ui/icons/Search';
 import { Box, 
     Container,
@@ -83,12 +86,25 @@ export function CompanyReviews() {
     const classes = useStyles();
     const[companies, setCompanies] = useState([]);
     const[query, setQuery] = useState("");
+    const isSearching = useSelector(state => state.companies.isSearching);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     console.log(companies)
 
     const onTextChange = (e) => {
         setQuery(e.target.value);
         console.log(query)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(searchCompany(query))
+    }
+
+    const handleCompanyClick = (id) => {
+        dispatch(getCompanyReviews(id));
+        history.push(`/reviews?id=${id}`)
     }
 
     useEffect(() => {
@@ -102,6 +118,7 @@ export function CompanyReviews() {
 
 
     return (
+        !isSearching ?
         <Container className = {classes.container} maxWidth = "xl">
             <Box className = {classes.boxSearch} >
                 <Grid container className = {classes.outerSearchGrid} direction = "row">
@@ -114,7 +131,7 @@ export function CompanyReviews() {
                         </Typography>
                     </Grid>
                     <Grid item xl = {8} lg = {8} md = {10} sm = {12} xs = {12}>
-                        <form>
+                        <form onSubmit = {handleSubmit}>
                             <TextField  
                                 className = {classes.outlinedInput} 
                                 required 
@@ -159,6 +176,9 @@ export function CompanyReviews() {
                                     logo = {item.logo}
                                     name = {item.company}
                                     rating = {item.ratings}
+                                    id = {item.id}
+
+                                    handleClick = {handleCompanyClick}
                                 />
                             )
                         })
@@ -196,6 +216,6 @@ export function CompanyReviews() {
                     
                 </Grid>
             </Grid>
-        </Container>
+        </Container> : <Redirect to = "/review" />
     )
 }
