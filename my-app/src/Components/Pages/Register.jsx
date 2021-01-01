@@ -140,12 +140,12 @@ export function Register() {
             <Box className = {classes.boxForm}>
                 <Grid container spacing = {3} >
                     <Grid item>
-                        <Typography className = {classes.h5} variant = "h5">Sign In</Typography>
+                        <Typography className = {classes.h5} variant = "h5">Create an Account (it's free)</Typography>
                     </Grid>
                     <Grid container item spacing = {3}>
                         <Grid item >
                             <HelperButton style = {{border: "2px solid #a6a6a6"}} className = {classes.button} variant = "outlined">
-                                Create an Account (it's free)
+                                Sign in with Google
                             </HelperButton>
                         </Grid>
                         <Grid item >
@@ -157,9 +157,6 @@ export function Register() {
                             <HelperButton style = {{border: "2px solid #1877f2", color: "#1877f2"}} className = {classes.button} variant = "outlined">
                                 Sign in with Facebook
                             </HelperButton>
-                        </Grid>
-                        <Grid item>
-                            <Typography style = {{cursor: "pointer", color : "#085ff7", margin:"0 115px"}} variant = "subtitle2">New to Indeed? Create an account</Typography>
                         </Grid>
                     </Grid>
                     <Grid style = {{margin: "10px 0"}} container item>
@@ -189,21 +186,10 @@ export function Register() {
                     </Grid>
                     <hr className = {classes.pageBreak}></hr>
                 </Grid>
-                <Typography align = "center" variant = "body2">
-                    By signing in to your account, you agree to Indeed's 
-                    <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
-                        Terms of Service</Link>
-                        <br/>
-                        and consent to our 
-                        <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
-                            Cookie Policy</Link>
-                            and  
-                        <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</Link><br/>
-                    This site is protected by reCAPTCHA and the 
-                    <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
-                        Google Privacy Policy</Link> <br/> and  <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
-                            Google Terms of Service apply.</Link>
-                </Typography>
+                <Typography align = "left" variant = "caption">
+                    By creating an account, you agree to Indeed's <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Terms of Service</a>, <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Cookie Policy</a><br/>
+                    and <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</a>. You consent to receiving marketing messages from Indeed <br/> 
+                    and may opt out from receiving such messages by following the unsubscribe link in our messages, or as detailed in our terms.
             </Box>
             <Grid container spacing = {3} style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#085ff7"}}>
                 <Grid item>
