@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from "axios";
 
 import { 
     Box, 
@@ -15,7 +14,6 @@ import {
     Button
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeLoginRequest } from '../../Redux/Login/actions';
 import { Link, Redirect } from 'react-router-dom';
 import { makeRegisterRequest } from '../../Redux/Register/actions';
 
@@ -192,8 +190,19 @@ export function Register() {
                     <hr className = {classes.pageBreak}></hr>
                 </Grid>
                 <Typography align = "center" variant = "body2">
-                    By signing in to your account, you agree to Indeed's <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Terms of Service</a><br/>and consent to our <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Cookie Policy</a> and  <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</a><br/>
-                    This site is protected by reCAPTCHA and the  <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Google Privacy Policy</a> <br/> and  <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Google Terms of Service apply.</a>
+                    By signing in to your account, you agree to Indeed's 
+                    <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
+                        Terms of Service</Link>
+                        <br/>
+                        and consent to our 
+                        <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
+                            Cookie Policy</Link>
+                            and  
+                        <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</Link><br/>
+                    This site is protected by reCAPTCHA and the 
+                    <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
+                        Google Privacy Policy</Link> <br/> and  <Link to='/' style = {{textDecoration: "none", color: "#085ff8"}} href = "">
+                            Google Terms of Service apply.</Link>
                 </Typography>
             </Box>
             <Grid container spacing = {3} style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#085ff7"}}>

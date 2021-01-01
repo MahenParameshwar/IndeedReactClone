@@ -77,7 +77,7 @@ export const setCount = payload=>{
 
 export const dispatchCount =payload=>dispatch=>{
     const {job ,location,start,jobType,fromage,sortType} = payload
-    console.log(job,location,start)
+    // console.log(job,location,start)
 
 
     var config = {
@@ -96,16 +96,17 @@ export const dispatchCount =payload=>dispatch=>{
 
     axios(config)
     .then(res=>{
-        console.log("data",res.data)
+        // console.log("data",res.data)
         dispatch(setCount(res.data.length))
 
     })
 }
 
-export const getSearchData = payload =>dispatch=>{
+export const getSearchData = (job="",location="",start=0,jobType="",fromage="",occupation="",education="",salary="") =>dispatch=>{
     dispatch(fetchloading())
-    const {job ,location,start,jobType,fromage,sortType} = payload
-    console.log(job,location,start)
+    // const {job ,location:"",start:0,jobType:"",fromage,sortType} = payload
+    let order = salary === "Ascending" ? "asc" : salary === "Descending"? "desc" : ""
+    console.log(job,location,start,jobType,fromage,occupation,education,salary)
 
 
     var config = {
@@ -113,8 +114,14 @@ export const getSearchData = payload =>dispatch=>{
         url: `http://localhost:8000/jobs`,
         params:{
             q:job,
+            // location_like:location,
             city_like:location,
             jobType_like:jobType,
+            // date:fromage,
+            // occupation_like:occupation,
+            // education_like:education,
+            // _sort:"startSalary",
+            // order:order,
             _start:start,
             _limit:15
             // _sort:"date",
@@ -123,18 +130,20 @@ export const getSearchData = payload =>dispatch=>{
     };
 
 
+    setTimeout(()=>{
+        
+            axios(config)
+            .then(res=>{
+                console.log("data",res.data)
+                dispatch(fetchSuccess(res.data))
+                dispatch(dispatchCount({job ,location,start,jobType,fromage}))
+                // res.data.results?.map(item=>dispatch(addJobs(item)))
 
-    axios(config)
-    .then(res=>{
-        console.log("data",res.data)
-        dispatch(fetchSuccess(res.data))
-        dispatch(dispatchCount({job ,location,start,jobType,fromage,sortType}))
-        // res.data.results?.map(item=>dispatch(addJobs(item)))
-
-    })
-    .catch(err=>{   
-        console.log("error")
-        dispatch(fetchError())
-    })
+            })
+            .catch(err=>{   
+                console.log("error")
+                dispatch(fetchError())
+            })
+    },1000)
 
 }
