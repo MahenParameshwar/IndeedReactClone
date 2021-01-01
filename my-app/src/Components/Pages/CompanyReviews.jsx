@@ -6,6 +6,7 @@ import { CompanyBox } from "../Layout/Companies/CompanyBox";
 import { useHistory } from 'react-router-dom';
 import { searchCompany, getCompanyReviews } from '../../Redux/CompanyReviews/action';
 import SearchIcon from '@material-ui/icons/Search';
+import Rating from '@material-ui/lab/Rating';
 import { Box, 
     Container,
     makeStyles,
@@ -23,20 +24,24 @@ import { Box,
 const useStyles = makeStyles((theme) => ({
     container: {
         backgroundColor: "#f2f2f2",
-        padding: 0
+        padding: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center" 
     },
     boxSearch: {
         backgroundColor: "white",
         margin: 0,
-        height: "300px",
-        backgroundPosition: "right",
+        height: "310px",
+        backgroundPosition: "bottom right",
         backgroundImage: "url(/Images/companyreview.PNG)",
         backgroundRepeat: "no-repeat"
 
     },
     outerSearchGrid: {
         marginTop: "50px",
-        flexDirection: "column"
+        flexDirection: "column",
+        alignContent: "flex-end"
     },
     h3: {
         fontWeight: "bold",
@@ -62,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "20px",
         backgroundColor: "white",
         display: "flex",
-        justifyContent: "center"
     }
 }))
 
@@ -120,9 +124,9 @@ export function CompanyReviews() {
     return (
         !isSearching ?
         <Container className = {classes.container} maxWidth = "xl">
-            <Box className = {classes.boxSearch} >
-                <Grid container className = {classes.outerSearchGrid} direction = "row">
-                    <Grid item >
+            <Grid container className = {classes.boxSearch} >
+                <Grid item container className = {classes.outerSearchGrid} xs={12} sm={12} md={9} lg={8} xl={8}>
+                    <Grid item>
                         <Typography className = {classes.h3} variant = "h3">
                             Find great places to work
                         </Typography>
@@ -130,8 +134,8 @@ export function CompanyReviews() {
                             Discover millions of company reviews
                         </Typography>
                     </Grid>
-                    <Grid item xl = {8} lg = {8} md = {10} sm = {12} xs = {12}>
-                        <form onSubmit = {handleSubmit}>
+                    <form onSubmit = {handleSubmit} style = {{display: "flex"}}>
+                        <Grid item>
                             <TextField  
                                 className = {classes.outlinedInput} 
                                 required 
@@ -142,21 +146,23 @@ export function CompanyReviews() {
                                 onChange = { onTextChange }
                                 InputProps={{
                                     endAdornment: (
-                                      <InputAdornment position="end">
+                                    <InputAdornment position="end">
                                         <SearchIcon />
-                                      </InputAdornment>
-                                     )
+                                    </InputAdornment>
+                                    )
                                     }}
                                 />
+                            <FormHelperText className = {classes.formhelperText}>Do you want to search for salaries?</FormHelperText>
+                        </Grid>
+                        <Grid item>
                             <SearchButton type = "submit" variant = "contained">
                                 Search
                             </SearchButton>
-                            <FormHelperText className = {classes.formhelperText}>Do you want to search for salaries?</FormHelperText>
-                        </form>
-                    </Grid>
+                        </Grid>
+                    </form>
                 </Grid>
-            </Box>
-            <Grid className = {classes.companiesHiring} container align= "center" xl = {10} lg = {10} md = {11} sm = {12} xs = {12}>
+            </Grid>
+            <Grid className = {classes.companiesHiring} container xl = {9} lg = {9} md = {9} sm = {11} xs = {12}>
                 <Grid item container  >
                     <Grid item>
                         <img src="/Images/location.PNG" alt="location pin" style = {{padding: "5px 0 5px 10px"}} />
@@ -165,26 +171,24 @@ export function CompanyReviews() {
                         <Typography style = {{paddingTop: "15px"}} variant = "h5">Companies Hiring Now</Typography>
                     </Grid>
                 </Grid>
-                
+                <Grid container style={{maxWidth:'1000px'}}>
+                        {
+                            companies.map((item) => {
+                                return(
+                                    <CompanyBox 
+                                        key = {item.id}
+                                        logo = {item.logo}
+                                        name = {item.company}
+                                        rating = {item.ratings}
+                                        id = {item.id}
+                                        handleClick = {handleCompanyClick}
+                                    />
+                                )
+                            })
+                        }
+                </Grid>
             </Grid>
-            <Grid container spacing={2} style={{maxWidth:'1000px'}}>
-                    {
-                        companies.map((item,index) => {
-                            return(
-                                <CompanyBox 
-                                    key = {item.id}
-                                    logo = {item.logo}
-                                    name = {item.company}
-                                    rating = {item.ratings}
-                                    id = {item.id}
-
-                                    handleClick = {handleCompanyClick}
-                                />
-                            )
-                        })
-                    }
-            </Grid>
-            <Grid className = {classes.companiesHiring} container align= "center" xl = {8} lg = {8} md = {10} sm = {12} xs = {12}>
+            <Grid className = {classes.companiesHiring} container xl = {9} lg = {9} md = {9} sm = {11} xs = {12}>
                 <Grid item container  >
                     <Grid item>
                         <img src="/Images/popularcompany.PNG" alt="location pin" style = {{padding: "5px 0 5px 10px"}} />
@@ -193,27 +197,29 @@ export function CompanyReviews() {
                         <Typography style = {{paddingTop: "15px"}} variant = "h5">Popular Companies</Typography>
                     </Grid>
                 </Grid>
-            </Grid>
-            <Grid container spacing={2} style={{width:'1000px'}}>
-                    {
-                        companies.map((item,index) => {
-                            return(
-                                <CompanyBox 
+                <Grid container style={{width:'1000px'}}>
+                        {
+                            companies.map((item) => {
+                                return(
+                                    <CompanyBox 
                                     key = {item.id}
                                     logo = {item.logo}
                                     name = {item.company}
                                     rating = {item.ratings}
-                                />
-                            )
-                        })
-                    }
-            </Grid>
-            <Grid className = {classes.companiesHiring} style = {{borderTop: "10px solid #ff5a1f"}} container align= "center" xl = {8} lg = {8} md = {10} sm = {12} xs = {12}>
-                <Grid item >
-                    <Typography style = {{paddingTop: "15px"}} variant = "h5">Rate your recent company:</Typography>
+                                    id = {item.id}
+                                    handleClick = {handleCompanyClick}
+                                    />
+                                )
+                            })
+                        }
                 </Grid>
+            </Grid>
+            <Grid className = {classes.companiesHiring} style = {{borderTop: "10px solid #ff5a1f", padding: "25px", justifyContent: "space-between"}} container xl={9} lg={9} md={9} sm={11} xs={12}>
                 <Grid item >
-                    
+                    <Typography variant = "h5">Rate your recent company:</Typography>
+                </Grid>
+                <Grid item style = {{backgroundColor: "#f2f2f2", padding: "0 5px", borderRadius: "50px"}}>
+                    <Rating name="pristine" size = "large" style = {{color: "blue"}} />
                 </Grid>
             </Grid>
         </Container> : <Redirect to = "/review" />
