@@ -17,6 +17,7 @@ import {makeSaveJobRequest} from '../../Redux/SaveJob/actions'
 const useStyles = makeStyles(theme=>({
     jobContainer:{
         width:'450px',
+        height:"300px"
         
     },
     card:{
@@ -24,6 +25,7 @@ const useStyles = makeStyles(theme=>({
         padding:'15px',
         cursor:'pointer',
         position:'relative',
+
         '&:hover':{
             '& $job_title':{
                 textDecoration:'underline'
@@ -139,8 +141,6 @@ function DisplayJobs(props) {
 
     let job = query.get('q') || ""
     let location = query.get('location') || ""
-    
-     
     let jt = query.get("jt") || ""
     let occu = query.get("occupation") || ""
     let edu = query.get("education") || ""
@@ -149,13 +149,11 @@ function DisplayJobs(props) {
     const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
     
     let jobs = useSelector(state=>state.search.searched)
-
     let totalCount = useSelector(state=>state.search.totalCount)
-
-    
-    
+    const loggedUser = useSelector(state=>state.login.loggedUser);
     let isLoading = useSelector(state=>state.search.isLoading)
     
+
     let [page,setPage] = useState(query.get('page'))
     let [jobType,setJobType] = useState(jt) 
     let [fromage,setFromage] = useState(0)
@@ -164,22 +162,31 @@ function DisplayJobs(props) {
     let [education , setEducation] = useState(edu)
     let [salary , setSalary] = useState(sal)
 
+
     let [sortDateIsCliked,setSortDateIsCliked] = useState(false)
 
-    // let [jobs,setJobs] = useState([])
+ 
 
-    ///////
+
+    const limitWords = (snippet)=>{
+
+        let str = "";
+        console.log(snippet)
+        for(let i = 0; i < 200 && !str[i]; i++){
+            str += snippet[i]
+        }
+        str += '........'
+        return str
+    }
 
     let [jobData,setJobData] = useState(null)   
     const dispatch = useDispatch()
     const history = useHistory()
     
     
-    const loggedUser = useSelector(state=>state.login.loggedUser);
     
-    // useEffect(()=>{
-
-    // },[page])
+    
+    
 
     const handlePageChange = (event, page) => {
         setPage(page)
@@ -188,18 +195,6 @@ function DisplayJobs(props) {
     };
 
 
-//// Harsh Changes
-    // console.log(job,location,start)
-    // useEffect(()=>{
-    //             console.log("use effect")
-    //             dispatch(getSearchData({job,location,start}))
-                
-            
-            
-    // },[job,location,start])
-
-////////
-////// Mahen Changes
 
     const handleSort = (sort)=>{
         setSortDateIsCliked(!sortDateIsCliked)
@@ -231,24 +226,17 @@ function DisplayJobs(props) {
 
 
 
-    const getJobDescription = (jobKey)=>{
+    const getJobDescription = (job)=>{
         
-        axios
-        .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apigetjobs?publisher=7778623931867371&jobkeys=${jobKey}&v=2&format=json`)
-        .then(
-            res=>{
-                setJobData(res.data.results[0])
-            }
-        )
+       
+                setJobData(job)
+            
     }
 
     const handelSave = ({jobkey,location,companyName,jobTitle})=>{
         const {id,saved_jobs} = loggedUser
         saved_jobs[jobkey] = {
-            location,
-            companyName,
-            jobkey,
-            jobTitle,
+            jobkey,location,companyName,jobTitle,
             dateSaved:new Date().getTime()
         }
         
@@ -343,9 +331,9 @@ function DisplayJobs(props) {
                         {
                             jobs.map((job,index)=>
                             <Grid className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
-                                <Box onClick={()=>getJobDescription(job.jobkey)} >
+                                <Box onClick={()=>getJobDescription(job)} >
                                     <Typography  className={classes.job_title}>
-                                        {job.jobTitleFormated}
+                                        {job.jobTitle}
                                     </Typography>
                                     <Typography className={classes.job_subTitle}>
                                         {job.companyName}
@@ -354,9 +342,13 @@ function DisplayJobs(props) {
                                         {job.location}
                                     </Typography>
                                     <Typography className={classes.job_subTitle}>
-                                        {job.startSalary}
+                                    ₹ {Number(job.startSalary).toLocaleString('en-IN')} - ₹ {Number(job.endSalary).toLocaleString('en-IN')}
                                     </Typography>
-                                    <div className={classes.job_snippet} dangerouslySetInnerHTML={{__html: job.snippet}}></div>
+                                    <div className={classes.job_snippet} >
+                                        {
+                                            limitWords(job.snippet)
+                                        }
+                                    </div>
                                     <Typography className={classes.greyText}>
                                         {timeDifference(job.date)}
                                     </Typography>
@@ -370,7 +362,7 @@ function DisplayJobs(props) {
                         
                     </Grid>
                     {
-                        jobData ? <JobDescription jobData={jobData} /> : <></> 
+                        jobData ? <JobDescription jobData={jobData} summary={job.snippet} /> : <></> 
                     }
                     
                 </Box>

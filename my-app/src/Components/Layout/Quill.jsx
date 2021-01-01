@@ -7,8 +7,7 @@ export default function Quill({jobDescription,setJobDescription}) {
 
   return (
     <ReactQuill theme="snow"  defaultValue={jobDescription} onChange={setJobDescription}>
-         
-        
+
       
     </ReactQuill>
   );

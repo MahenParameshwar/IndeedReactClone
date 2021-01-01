@@ -1,6 +1,9 @@
-import { Container,Grid,OutlinedInput,Typography ,InputAdornment, Button} from '@material-ui/core';
+import { Container,Grid,OutlinedInput,Typography ,InputAdornment, Button, TextareaAutosize} from '@material-ui/core';
+import {  IconButton, Snackbar } from '@material-ui/core';
+import React, { useReducer, useState } from 'react';
+
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Quill from '../Layout/Quill';
@@ -22,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
 function PostJob(props) {
     const classes = useStyles();
     
-    const [companyName,setCompanyName] = useState(); 
-    const [jobTitle,setJobTitle] = useState(); 
-    const [location,setLocation] = useState(); 
-    const [companyUrl,setCompanyUrl] = useState(); 
+    const [companyName,setCompanyName] = useState(''); 
+    const [jobTitle,setJobTitle] = useState(''); 
+    const [location,setLocation] = useState(''); 
+    const [companyUrl,setCompanyUrl] = useState(''); 
     const [jobType,setJobType] = useState('Full-Time'); 
     const [occupation,setOccupation] = useState('Software');
 
@@ -35,19 +38,20 @@ function PostJob(props) {
     const [endSalary,setEndSalary] = useState('') ;
     const [salaryType,setSalaryType] = useState('Per year') ;
     const [jobDescription,setJobDescription] = useState('')
+    const [snippet,setSnippet] = useState('')
+   
+    const [snackBarOpen,setSnackBarOpen] = useState(false)
+    const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
 
-    console.log('job_type')
+    
     const dispatch = useDispatch()
 
     const handelPost = (e)=>{
         e.preventDefault();
-        console.log(companyName,jobTitle,location,companyUrl,jobType,occupation,education)
-        console.log(startSalary,endSalary,salaryType,jobDescription)
-
+        
         dispatch(makePostJobRequest({
             companyName,
-            jobTitle:jobTitle.replace(/ +/g, "").toLowerCase(),
-            jobTitleFormated:jobTitle,
+            jobTitle,
             location,
             companyUrl,
             jobType,
@@ -57,9 +61,29 @@ function PostJob(props) {
             endSalary,
             salaryType,
             jobDescription,
-            snippet:"Lrrum Ippsum",
+            snippet:snippet,
             date:new Date().getTime()
         }))
+
+        // setCompanyName(''); 
+        // setJobTitle(''); 
+        // setLocation(''); 
+        // setCompanyUrl(''); 
+        // setJobType('Full-Time'); 
+        // setOccupation('Software');
+
+        // setEducation("12th Pass");
+
+        // setStartSalary(''); 
+        // setEndSalary('') ;
+        // setSalaryType('Per year') ;
+        // setJobDescription('')
+        // setSnippet('')
+
+        
+        setSnackBarOpen(true)
+
+        
     }
     return (
         <Container>
@@ -114,6 +138,15 @@ function PostJob(props) {
                     defaultValue={companyUrl}
                     onChange={(e)=>{setCompanyUrl(e.target.value)}}
                     />
+                </Grid>
+
+                <Grid item lg={12} md={12} sm={12} xs={12} >
+                    <label >
+                        Job Summary
+                    </label>
+                    
+                    <TextareaAutosize value={snippet} onChange={(e)=>setSnippet(e.target.value)} aria-label="minimum height" rowsMin={6} style={{width:"100%",fontSize:'20px'}}  placeholder="" />
+
                 </Grid>
                 
             
@@ -232,6 +265,27 @@ function PostJob(props) {
                 Submit
             </Button>
             </form>
+           
+
+                <Snackbar
+                anchorOrigin={{vertical:'top',horizontal:'left'}}
+                open={snackBarOpen}
+                autoHideDuration={3000}
+                message={<span className="format__id">Job Successfully posted</span>}
+                ContentProps={{
+                    'aria-describedby':'message-id'
+                }}
+                onClose={()=>setSnackBarOpen(false)}
+                action={[
+                    <IconButton
+                    onClick={()=>{setSnackBarOpen(false)}}
+                    color="inherit"
+                    key="close"
+                    aria-label="close">
+                        <CloseIcon/>
+                    </IconButton>
+                ]}
+/>
         </Container>
     );
 }

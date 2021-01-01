@@ -54,8 +54,7 @@ const StyledMenuItem = withStyles((theme) => ({
 
 export default function JobMenu({job,handelSave,removeFromSaved}) {
 
-const {jobkey,location,companyName,jobTitle} = job
-// console.log(job,"job")
+const {jobkey,companyName,location,jobTitle} = job
 const {saved_jobs} = useSelector(state=>state.login.loggedUser)
 
   const [anchorEl, setAnchorEl] = React.useState(null);
