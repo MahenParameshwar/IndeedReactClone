@@ -82,7 +82,15 @@ export function CompanyReviews() {
 
     const classes = useStyles();
     const[companies, setCompanies] = useState([]);
+    const[query, setQuery] = useState("");
+
     console.log(companies)
+
+    const onTextChange = (e) => {
+        setQuery(e.target.value);
+        console.log(query)
+    }
+
     useEffect(() => {
         axios.get("http://localhost:5000/companies")
             .then((res) => {
@@ -113,6 +121,8 @@ export function CompanyReviews() {
                                 type = "text" 
                                 variant="outlined"
                                 placeholder = "Enter a company name"
+                                value = { query }
+                                onChange = { onTextChange }
                                 InputProps={{
                                     endAdornment: (
                                       <InputAdornment position="end">
