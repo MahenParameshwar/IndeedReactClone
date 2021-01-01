@@ -190,6 +190,7 @@ export function Register() {
                     By creating an account, you agree to Indeed's <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Terms of Service</a>, <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Cookie Policy</a><br/>
                     and <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</a>. You consent to receiving marketing messages from Indeed <br/> 
                     and may opt out from receiving such messages by following the unsubscribe link in our messages, or as detailed in our terms.
+                </Typography>
             </Box>
             <Grid container spacing = {3} style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#085ff7"}}>
                 <Grid item>

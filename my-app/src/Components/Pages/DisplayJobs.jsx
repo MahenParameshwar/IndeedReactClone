@@ -10,15 +10,18 @@ import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import FillterButton from '../Layout/FilterJobsButton/FillterButton';
 import { getSearchData } from '../../Redux/Search/actions';
 import JobDescription from '../Layout/JobDescription';
-
+import JobMenu from '../Layout/Menu/JobMenu';
+import {makeSaveJobRequest} from '../../Redux/SaveJob/actions'
 const useStyles = makeStyles(theme=>({
     jobContainer:{
         width:'450px',
+        
     },
     card:{
         border:'1px solid black',
         padding:'15px',
         cursor:'pointer',
+        position:'relative',
         '&:hover':{
             '& $job_title':{
                 textDecoration:'underline'
@@ -74,7 +77,8 @@ function DisplayJobs(props) {
     let job = query.get('q')
     let location = query.get('l')
     let start = query.get('start')
-    
+
+   
 //// Harsh Changes
     let jobs = useSelector(state=>state.search.searched)
 ///////
@@ -93,8 +97,9 @@ function DisplayJobs(props) {
 
     let [jobData,setJobData] = useState(null)
     let totalResults = useSelector(state=>state.search.totalCount)
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const loggedUser = useSelector(state=>state.login.loggedUser);
     
     // useEffect(()=>{
 
@@ -154,7 +159,7 @@ function DisplayJobs(props) {
         //     )
     },[job,location,page,jobType,fromage,sortType])
 
-//////
+
 
     const getJobDescription = (jobKey)=>{
         
@@ -165,6 +170,25 @@ function DisplayJobs(props) {
                 setJobData(res.data.results[0])
             }
         )
+    }
+
+    const handelSave = ({jobkey,city,company,jobtitle})=>{
+        const {id,saved_jobs} = loggedUser
+        saved_jobs[jobkey] = {
+            city,
+            company,
+            jobkey,
+            jobtitle,
+            dateSaved:new Date().getTime()
+        }
+        
+        dispatch(makeSaveJobRequest({user_id:id,saved_jobs}))
+    }
+
+    const removeFromSaved = ({jobkey})=>{
+        const {id,saved_jobs} = loggedUser
+        delete saved_jobs[jobkey]
+        dispatch(makeSaveJobRequest({user_id:id,saved_jobs}))
     }
 
     
@@ -204,26 +228,34 @@ function DisplayJobs(props) {
               
             </Box>
            
-                <Box style={{display:'flex'}}> 
+                <Box style={{display:'flex'}}>
+                     
                     <Grid className={classes.jobContainer}  container>
                         {
                             jobs.map((job,index)=>
-                            <Grid onClick={()=>getJobDescription(job.jobkey)} className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
-                                <Typography  className={classes.job_title}>
-                                    {job.jobtitle}
-                                </Typography>
-                                <Typography className={classes.job_subTitle}>
-                                    {job.company}
-                                </Typography>
-                                <Typography className={classes.job_subTitle}>
-                                    {job.city}
-                                </Typography>
-                                <div className={classes.job_snippet} dangerouslySetInnerHTML={{__html: job.snippet}}></div>
-                                <Typography className={classes.greyText}>
-                                    {job.formattedRelativeTime}
-                                </Typography>
+                            <Grid className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
+                                <Box onClick={()=>getJobDescription(job.jobkey)} >
+                                    <Typography  className={classes.job_title}>
+                                        {job.jobtitle}
+                                    </Typography>
+                                    <Typography className={classes.job_subTitle}>
+                                        {job.company}
+                                    </Typography>
+                                    <Typography className={classes.job_subTitle}>
+                                        {job.city}
+                                    </Typography>
+                                    <div className={classes.job_snippet} dangerouslySetInnerHTML={{__html: job.snippet}}></div>
+                                    <Typography className={classes.greyText}>
+                                        {job.formattedRelativeTime}
+                                    </Typography>
+                                </Box>
+                                <JobMenu 
+                                job={job} 
+                                handelSave={handelSave}
+                                removeFromSaved={removeFromSaved}/>
                             </Grid>)
                         }
+                        
                     </Grid>
                     {
                         jobData ? <JobDescription jobData={jobData} /> : <></> 
