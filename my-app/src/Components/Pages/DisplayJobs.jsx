@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 import Pagination from '@material-ui/lab/Pagination';
@@ -8,8 +8,9 @@ import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles';
 import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import FillterButton from '../Layout/FilterJobsButton/FillterButton';
-import { getSearchData } from '../../Redux/Search/actions';
+import { getSearchData, fetchSuccess, setCount } from '../../Redux/Search/actions';
 import JobDescription from '../Layout/JobDescription';
+import styled from 'styled-components'
 
 const useStyles = makeStyles(theme=>({
     jobContainer:{
@@ -67,23 +68,93 @@ const useStyles = makeStyles(theme=>({
     }
 }))
 
+const LoadingContainer = styled.div`
+        width:100%;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+
+
+
+        .loader {
+            position: relative;
+            display: grid;
+            grid-template-columns: 33% 33% 33%;
+            grid-gap: 2px;
+            width: 75px;
+            height: 75px;
+            
+            
+            > div {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                background: #0652DD;
+                transform: scale(0.0);
+                transform-origin: center center;
+                animation: loader 2s infinite linear;
+                
+                &:nth-of-type(7) {}
+                
+                &:nth-of-type(1),
+                &:nth-of-type(5), 
+                &:nth-of-type(9) {
+                    animation-delay: 0.4s;
+                }
+                
+                &:nth-of-type(4),
+                &:nth-of-type(8) {
+                    animation-delay: 0.2s;
+                }
+                
+                &:nth-of-type(2),
+                &:nth-of-type(6) {
+                    animation-delay: 0.6s;
+                }
+                
+                &:nth-of-type(3) {
+                    animation-delay: 0.8s;
+                }
+            }
+        }
+        
+        @keyframes loader {
+            0%   { transform: scale(0.0); }
+            40%  { transform: scale(1.0); }
+            80%  { transform: scale(1.0); }
+            100% { transform: scale(0.0); }
+        }
+    `
+
+
+
 function DisplayJobs(props) {
     
-    const query = new URLSearchParams(props.location.pathname.split('/')[2]);
+    const query = new URLSearchParams(props.location.search)
     const classes = useStyles()
-    let job = query.get('q')
-    let location = query.get('l')
+
+    let job = query.get('q') || ""
+    let location = query.get('location') || ""
     let start = query.get('start')
+    let jt = query.get("jt") || ""
+    let occu = query.get("occupation") || ""
+    let edu = query.get("education") || ""
+    let sal = query.get("salary") || ""
     
 //// Harsh Changes
+    let totalResults = useSelector(state=>state.search.totalCount)
     let jobs = useSelector(state=>state.search.searched)
+    let isLoading = useSelector(state=>state.search.isLoading)
 ///////
 ///// Mahen changes
     
     let [page,setPage] = useState(1)
-    let [jobType,setJobType] = useState('') 
+    let [jobType,setJobType] = useState(jt) 
     let [fromage,setFromage] = useState(0)
     let [sortType,setSortType] = useState('relevance')
+    let [occupation, setOccupation] = useState(occu)
+    let [education , setEducation] = useState(edu)
+    let [salary , setSalary] = useState(sal)
 
     let [sortDateIsCliked,setSortDateIsCliked] = useState(false)
 
@@ -91,18 +162,18 @@ function DisplayJobs(props) {
 
     ///////
 
-    let [jobData,setJobData] = useState(null)
-    let totalResults = useSelector(state=>state.search.totalCount)
+    let [jobData,setJobData] = useState(null)   
     const dispatch = useDispatch()
     const history = useHistory()
     
     // useEffect(()=>{
 
     // },[page])
-    
+
     const handlePageChange = (event, page) => {
         setPage(page)
-        // history.push(`/jobs/q=${job}&l=${location}&start=${(page-1)*15}&jt=${jobType}`)
+        console.log(job)
+        history.push(`/jobs?q=${job}&location=${location}&start=${(page-1)*15}&jt=${jobType}`)
     };
 
 
@@ -126,33 +197,10 @@ function DisplayJobs(props) {
 
 
     useEffect(()=>{
-        let start = (page-1)*15
-        console.log(start)
-        dispatch(getSearchData({job,location,start,jobType,fromage,sortType}))
-        // axios
-        // .get(`https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch`,
-        // {
-        //     params:{
-        //         publisher:'7778623931867371',
-        //         q:job,
-        //         l:location,
-        //         co:'in',
-        //         limit:15,
-        //         start:(page-1)*15,
-        //         jt:jobType,
-        //         v:2,
-        //         fromage:fromage,
-        //         format:'json',
-        //         sort:sortType
-        //         }
-        // })
-        // .then(
-        //     res=>{
-        //         setTotalResults(res.data.totalResults)
-        //         setJobs(res.data.results)
-        //     }
-        //     )
-    },[job,location,page,jobType,fromage,sortType])
+
+        
+        dispatch(getSearchData(job,location,start,jobType,fromage,occupation,education,salary))
+    },[job,location,page,jobType,fromage,sortType,occupation,education,salary])
 
 //////
 
@@ -167,14 +215,29 @@ function DisplayJobs(props) {
         )
     }
 
-    
-
-    return (
+    return  (
         <Container className={classes.job_section}>
             <Box style={{transform:"scale(0.8) translateX(-12%)"}}>
                 <SearchForm />
             </Box>
-            <Box>
+            {
+                isLoading ? (
+                    <LoadingContainer >
+                        <div className="loader">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </LoadingContainer>
+                ):(
+                    <>
+                        <Box>
                 <FillterButton type={jobType} setType={setJobType} 
                 typeArr={['Fulltime','Walk-In','Fresher','Part-time']}
                 formatDate={false}
@@ -184,6 +247,21 @@ function DisplayJobs(props) {
                 typeArr={[1,3,7,14]}
                 formatDate={true}
                 typeStr='DATE POSTED'/>
+
+                <FillterButton type={occupation} setType={setOccupation} 
+                typeArr={['Software','Government','Account','Executive and personal assitansts']}
+                formatDate={false}
+                typeStr='Occupation'/>
+
+                <FillterButton type={education} setType={setEducation} 
+                typeArr={[`12th`,`Diploma`,`Bachelor's degree`,`Master's degree`]}
+                formatDate={false}
+                typeStr='Education'/>
+
+                <FillterButton type={salary} setType={setSalary} 
+                typeArr={["Ascending","Descending"]}
+                formatDate={false}
+                typeStr='Salary'/>
             
             </Box>
             <Box className={classes.greyText}>
@@ -206,8 +284,8 @@ function DisplayJobs(props) {
            
                 <Box style={{display:'flex'}}> 
                     <Grid className={classes.jobContainer}  container>
-                        {
-                            jobs.map((job,index)=>
+                    {
+                            jobs?.map((job,index)=>
                             <Grid onClick={()=>getJobDescription(job.jobkey)} className={classes.card}  item key={job.jobkey} lg={12} md={12} sm={12} xs={12} >
                                 <Typography  className={classes.job_title}>
                                     {job.jobtitle}
@@ -234,8 +312,13 @@ function DisplayJobs(props) {
                     totalResults % 15 === 0 ?
                     Math.floor(totalResults/15) : Math.floor(totalResults/15) + 1 } variant="outlined" shape="rounded" />
                 
+                    </>
+                )
+            }
+            
         </Container>
     );
+    
 }
 
 export default DisplayJobs;

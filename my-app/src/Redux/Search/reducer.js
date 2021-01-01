@@ -12,6 +12,9 @@ const init = {
     totalCount:null
 }
 
+
+
+
 export const searchReducer = (state=init, {type,payload}) =>{
     switch(type){
         case FETCH_LOADING:
