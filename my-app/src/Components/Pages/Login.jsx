@@ -110,7 +110,8 @@ const HelperButton = withStyles((theme) => ({
 }))(Button);
 
 export function Login() {
-    const isAuth = useSelector(state=>state.login.isAuth)
+    
+    const {isAuth,isError,errorMsg} = useSelector(state=>state.login)
     const classes = useStyles();
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
@@ -132,6 +133,7 @@ export function Login() {
     return (
         !isAuth ?
         <Container className = {classes.container} maxWidth = "xl">
+            {isError ? <Box>{errorMsg}</Box> : <></>}
             <Box className = {classes.boxImg}>
                 <img
                     className = {classes.imgLogo}

@@ -57,8 +57,8 @@ const registerNewUser = ({email,password})=>dispatch=>{
         password,
         user_id:uuid(),
         saved_jobs:{},
-        applied_jobs:{},
-        my_reviews:[]
+        applied_job:{},
+        my_reviews:{}
     }).then(res=>dispatch(registerSuccess()))
 }
 

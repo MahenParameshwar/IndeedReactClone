@@ -39,7 +39,7 @@ function PostJob(props) {
     const [salaryType,setSalaryType] = useState('Per year') ;
     const [jobDescription,setJobDescription] = useState('')
     const [snippet,setSnippet] = useState('')
-   
+    
     const [snackBarOpen,setSnackBarOpen] = useState(false)
     const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
 
@@ -82,7 +82,7 @@ function PostJob(props) {
 
         
         setSnackBarOpen(true)
-
+        
         
     }
     return (

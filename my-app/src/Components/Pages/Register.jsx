@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-
+import { Container,Grid,OutlinedInput,Typography , Button} from '@material-ui/core';
+import {  IconButton, Snackbar } from '@material-ui/core';
+import CloseIcon from "@material-ui/icons/Close";
 import { 
     Box, 
-    Container, 
-    Grid, 
     makeStyles, 
     withStyles,
-    OutlinedInput, 
-    Typography,
     FormHelperText,
     FormControlLabel,
     Checkbox,
-    Button
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
@@ -113,6 +110,10 @@ export function Register() {
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const [snackBarOpen,setSnackBarOpen] = useState(false)
+    
+    const {success,isError,errorMsg} = useSelector(state=>state.register)
+    
     const onEmailChange = (e) => {
         setEmail(e.target.value)
     }
@@ -124,12 +125,19 @@ export function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(makeRegisterRequest({email,password}))
+        
     }
 
 
     return (
         !isAuth ?
         <Container className = {classes.container} maxWidth = "xl">
+            
+            {isError ? 
+                <Box>
+                    {errorMsg}
+                </Box> :<></>
+            }
             <Box className = {classes.boxImg}>
                 <img
                     className = {classes.imgLogo}
@@ -244,6 +252,24 @@ export function Register() {
                     Terms
                 </Grid>
             </Grid>
+            <Snackbar
+                anchorOrigin={{vertical:'top',horizontal:'left'}}
+                open={snackBarOpen}
+                autoHideDuration={3000}
+                message={<span className="format__id">Regitered Succesfully</span>}
+                ContentProps={{
+                    'aria-describedby':'message-id'
+                }}
+                onClose={()=>setSnackBarOpen(false)}
+                action={[
+                    <IconButton
+                    onClick={()=>{setSnackBarOpen(false)}}
+                    color="inherit"
+                    key="close"
+                    aria-label="close">
+                        <CloseIcon/>
+                    </IconButton>
+                ]} />
         </Container> : <Redirect to="/" />
     )
 }
