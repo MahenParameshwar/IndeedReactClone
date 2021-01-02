@@ -53,7 +53,7 @@ export function Review(props) {
     useEffect(()=>{
         dispatch(getCompanyReviews(id));
 
-        axios.get(`http://localhost:5000/reviews?company_id=${id}`)
+        axios.get(`http://localhost:8000/reviews?company_id=${id}`)
             .then((res) => {
                 setReviews(res.data)
                 console.log(res.data)
@@ -121,7 +121,7 @@ export function Review(props) {
                 <Grid item>
                     <img src={companyDetails.ceo_image} alt={companyDetails.ceo_name} style={{height:"350px", borderRadius: "10px"}}/>
                 </Grid>
-                <Grid container item spacing={3}>
+                <Grid container item >
                     <Grid item style = {{border: "1px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
                         <div style = {{fontWeight: "600"}}>
                             CEO
@@ -141,7 +141,7 @@ export function Review(props) {
                         </div>
                     </Grid>
                 </Grid>
-                <Grid container item spacing={3}>
+                <Grid container item >
                 <Grid item style = {{border: "1px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
                         <div style = {{fontWeight: "600"}}>
                             Founded
@@ -169,7 +169,7 @@ export function Review(props) {
                 </Typography>
             </Grid>
             <Typography variant = "h5" style = {{color: "#085ff7", fontWeight: "600", cursor: "pointer"}}>
-                Learn More >
+                Learn More 
             </Typography>
             <Grid item style = {{marginTop: "30px", marginBottom: "50px"}}>
                 <Typography variant = "h4"><b>Reviews</b></Typography>

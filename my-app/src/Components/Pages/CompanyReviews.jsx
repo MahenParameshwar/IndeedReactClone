@@ -112,7 +112,7 @@ export function CompanyReviews() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:5000/companies")
+        axios.get("http://localhost:8000/companies")
             .then((res) => {
                 
                 setCompanies(res.data)

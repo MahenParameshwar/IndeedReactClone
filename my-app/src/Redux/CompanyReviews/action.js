@@ -35,7 +35,7 @@ export const searchCompany = (query) => dispatch => {
 
     const config = {
         method: "get",
-        url: "http://localhost:5000/companies",
+        url: "http://localhost:8000/companies",
         params: {
             q: query
         }
@@ -50,7 +50,7 @@ export const searchCompany = (query) => dispatch => {
 
 export const getCompanyReviews = (payload) => dispatch => {
     
-    axios.get(`http://localhost:5000/companies?id=${payload}`)
+    axios.get(`http://localhost:8000/companies?id=${payload}`)
         .then((res) => {
             dispatch(fetchCompanyDetails(res.data[0]))
         } )

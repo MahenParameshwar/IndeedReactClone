@@ -14,6 +14,7 @@ import styled from 'styled-components'
 import {timeDifference} from '../../Utils/timeDifference'
 import JobMenu from '../Layout/Menu/JobMenu';
 import {makeSaveJobRequest} from '../../Redux/SaveJob/actions'
+import { Button } from '@material-ui/core';
 const useStyles = makeStyles(theme=>({
     jobContainer:{
         width:'450px',
@@ -154,7 +155,10 @@ function DisplayJobs(props) {
     const loggedUser = useSelector(state=>state.login.loggedUser);
     let isLoading = useSelector(state=>state.search.isLoading)
     
-
+    const handelReset = ()=>{
+        dispatch(getSearchData(job,location,page))
+        forceUpdate()
+    }
     
     const pageNo = query.get('page')
     console.log(pageNo)
@@ -299,14 +303,16 @@ function DisplayJobs(props) {
                 fiterType='education'
                 jobs={jobs}
                 typeStr='Education'/>
-
+{/* 
                 <FillterButton type={salary} setType={setSalary} 
                 typeArr={["1k-5k","10k-20k"]}
                 formatDate={false}
                 jobs={jobs}
                 fiterType='salary'
-                typeStr='Salary'/>
-            
+                typeStr='Salary'/> */}
+            <Button onClick={handelReset}>
+                Resest
+            </Button>
             </Box>
             <Box className={classes.greyText}>
                 jobs in {location}
