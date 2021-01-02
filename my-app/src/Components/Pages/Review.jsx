@@ -117,7 +117,7 @@ export function Review(props) {
             <Grid item style = {{marginTop: "20px", marginBottom: "50px"}}>
                 <Typography variant = "h4"><b>About the company</b></Typography>
             </Grid>
-            <Grid container spacing={3} style = {{border: "1px solid black", display: "flex", flexDirection: "row"}}>
+            <Grid container spacing={3}>
                 <Grid item>
                     <img src={companyDetails.ceo_image} alt={companyDetails.ceo_name} style={{height:"350px", borderRadius: "10px"}}/>
                 </Grid>
