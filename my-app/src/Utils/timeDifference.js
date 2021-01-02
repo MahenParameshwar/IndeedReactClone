@@ -7,9 +7,15 @@ export const timeDifference = (postedDate)=>{
             msPerYear = msPerDay * 365,
             elapsed = now - postedDate;
             
-        return (elapsed < msPerMinute) ?
-                Math.round(elapsed / 1000) + ` seconds ago` :   
+        return (
                 
+                elapsed < msPerMinute) ?
+                Math.round(elapsed / 1000) !== 1 ? 
+                Math.round(elapsed / 1000)+ ` seconds ago` :   
+                Math.round(elapsed / 1000)+ ` second ago`
+                
+                :
+
                 (elapsed < msPerHour) ?
                 Math.round(elapsed / msPerMinute) !== 1 ?
                 Math.round(elapsed / msPerMinute) + ` minutes ago` :   

@@ -6,10 +6,16 @@ import { makeSaveJobRequest } from '../../Redux/SaveJob/actions';
 import { timeDifference } from '../../Utils/timeDifference';
 import {ApplyModal} from "../Layout/JobApplyModal/ApplyModal"
 import {makeApplyRequest} from "../../Redux/JobApply/actions"
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 
 const useStyles = makeStyles((theme)=>({
     applyButton:{
-        color:'white',
+        color:'black',
         width:"200px",
         height:'40px',
         borderRadius:'50px',
@@ -27,26 +33,24 @@ const useStyles = makeStyles((theme)=>({
     }
 }))
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
 function AppliedJobs(props) {
     const classes = useStyles();
-    const {saved_jobs,applied_job} = useSelector(state=>state.login.loggedUser)
+    const {saved_jobs,applied_job,id} = useSelector(state=>state.login.loggedUser)
     const jobKeys = Object.keys(saved_jobs).reverse()
     const applied = Object.keys(applied_job).reverse()
-    console.log(applied,applied_job)
+   
     const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
 
     const dispatch = useDispatch();
-    const loggedUser = useSelector(state=>state.login.loggedUser)
     // console.log(loggedUser)
     const [open, setOpen] = useState(false)
     const [jobId, setJobId] = useState("")
 
-    const removeFromSaved = ({jobkey})=>{
-        const {id} = loggedUser
-        delete saved_jobs[jobkey]
-        dispatch(makeSaveJobRequest({user_id:id,saved_jobs}))
-        forceUpdate();
-    }
+   
 
     const handleClose=() =>{
         setOpen(false)
@@ -58,11 +62,12 @@ function AppliedJobs(props) {
         setOpen(true)
     }
 
-    const handleApply=()=>{
-        const {id} = loggedUser
-        console.log(jobId)
-        applied_job[jobId]={...saved_jobs[jobId],dateSaved:new Date().getTime()}
-        delete saved_jobs[jobId]
+  
+
+    const handleCancel=(key)=>{
+        console.log(applied_job)
+        delete applied_job[key];
+        console.log(applied_job)
         dispatch(makeApplyRequest({user_id:id,saved_jobs,applied_job}))
         setOpen(false)
         forceUpdate()
@@ -107,6 +112,7 @@ function AppliedJobs(props) {
                             {
                                 applied.map((key)=>{
                                     return (
+                                        <>
                                         <Box style={{display:'flex'}}   key={key} >
                                         
                                             <Box style={{width:'500px'}}>
@@ -121,19 +127,37 @@ function AppliedJobs(props) {
                                                 </Box>
                                             </Box>
                                             <Box style={{display:'flex'}}>
-                                            <Button className={classes.applyButton} onClick={()=>handleOpen(key)} disabled={applied_job[key]?true:false}>
-                                                    {applied_job[key]?"Already applied":"Apply"}
-                                                </Button>
-                                            {/* <Button className={classes.updateButton}>
-                                                    Update
-                                            </Button> */}
+                                            <Button className={classes.applyButton} onClick={()=>handleOpen(key)} >
+                                                    Cancel
+                                            </Button>
+
                                             </Box>
-                                            {/* <Box onClick={()=>{removeFromSaved({jobkey:key})}} style={{cursor:"pointer",width:"40px",height:'40px',display:'flex',justifyContent:'center',alignItems:'center'}} >
-                                                <span>
-                                                    X
-                                                </span>
-                                            </Box> */}
+                                           
                                     </Box>
+                                     <Dialog
+                                     open={open}
+                                     TransitionComponent={Transition}
+                                     keepMounted
+                                     onClose={handleClose}
+                                     aria-labelledby="alert-dialog-slide-title"
+                                     aria-describedby="alert-dialog-slide-description"
+                                 >
+                                     <DialogTitle id="alert-dialog-slide-title">{"Are you sure you want to cancel the application?"}</DialogTitle>
+                                     <DialogContent>
+                                     <DialogContentText id="alert-dialog-slide-description">
+                                        
+                                     </DialogContentText>
+                                     </DialogContent>
+                                     <DialogActions>
+                                     <Button onClick={()=> handleCancel(key)} color="primary">
+                                         Yes
+                                     </Button>
+                                     <Button onClick={handleClose} color="primary">
+                                         No
+                                     </Button>
+                                     </DialogActions>
+                                 </Dialog>
+                                 </>
                                     )
                                 })
                             }
@@ -141,12 +165,7 @@ function AppliedJobs(props) {
                             
                     
                     </Box>
-                    <ApplyModal 
-                    open={open}
-                    handleClose = {()=>handleClose()}
-                    jobId = {jobId}
-                    handleApply ={()=>handleApply()}
-                    />
+                   
                 </Box>
            
         
