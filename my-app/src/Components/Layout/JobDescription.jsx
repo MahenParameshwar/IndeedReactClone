@@ -59,8 +59,13 @@ function JobDescription({jobData}) {
     const handleApply=()=>{
        
         console.log(jobId)
-        applied_job[jobId]={...saved_jobs[jobId],dateSaved:new Date().getTime()}
-        delete saved_jobs[jobId]
+        applied_job[jobId] = {
+            jobkey,
+            location,
+            companyName,
+            jobTitle,
+            dateSaved:new Date()
+        }
         dispatch(makeApplyRequest({user_id:id,saved_jobs,applied_job}))
         setOpen(false)
         forceUpdate()

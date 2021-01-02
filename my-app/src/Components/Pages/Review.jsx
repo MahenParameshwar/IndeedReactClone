@@ -230,6 +230,6 @@ export function Review(props) {
                 </Grid>
             </Grid>
         </Container>
-        : <></>) :  <Redirect to="/" /> 
+        : <></>) :  <Redirect to="/login" /> 
     )
 }

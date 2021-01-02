@@ -376,8 +376,8 @@ function DisplayJobs(props) {
                     
                 </Box>
                 <Pagination onChange={handlePageChange} count={
-                    totalCount % 10 === 0 ?
-                    Math.floor(totalCount/10) : Math.floor(totalCount/10) + 1 } variant="outlined" shape="rounded" />
+                    totalCount % 5 === 0 ?
+                    Math.floor(totalCount/5) : Math.floor(totalCount/5) + 1 } variant="outlined" shape="rounded" />
                     </>
                 ) : <Box>No results found</Box>
             }

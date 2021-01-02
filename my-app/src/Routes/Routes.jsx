@@ -30,7 +30,7 @@ function Routes(props) {
                     <Register />
                 </Route>
                 <PrivateRoute exact path="/" Component={Home} />
-                <PrivateRoute  path="/jobs" Component={DisplayJobs}/>
+                <PrivateRoute   path="/jobs" Component={DisplayJobs}/>
                 <PrivateRoute  path="/companies" Component={CompanyReviews}/>
                 <PrivateRoute path = "/reviews" exact Component = { Review } />
                 {/* <Route path='/' exact>
