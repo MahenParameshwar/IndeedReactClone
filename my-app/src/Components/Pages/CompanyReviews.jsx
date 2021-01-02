@@ -93,7 +93,8 @@ export function CompanyReviews() {
     const isSearching = useSelector(state => state.companies.isSearching);
     const dispatch = useDispatch();
     const history = useHistory();
-
+   
+    const {isAuth,isError,errorMsg} = useSelector(state=>state.login)
     console.log(companies)
 
     const onTextChange = (e) => {
@@ -122,7 +123,7 @@ export function CompanyReviews() {
 
 
     return (
-        !isSearching ?
+        isAuth ? ( !isSearching ?
         <Container className = {classes.container} maxWidth = "xl">
             <Grid container className = {classes.boxSearch} >
                 <Grid item container className = {classes.outerSearchGrid} xs={12} sm={12} md={9} lg={8} xl={8}>
@@ -162,7 +163,7 @@ export function CompanyReviews() {
                     </form>
                 </Grid>
             </Grid>
-            <Grid className = {classes.companiesHiring} container xl = {9} lg = {9} md = {9} sm = {11} xs = {12}>
+            <Grid className = {classes.companiesHiring} container item xl = {9} lg = {9} md = {9} sm = {11} xs = {12}>
                 <Grid item container  >
                     <Grid item>
                         <img src="/Images/location.PNG" alt="location pin" style = {{padding: "5px 0 5px 10px"}} />
@@ -188,7 +189,7 @@ export function CompanyReviews() {
                         }
                 </Grid>
             </Grid>
-            <Grid className = {classes.companiesHiring} container xl = {9} lg = {9} md = {9} sm = {11} xs = {12}>
+            <Grid className = {classes.companiesHiring} item container xl = {9} lg = {9} md = {9} sm = {11} xs = {12}>
                 <Grid item container  >
                     <Grid item>
                         <img src="/Images/popularcompany.PNG" alt="location pin" style = {{padding: "5px 0 5px 10px"}} />
@@ -214,7 +215,7 @@ export function CompanyReviews() {
                         }
                 </Grid>
             </Grid>
-            <Grid className = {classes.companiesHiring} style = {{borderTop: "10px solid #ff5a1f", padding: "25px", justifyContent: "space-between"}} container xl={9} lg={9} md={9} sm={11} xs={12}>
+            <Grid className = {classes.companiesHiring} style = {{borderTop: "10px solid #ff5a1f", padding: "25px", justifyContent: "space-between"}} container item xl={9} lg={9} md={9} sm={11} xs={12}>
                 <Grid item >
                     <Typography variant = "h5">Rate your recent company:</Typography>
                 </Grid>
@@ -257,6 +258,6 @@ export function CompanyReviews() {
                     Terms
                 </Grid>
             </Grid>
-        </Container> : <Redirect to = "/review" />
+        </Container> : null ) : <Redirect to = "/review" />
     )
 }

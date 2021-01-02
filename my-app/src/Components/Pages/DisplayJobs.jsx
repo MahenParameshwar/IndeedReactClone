@@ -280,7 +280,9 @@ function DisplayJobs(props) {
                         </div>
                     </LoadingContainer>
                 ):(
+                    
                     <>
+                    
                         <Box>
                 <FillterButton type={jobType} setType={setJobType} 
                 typeArr={['Full-Time','Walk-In','Fresher','Part-Time']}

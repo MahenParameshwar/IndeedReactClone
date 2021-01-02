@@ -11,6 +11,7 @@ import { Grid,
     Button,
     withStyles
 } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
 
 const useStyle = makeStyles((theme) => ({
     imgCont: {
@@ -50,20 +51,21 @@ export function Review(props) {
     const query = new URLSearchParams(props.location.search);
     const id =query.get('id')
     const dispatch = useDispatch()
+    const {isAuth,isError,errorMsg} = useSelector(state=>state.login)
     useEffect(()=>{
         dispatch(getCompanyReviews(id));
 
         axios.get(`http://localhost:8000/reviews?company_id=${id}`)
             .then((res) => {
                 setReviews(res.data)
-                console.log(res.data)
+                
             })
             .catch((err) => console.log("Error getting reviews" + err))
         
     },[])
     return (
 
-        companyDetails ?
+         isAuth ? (companyDetails ?
         <Container maxwidth = "xl">
             <Grid container style = {{justifyContent:"space-between", alignItems: "center", marginBottom: "40px"}}>
                 <Grid container item lg={6} md={7} sm={8}>
@@ -228,6 +230,6 @@ export function Review(props) {
                 </Grid>
             </Grid>
         </Container>
-        : <></>
+        : <></>) :  <Redirect to="/" /> 
     )
 }
