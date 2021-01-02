@@ -1,4 +1,4 @@
-import {  Button, Grid} from '@material-ui/core';
+import {  Box, Button, Grid} from '@material-ui/core';
 import React, { useState } from 'react';
 import {useDispatch} from "react-redux"
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,11 +62,14 @@ function SearchForm(props) {
     const [jobOptions,setJobOptions] = useState(['Java Developer','Javascript Developer','React Developer','Government','Account']);
     const [locationOptions,setLocationOptions] = useState(['Bangalore','Mumbai','Delhi','Kolkata','Chennai']);
     const history = useHistory()
-
+    const [error,setError] = useState(false)
     const handleSearch=e=>{
         
         e.preventDefault()
-        
+        if(job === "" && location === ""){
+            setError(true)
+            return
+        }
         dispatch(getSearchData(job === ""?"":job,location=== "" ? "" : location))
         
         let data = loadData("recent") || []
@@ -109,15 +112,18 @@ function SearchForm(props) {
     //     history.push(`/jobs/q=${job}&l=${location}`)
     // }
     return (
+        <>
+           { error ? <Box>Query is Empty</Box> : <></> }
             <form  onSubmit={handleSearch} className={classes.searchForm}>
                 <Grid container spacing={1}>
                     
                     <InputGrid setValue={setJob} value={job} label={'What?'} 
                     helperText={'City, state, or pin code'} classes={classes}
                     options={job !== "" ?jobOptions:null}
+                    setError = {setError}
                     />
 
-                    <InputGrid setValue={setLocation} value={location} label={'Where'}
+                    <InputGrid setError = {setError} setValue={setLocation} value={location} label={'Where'}
                     helperText='City, state, or pin code' classes={classes}
                     options={locationOptions} />
 
@@ -128,7 +134,8 @@ function SearchForm(props) {
                     </Grid>
                 </Grid>
             </form>
-       
+       </>
+           
         
     );
 }

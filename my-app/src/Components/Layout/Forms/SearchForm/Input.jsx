@@ -3,7 +3,7 @@ import React, { useState , useRef, useEffect} from 'react';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 
-function Input({classes,setValue,value,options}) {
+function Input({classes,setValue,value,options,setError}) {
     const [display,setDisplay] = useState(false); 
     
     const wrapperRef = useRef(null);
@@ -28,7 +28,7 @@ function Input({classes,setValue,value,options}) {
                                 className={classes.input }
                                 onKeyUp={()=>setDisplay(value !== ""? true:false)}
                                 value={value}
-                                onChange={event => setValue(event.target.value)}
+                                onChange={event => {setValue(event.target.value);setError(false)}}
                                 />
                                 {
                                     display && (

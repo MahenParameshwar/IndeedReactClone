@@ -88,7 +88,7 @@ function RecentSearch(props) {
         
         if(data.length === 4){
             data.reverse()
-            if(data.some(item=>item.category===str.category && item.query === item.query)){
+            if(data.some(item=>item.category===str.category && item.query === str.query)){
                 data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }
