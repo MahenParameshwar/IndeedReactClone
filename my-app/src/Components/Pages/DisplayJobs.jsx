@@ -279,11 +279,10 @@ function DisplayJobs(props) {
                             <div></div>
                         </div>
                     </LoadingContainer>
-                ):(
+                ): jobs.length ? (
                     
                     <>
-                    
-                        <Box>
+                <Box>
                 <FillterButton type={jobType} setType={setJobType} 
                 typeArr={['Full-Time','Walk-In','Fresher','Part-Time']}
                 formatDate={false}
@@ -293,14 +292,14 @@ function DisplayJobs(props) {
 
 
                 <FillterButton type={occupation} setType={setOccupation} 
-                typeArr={['Software','Government','Account','Executive and personal assitansts']}
+                typeArr={['Software','Government','Account','Personal assistant']}
                 formatDate={false}
                 fiterType='occupation'
                 jobs={jobs}
                 typeStr='Occupation'/>
 
                 <FillterButton type={education} setType={setEducation} 
-                typeArr={[`12th Pass`,`Diploma`,`Bachelor's degree`,`Master's degree`]}
+                typeArr={[`12th Pass`,`Diploma`,`Bachelors degree`,`Masters degree`]}
                 formatDate={false}
                 fiterType='education'
                 jobs={jobs}
@@ -312,9 +311,9 @@ function DisplayJobs(props) {
                 jobs={jobs}
                 fiterType='salary'
                 typeStr='Salary'/> */}
-            <Button onClick={handelReset}>
+            <button style={{width:'100px',height:'35px',color:'white',backgroundColor:'#193C74',outline:'none',borderRadius:'5px'}} onClick={handelReset}>
                 Resest
-            </Button>
+            </button>
             </Box>
             <Box className={classes.greyText}>
                 jobs in {location}
@@ -379,9 +378,8 @@ function DisplayJobs(props) {
                 <Pagination onChange={handlePageChange} count={
                     totalCount % 10 === 0 ?
                     Math.floor(totalCount/10) : Math.floor(totalCount/10) + 1 } variant="outlined" shape="rounded" />
-                
                     </>
-                )
+                ) : <Box>No results found</Box>
             }
             
         </Container>
