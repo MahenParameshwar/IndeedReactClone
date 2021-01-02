@@ -106,19 +106,19 @@ export const getSearchData = (job="",location="",page="1") =>dispatch=>{
     // dispatch(fetchloading())
     
     console.log(job,location)
-    let url = `http://localhost:8000/jobs?_page=${page}&_limit=10`
+    let url = `http://localhost:8000/jobs?_page=${page}&_limit=5`
     
     if(location !== "" && job !== ""){
-        url = `http://localhost:8000/jobs?location_like=${location}&jobTitle_like=${job}&_page=${page}&_limit=10`
+        url = `http://localhost:8000/jobs?location_like=${location}&jobTitle_like=${job}&_page=${page}&_limit=5`
     }
     else
     if(location !== "")
     {
-        url = `http://localhost:8000/jobs?location_like=${location}&_page=${page}&_limit=10`
+        url = `http://localhost:8000/jobs?location_like=${location}&_page=${page}&_limit=5`
     }
     else
     if(job !== ""){
-        url = `http://localhost:8000/jobs?jobTitle_like=${job}&_page=${page}&_limit=10`
+        url = `http://localhost:8000/jobs?jobTitle_like=${job}&_page=${page}&_limit=5`
     }
     else
     return
