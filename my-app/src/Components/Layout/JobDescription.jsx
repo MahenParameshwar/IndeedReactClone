@@ -1,6 +1,11 @@
-import { Box, Button, makeStyles } from '@material-ui/core';
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Box, makeStyles, Typography } from '@material-ui/core';
+import React , {useReducer,useState} from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '@material-ui/core';
+import  Section  from './Section';
+import { useSelector,useDispatch } from 'react-redux';
+import { makeApplyRequest } from '../../Redux/JobApply/actions';
+import { ApplyModal } from './JobApplyModal/ApplyModal';
 const useStyles = makeStyles(theme=>({
     container:{
         position:'sticky',
@@ -13,40 +18,79 @@ const useStyles = makeStyles(theme=>({
         borderRadius:'10px '
     },
     link:{
-        width:'100%',
+        
         display:'flex',
         alignItems:'center',
+        justifyContent:'center',
+        borderRadius:'10px',
         height:'53px',
         padding:'0 25px',
-        fontSize:'16px',
-        borderRadius:'2px',
-        backgroundColor:theme.palette.primary.main
+        fontSize:'20px',
+        color:'white',
+        
+        backgroundColor:theme.palette.primary.main,
+        '&:hover':{
+            color:theme.palette.primary.main,
+            backgroundColor:'white',
+            border:`1px solid ${theme.palette.primary.main}`
+
+        }
     }
 })) 
 function JobDescription({jobData}) {
     const classes = useStyles()
-    const {company,city,url,snippet,jobTitle} = jobData
-    console.log(url)
+    const {companyName,location,companyUrl,snippet,jobTitle,jobDescription,startSalary,endSalary,jobkey} = jobData
+    const {saved_jobs,applied_job,id} = useSelector(state=>state.login.loggedUser)
+    const [open, setOpen] = useState(false)
+    const [jobId, setJobId] = useState("")
+    const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
+
+    const dispatch = useDispatch();
+    const handleClose=() =>{
+        setOpen(false)
+        setJobId("")
+    }
+
+    const handleOpen=(id)=>{
+        setJobId(id)
+        setOpen(true)
+    }
+
+    const handleApply=()=>{
+       
+        console.log(jobId)
+        applied_job[jobId]={...saved_jobs[jobId],dateSaved:new Date().getTime()}
+        delete saved_jobs[jobId]
+        dispatch(makeApplyRequest({user_id:id,saved_jobs,applied_job}))
+        setOpen(false)
+        forceUpdate()
+    }
+    
     return (
         <Box className={classes.container}>
-            <Box>
+            <Typography variant={'h5'} style={{marginBottom:'10px'}}>
                 {jobTitle}
+            </Typography>
+            <Box style={{marginBottom:'10px'}}>
+                {companyName},{location}
             </Box>
-            <Box>
-                {company}
+            
+            <Box style={{marginBottom:'10px'}}>
+                ₹ {Number(startSalary).toLocaleString('en-IN')} - ₹ {Number(endSalary).toLocaleString('en-IN')}
             </Box>
-            <Box>
-                {city}
-            </Box>
-            <Box>
-                ₹ 50,000 - 75,000
-            </Box>
-            <a className={classes.link} href={url}>
-                Apply on Company site
-            </a>
-            <Box>
-                {snippet}
-            </Box>
+            
+            <Button className={classes.link} onClick={()=>handleOpen(jobkey)} disabled={applied_job[jobkey]?true:false}  style={{marginBottom:'30px'}}>
+                {applied_job[jobkey]?'Applied':'Applied Now'}
+            </Button>
+            <Section jobDescription={jobDescription} summary={snippet} />
+            <ApplyModal 
+                    open={open}
+                    handleClose = {()=>handleClose()}
+                    jobId = {jobId}
+                    handleApply ={()=>handleApply()}
+            />
+
+            
         </Box>
     );
 }

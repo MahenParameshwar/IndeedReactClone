@@ -32,7 +32,7 @@ export const makeRegisterRequest = ({email,password}) =>dispatch=>{
 
     axios.get('http://localhost:8000/users').then((res)=>{
         dispatch(checkUserExists(email,password,res.data))
-    }).catch(err=>dispatch(registerFailure('Somthing went wrong')))
+    }).catch(err=>dispatch(registerFailure('Something went wrong')))
 
 }
 
@@ -57,7 +57,8 @@ const registerNewUser = ({email,password})=>dispatch=>{
         password,
         user_id:uuid(),
         saved_jobs:{},
-        my_reviews:[]
+        applied_job:{},
+        my_reviews:{}
     }).then(res=>dispatch(registerSuccess()))
 }
 

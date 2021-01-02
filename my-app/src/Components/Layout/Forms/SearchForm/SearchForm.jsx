@@ -1,9 +1,7 @@
-import {  Button, Grid, Typography } from '@material-ui/core';
-import React, { useState , useRef, useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux"
+import {  Button, Grid} from '@material-ui/core';
+import React, { useState } from 'react';
+import {useDispatch} from "react-redux"
 import { makeStyles } from '@material-ui/core/styles';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from './Input';
 import InputGrid from './InputGrid';
 import { getSearchData } from '../../../../Redux/Search/actions';
 import { loadData, saveData } from '../../../../Utils/localStorage';
@@ -68,16 +66,16 @@ function SearchForm(props) {
     const handleSearch=e=>{
         
         e.preventDefault()
-        let start = 0 ,jobType="",formage="",sortType=""
-        dispatch(getSearchData({job,location,start,jobType,formage,sortType}))
+        
+        dispatch(getSearchData(job === ""?"":job,location=== "" ? "" : location))
         
         let data = loadData("recent") || []
-        let str = job !== "" && location !== "" ? `${job} - ${location}` : job === "" && location !== "" ? `${location}` : `${job}`
+        let str = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
 
         if(data.length === 4){
             data.reverse()
-            if(data.some(item=>item===str)){
-                data = data.filter(item=>item !== str)
+            if(data.some(item=>item.category===str.category && item.query === item.query)){
+                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }
             else{
@@ -87,8 +85,8 @@ function SearchForm(props) {
             
         }
         else {
-            if(data.some(item=>item===str)){
-                data = data.filter(item=>item !== str)
+            if(data.some(item=>item.category===str.category && item.query===str.query)){
+                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }
             else{
@@ -98,7 +96,7 @@ function SearchForm(props) {
         }
 
         saveData("recent",data.reverse())
-        history.push(`/jobs/q=${job}&l=${location}`)
+        history.push(`/jobs?q=${job}&location=${location}&page=1`)
 
         // console.log(str,"str")
 

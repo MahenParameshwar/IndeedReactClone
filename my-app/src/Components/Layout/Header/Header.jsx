@@ -5,10 +5,11 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ForumIcon from '@material-ui/icons/Forum';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PersonIcon from '@material-ui/icons/Person';
+import UserMenu from '../Menu/UserMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,15 +97,11 @@ export default function Header() {
                             <NotificationsIcon />
                         </IconButton>
 
-                        <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        >
-                            <PersonIcon />
-                        </IconButton>
+                        
+                            <UserMenu/>
+                        
 
-                        <Typography style={{display:'flex',alignItems:'center'}} component={NavLink} variant='h6' to='/' >
+                        <Typography style={{display:'flex',alignItems:'center'}} component={NavLink} variant='h6' to='/postjob' >
                             Employers/jobs
                         </Typography>
                     

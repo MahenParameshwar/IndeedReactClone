@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import axios from "axios";
-
+import { Container,Grid,OutlinedInput,Typography , Button} from '@material-ui/core';
+import {  IconButton, Snackbar } from '@material-ui/core';
+import CloseIcon from "@material-ui/icons/Close";
 import { 
     Box, 
-    Container, 
-    Grid, 
     makeStyles, 
     withStyles,
-    OutlinedInput, 
-    Typography,
     FormHelperText,
     FormControlLabel,
     Checkbox,
-    Button
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeLoginRequest } from '../../Redux/Login/actions';
 import { Link, Redirect } from 'react-router-dom';
 import { makeRegisterRequest } from '../../Redux/Register/actions';
 
@@ -115,6 +110,10 @@ export function Register() {
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const [snackBarOpen,setSnackBarOpen] = useState(false)
+    
+    const {success,isError,errorMsg} = useSelector(state=>state.register)
+    
     const onEmailChange = (e) => {
         setEmail(e.target.value)
     }
@@ -126,12 +125,19 @@ export function Register() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(makeRegisterRequest({email,password}))
+        
     }
 
 
     return (
         !isAuth ?
         <Container className = {classes.container} maxWidth = "xl">
+            
+            {isError ? 
+                <Box>
+                    {errorMsg}
+                </Box> :<></>
+            }
             <Box className = {classes.boxImg}>
                 <img
                     className = {classes.imgLogo}
@@ -142,12 +148,12 @@ export function Register() {
             <Box className = {classes.boxForm}>
                 <Grid container spacing = {3} >
                     <Grid item>
-                        <Typography className = {classes.h5} variant = "h5">Sign In</Typography>
+                        <Typography className = {classes.h5} variant = "h5">Create an Account (it's free)</Typography>
                     </Grid>
                     <Grid container item spacing = {3}>
                         <Grid item >
                             <HelperButton style = {{border: "2px solid #a6a6a6"}} className = {classes.button} variant = "outlined">
-                                Create an Account (it's free)
+                                Sign in with Google
                             </HelperButton>
                         </Grid>
                         <Grid item >
@@ -159,9 +165,6 @@ export function Register() {
                             <HelperButton style = {{border: "2px solid #1877f2", color: "#1877f2"}} className = {classes.button} variant = "outlined">
                                 Sign in with Facebook
                             </HelperButton>
-                        </Grid>
-                        <Grid item>
-                            <Typography style = {{cursor: "pointer", color : "#085ff7", margin:"0 115px"}} variant = "subtitle2">New to Indeed? Create an account</Typography>
                         </Grid>
                     </Grid>
                     <Grid style = {{margin: "10px 0"}} container item>
@@ -191,9 +194,10 @@ export function Register() {
                     </Grid>
                     <hr className = {classes.pageBreak}></hr>
                 </Grid>
-                <Typography align = "center" variant = "body2">
-                    By signing in to your account, you agree to Indeed's <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Terms of Service</a><br/>and consent to our <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Cookie Policy</a> and  <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</a><br/>
-                    This site is protected by reCAPTCHA and the  <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Google Privacy Policy</a> <br/> and  <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Google Terms of Service apply.</a>
+                <Typography align = "left" variant = "caption">
+                    By creating an account, you agree to Indeed's <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Terms of Service</a>, <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Cookie Policy</a><br/>
+                    and <a style = {{textDecoration: "none", color: "#085ff8"}} href = "">Privacy Policy.</a>. You consent to receiving marketing messages from Indeed <br/> 
+                    and may opt out from receiving such messages by following the unsubscribe link in our messages, or as detailed in our terms.
                 </Typography>
             </Box>
             <Grid container spacing = {3} style = {{ flexDirection : "column", alignContent: "center", margin: "20px 0", color: "#085ff7"}}>
@@ -248,6 +252,24 @@ export function Register() {
                     Terms
                 </Grid>
             </Grid>
+            <Snackbar
+                anchorOrigin={{vertical:'top',horizontal:'left'}}
+                open={snackBarOpen}
+                autoHideDuration={3000}
+                message={<span className="format__id">Regitered Succesfully</span>}
+                ContentProps={{
+                    'aria-describedby':'message-id'
+                }}
+                onClose={()=>setSnackBarOpen(false)}
+                action={[
+                    <IconButton
+                    onClick={()=>{setSnackBarOpen(false)}}
+                    color="inherit"
+                    key="close"
+                    aria-label="close">
+                        <CloseIcon/>
+                    </IconButton>
+                ]} />
         </Container> : <Redirect to="/" />
     )
 }

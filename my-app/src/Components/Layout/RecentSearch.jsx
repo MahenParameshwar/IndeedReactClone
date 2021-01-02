@@ -43,11 +43,11 @@ function RecentSearch(props) {
 
     useEffect(() => {
         let data = loadData("recent") || []
-        console.log(data,"recent")
+        // console.log(data,"recent")
         setRecent(data)
     }, [])
     
-    console.log(recent)
+    // console.log(recent)
     const handleClearRecent=()=>{
         saveData("recent",[])
         setRecent([])
@@ -55,30 +55,41 @@ function RecentSearch(props) {
 
     const handleDeleteRecent=(key)=>{
         let data = recent.filter((item,index)=>index !== key?item :null )
-        console.log(data)
+        // console.log(data)
         saveData("recent",data)
         setRecent(data)
     }
 
 
 
-    const handleSearch=value=>{
-        let query = value.split(" - ")
-        console.log(query)
-        let job = query[0]
-        let location =query[1] || ""
+    const handleSearch=(e)=>{
+        let {innerHTML} = e.target
+        let job = "" , location=""
+        let query = innerHTML
+        let name = e.target.getAttribute("name")
+        if(name === "both")
+        {
+            query = query.split(" - ")
+            job = query[0]
+            location = query[1]
+        }
+        else if(name === "job")
+        {
+            job = query
+        }        
+        else{
+            location = query
+        }
         
-        
-        let start = 0 ,jobType="",formage="",sortType=""
-        dispatch(getSearchData({job,location,start,jobType,formage,sortType}))
+        dispatch(getSearchData(job,location))
         
         let data = loadData("recent") || []
-        let str = job !== "" && location !== "" ? `${job} - ${location}` : job === "" && location !== "" ? `${location}` : `${job}`
-
+        let str = job !== "" && location !== "" ? {category:"both" , query: `${job} - ${location}`} : job === "" && location !== "" ? {category:"location", query:`${location}`} : {category:"job",query:`${job}`}
+        
         if(data.length === 4){
             data.reverse()
-            if(data.some(item=>item===str)){
-                data = data.filter(item=>item !== str)
+            if(data.some(item=>item.category===str.category && item.query === item.query)){
+                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }
             else{
@@ -88,8 +99,8 @@ function RecentSearch(props) {
             
         }
         else {
-            if(data.some(item=>item===str)){
-                data = data.filter(item=>item !== str)
+            if(data.some(item=>item.category===str.category && item.query===str.query)){
+                data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }
             else{
@@ -99,7 +110,7 @@ function RecentSearch(props) {
         }
 
         saveData("recent",data.reverse())
-        history.push(`/jobs/q=${job}&l=${location}`)
+        history.push(`/jobs?q=${job}&location=${location}&page=1`)
 
         // console.log(str,"str")
 
@@ -145,10 +156,10 @@ function RecentSearch(props) {
                         recent?.map((item,index)=>(
                             // console.log(item,"item")
                             <li key = {index}>
-                            <span className={classes.recentSearchText} onClick={e=>handleSearch(e.target.innerHTML)}>
+                            <div name={item.category} className={classes.recentSearchText} onClick={e=>handleSearch(e)}>
                                 {/* java developer - Mumbai, Maharashtra */}
-                                {item}
-                            </span>
+                                {item.query}
+                            </div>
                                 <Button style={{fontWeight:'bolder'}} onClick={()=>handleDeleteRecent(index)}>
                                     X
                                 </Button> 

@@ -34,7 +34,7 @@ export const searchReducer = (state=init, {type,payload}) =>{
                 ...state,
                 isLoading:false,
                 isError:false,
-                searched:payload
+                searched:payload.reverse()
             }
         
         case COUNT_TOTAL_RESULT:

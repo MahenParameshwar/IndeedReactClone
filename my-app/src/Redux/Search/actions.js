@@ -1,7 +1,7 @@
 import { COUNT_TOTAL_RESULT, FETCH_ERROR, FETCH_JOBS_ID_SUCCESS, FETCH_LOADING, FETCH_SUCCESS } from "./actionTypes"
 import axios from "axios"
 
-const fetchSuccess = payload =>{
+export const fetchSuccess = payload =>{
     return {
         type:FETCH_SUCCESS,
         payload
@@ -28,7 +28,7 @@ const  putJobsById=(payload)=>{
     }
 }
 
-const addJobs = payload=>dispatch=>{
+export const addJobs = payload=>dispatch=>{
 
     var config = {
         method: 'post',
@@ -68,48 +68,99 @@ const addJobs = payload=>dispatch=>{
 //         dispatch(addJobs(jobs))
 //     })
 // }
-const setCount = payload=>{
+export const setCount = payload=>{
     return {
         type:COUNT_TOTAL_RESULT,
         payload
     }
 }
 
-export const getSearchData = payload =>dispatch=>{
-    dispatch(fetchloading())
+export const dispatchCount =payload=>dispatch=>{
     const {job ,location,start,jobType,fromage,sortType} = payload
-    console.log(job,location,start)
+    // console.log(job,location,start)
 
 
     var config = {
         method: 'GET',
-        url: `https://cors-anywhere.herokuapp.com/https://api.indeed.com/ads/apisearch`,
+        url: `http://localhost:8000/jobs`,
         params:{
-            publisher:'7778623931867371',
             q:job,
-            l:location,
-            co:'in',
-            limit:15,
-            start:start,
-            jt:jobType,
-            v:2,
-            fromage:fromage,
-            format:'json',
-            sort:sortType
+            city_like:location,
+            jobType_like:jobType,
+            _start:start,
+            
+            // _sort:"date",
+            // _order:""
             }
-    //   headers: { 
-    //     'Cookie': 'CTK=1eqmm5d4tocjg800'
-    //   }
     };
 
     axios(config)
     .then(res=>{
-        // console.log("data",res.data.results)
-        dispatch(fetchSuccess(res.data.results))
-        dispatch(setCount(res.data.totalResults))
-        // res.data.results.map(item=>dispatch(addJobs(item)))
+        // console.log("data",res.data)
+        dispatch(setCount(res.data.length))
 
     })
-    .catch(err=>dispatch(fetchError()))
+}
+
+export const getSearchData = (job="",location="",page="1") =>dispatch=>{
+    // dispatch(fetchloading())
+    
+    console.log(job,location)
+    let url = `http://localhost:8000/jobs?_page=${page}&_limit=10`
+    
+    if(location == "" && job== ""){
+        url = `http://localhost:8000/jobs?location_like=${location}&jobTitle_like=${job}&_page=${page}&_limit=10`
+    }
+    else
+    if(location !== "")
+    {
+        url = `http://localhost:8000/jobs?location_like=${location}&_page=${page}&_limit=10`
+    }
+    else
+    if(job !== ""){
+        url = `http://localhost:8000/jobs?jobTitle_like=${job}&_page=${page}&_limit=10`
+    }
+    else
+    return
+
+    var config = {
+        method: 'GET',
+        url: url,
+    };
+
+            axios(config)
+            .then(res=>{
+                console.log("data",res.data)
+                dispatch(fetchSuccess(res.data))
+                // res.data.results?.map(item=>dispatch(addJobs(item)))
+
+            }).then(()=>{
+                let url = `http://localhost:8000/jobs`
+    
+                if(location !== "" && job!== ""){
+                    url = `http://localhost:8000/jobs?location_like=${location}&jobTitle_like=${job}`
+                }
+                else
+                if(location !== "")
+                {
+                    url = `http://localhost:8000/jobs?location_like=${location}`
+                }
+                else
+                if(job !== ""){
+                    url = `http://localhost:8000/jobs?jobTitle_like=${job}`
+                }
+                axios({
+                    method: 'GET',
+                    url: url,
+                }).then((res)=>{
+                    console.log(res.data.length)
+                    dispatch(setCount(res.data.length))
+                })
+            })
+            .catch(err=>{   
+                console.log("error")
+                dispatch(fetchError())
+            })
+    
 
 }
