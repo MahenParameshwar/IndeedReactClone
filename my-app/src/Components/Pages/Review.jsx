@@ -119,45 +119,45 @@ export function Review(props) {
             <Grid item style = {{marginTop: "20px", marginBottom: "50px"}}>
                 <Typography variant = "h4"><b>About the company</b></Typography>
             </Grid>
-            <Grid container spacing={3}>
-                <Grid item>
-                    <img src={companyDetails.ceo_image} alt={companyDetails.ceo_name} style={{height:"350px", borderRadius: "10px"}}/>
+            <Grid container spacing={3} >
+                <Grid item style = {{flex:1}} >
+                    <img src={companyDetails.ceo_image} alt={companyDetails.ceo_name} style={{height: "350px", borderRadius: "10px"}}/>
                 </Grid>
-                <Grid container item >
-                    <Grid item style = {{border: "1px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
+                <Grid container item style = {{flex:2, flexDirection: "column"}}>
+                    <Grid item xl={6} lg={6}  style = {{border: "2px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
                         <div style = {{fontWeight: "600"}}>
                             CEO
                         </div>
-                        <br/>
-                        <div style = {{}}>
+                        <br/><br/>
+                        <div>
                             {companyDetails.ceo_name}
                         </div>
                     </Grid>
-                    <Grid item style = {{border: "1px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
+                    <Grid item xl={6} lg={6} style = {{border: "2px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
                         <div style = {{fontWeight: "600"}}>
                             Revenue
                         </div>
-                        <br/>
-                        <div style = {{}}>
+                        <br/><br/>
+                        <div>
                             {companyDetails.revenue}
                         </div>
                     </Grid>
                 </Grid>
-                <Grid container item >
-                <Grid item style = {{border: "1px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
+                <Grid container item style = {{flex:3, flexDirection: "column"}}>
+                    <Grid item xl={6} lg={6} style = {{border: "2px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
                         <div style = {{fontWeight: "600"}}>
                             Founded
                         </div>
-                        <br/>
+                        <br/><br/>
                         <div style = {{}}>
                             {companyDetails.founded_year}
                         </div>
                     </Grid>
-                    <Grid item style = {{border: "1px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
+                    <Grid item xl={6} lg={6} style = {{border: "2px solid #f2f2f2", borderRadius: "10px", padding: "20px"}}>
                         <div style = {{fontWeight: "600"}}>
                             Company size
                         </div>
-                        <br/>
+                        <br/><br/>
                         <div style = {{}}>
                             more than<br/>
                             {companyDetails.company_size}
@@ -171,7 +171,7 @@ export function Review(props) {
                 </Typography>
             </Grid>
             <Typography variant = "h5" style = {{color: "#085ff7", fontWeight: "600", cursor: "pointer"}}>
-                Learn More 
+                Learn More ＞
             </Typography>
             <Grid item style = {{marginTop: "30px", marginBottom: "50px"}}>
                 <Typography variant = "h4"><b>Reviews</b></Typography>

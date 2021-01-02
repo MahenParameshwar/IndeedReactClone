@@ -32,7 +32,7 @@ function Routes(props) {
                 <PrivateRoute exact path="/" Component={Home} />
                 <PrivateRoute  path="/jobs" Component={DisplayJobs}/>
                 <PrivateRoute  path="/companies" Component={CompanyReviews}/>
-                <Route path = "/reviews" exact render = {(props) => <Review {...props} />} />
+                <PrivateRoute path = "/reviews" exact Component = { Review } />
                 {/* <Route path='/' exact>
                     <Home/>
                 </Route>
