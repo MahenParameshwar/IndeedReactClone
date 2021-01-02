@@ -110,7 +110,7 @@ function RecentSearch(props) {
         }
 
         saveData("recent",data.reverse())
-        history.push(`/jobs/q=${job}&location=${location}&page=1`)
+        history.push(`/jobs?q=${job}&location=${location}&page=1`)
 
         // console.log(str,"str")
 
