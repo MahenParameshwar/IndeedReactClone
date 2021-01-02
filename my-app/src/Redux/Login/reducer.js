@@ -5,7 +5,7 @@ const initState = {
     isLoading:false,
     isError:false,
     errorMsg:"",
-    loggedUser: null
+    loggedUser:null
 }
 
 export const loginReducer = (state=initState,{type,payload})=>{
