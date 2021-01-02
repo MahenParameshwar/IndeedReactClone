@@ -137,6 +137,7 @@ const LoadingContainer = styled.div`
 function DisplayJobs(props) {
     
     const query = new URLSearchParams(props.location.search)
+
     const classes = useStyles()
 
     let job = query.get('q') || ""

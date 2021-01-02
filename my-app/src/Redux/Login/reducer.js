@@ -1,7 +1,7 @@
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "./actionTypes"
 
 const initState = {
-    isAuth:false,
+    isAuth:true,
     isLoading:false,
     isError:false,
     errorMsg:"",
