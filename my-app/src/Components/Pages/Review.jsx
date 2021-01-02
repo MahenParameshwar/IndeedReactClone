@@ -58,7 +58,7 @@ export function Review(props) {
         axios.get(`http://localhost:8000/reviews?company_id=${id}`)
             .then((res) => {
                 setReviews(res.data)
-                
+                console.log(res.data)
             })
             .catch((err) => console.log("Error getting reviews" + err))
         

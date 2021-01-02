@@ -80,7 +80,7 @@ function JobDescription({jobData}) {
             </Box>
             
             <Button className={classes.link} onClick={()=>handleOpen(jobkey)} disabled={applied_job[jobkey]?true:false}  style={{marginBottom:'30px'}}>
-                {applied_job[jobkey]?'Applied':'Applied Now'}
+                {applied_job[jobkey]?'Applied':'Apply Now'}
             </Button>
             <Section jobDescription={jobDescription} summary={snippet} />
             <ApplyModal 
