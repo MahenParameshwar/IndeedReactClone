@@ -17,8 +17,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import NotInterested from '@material-ui/icons/NotInterested';
 import ErrorIcon from '@material-ui/icons/Error';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { fetchSuccess } from '../../../Redux/Search/actions';
 
 const StyledMenu = withStyles({
   paper: {
@@ -55,8 +56,9 @@ const StyledMenuItem = withStyles((theme) => ({
 export default function JobMenu({job,handelSave,removeFromSaved}) {
 
 const {jobkey,companyName,location,jobTitle} = job
+let jobs = useSelector(state=>state.search.searched)
 const {saved_jobs} = useSelector(state=>state.login.loggedUser)
-
+const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -66,6 +68,11 @@ const {saved_jobs} = useSelector(state=>state.login.loggedUser)
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const removeFromList = ({jobkey,location,companyName,jobTitle})=>{
+    const newJobs = jobs.filter((job)=>job.jobkey !== jobkey)
+    dispatch(fetchSuccess(newJobs))
+  }
 
   return (
     <div style={{position:'absolute',top:"0",right:'0'}}>
@@ -115,7 +122,10 @@ const {saved_jobs} = useSelector(state=>state.login.loggedUser)
         </MenuItem>
         }
 
-        <MenuItem >
+        <MenuItem onClick={()=>{
+               handleClose();
+               removeFromList({jobkey,location,companyName,jobTitle})
+            }}  >
           <ListItemIcon style={{display:'flex',justifyContent:'center'}}>
             <NotInterested fontSize="small" />
           </ListItemIcon>

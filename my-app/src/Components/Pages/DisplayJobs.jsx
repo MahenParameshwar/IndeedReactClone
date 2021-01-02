@@ -17,7 +17,7 @@ import {makeSaveJobRequest} from '../../Redux/SaveJob/actions'
 const useStyles = makeStyles(theme=>({
     jobContainer:{
         width:'450px',
-        height:"300px"
+       
         
     },
     card:{
@@ -25,14 +25,14 @@ const useStyles = makeStyles(theme=>({
         padding:'15px',
         cursor:'pointer',
         position:'relative',
-
+        height:'300px',
+        marginBottom:'20px',
         '&:hover':{
             '& $job_title':{
                 textDecoration:'underline'
             }
         },
-        borderRadius:'10px',
-        marginBottom:'20px'
+        borderRadius:'10px'
     },
     job_title:{
         fontWeight:'bold',
@@ -154,10 +154,13 @@ function DisplayJobs(props) {
     let isLoading = useSelector(state=>state.search.isLoading)
     
 
-    let [page,setPage] = useState(query.get('page'))
+    
+    const pageNo = query.get('page')
+    console.log(pageNo)
+    let [page,setPage] = useState(pageNo)
     let [jobType,setJobType] = useState(jt) 
     let [fromage,setFromage] = useState(0)
-    let [sortType,setSortType] = useState('relevance')
+    let [sortType,setSortType] = useState('salary')
     let [occupation, setOccupation] = useState(occu)
     let [education , setEducation] = useState(edu)
     let [salary , setSalary] = useState(sal)
@@ -281,28 +284,26 @@ function DisplayJobs(props) {
                 jobs={jobs}
                 typeStr='JOB TYPE'/>
 
-                <FillterButton type={fromage} setType={setFromage} 
-                typeArr={[1,3,7,14]}
-                jobs={jobs}
-                formatDate={true}
-                typeStr='DATE POSTED'/>
 
                 <FillterButton type={occupation} setType={setOccupation} 
                 typeArr={['Software','Government','Account','Executive and personal assitansts']}
                 formatDate={false}
+                fiterType='occupation'
                 jobs={jobs}
                 typeStr='Occupation'/>
 
                 <FillterButton type={education} setType={setEducation} 
-                typeArr={[`12th`,`Diploma`,`Bachelor's degree`,`Master's degree`]}
+                typeArr={[`12th Pass`,`Diploma`,`Bachelor's degree`,`Master's degree`]}
                 formatDate={false}
+                fiterType='education'
                 jobs={jobs}
                 typeStr='Education'/>
 
                 <FillterButton type={salary} setType={setSalary} 
-                typeArr={["Ascending","Descending"]}
+                typeArr={["1k-5k","10k-20k"]}
                 formatDate={false}
                 jobs={jobs}
+                fiterType='salary'
                 typeStr='Salary'/>
             
             </Box>

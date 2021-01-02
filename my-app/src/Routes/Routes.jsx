@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import AppliedJobs from '../Components/Pages/AppliedJobs';
 import DisplayJobs from '../Components/Pages/DisplayJobs';
 import Home from '../Components/Pages/Home';
 import { Login } from '../Components/Pages/Login';
@@ -17,6 +18,7 @@ function Routes(props) {
                 <PrivateRoute exact path="/" Component={Home} />
                 <PrivateRoute exact  path="/postJob" Component={PostJob}/>
                 <PrivateRoute exact  path="/savedJobs" Component={SavedJobs}/>
+                <PrivateRoute exact  path="/appliedJobs" Component={AppliedJobs}/>
                 <PrivateRoute  path="/jobs" Component={DisplayJobs}/>
                 
                 <Route path='/login'>

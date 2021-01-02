@@ -13,15 +13,9 @@ const useStyles = makeStyles((theme)=>({
         width:"200px",
         height:'40px',
         borderRadius:'50px',
-        backgroundColor:'#0145E3',
+        border:'2px solid #0145E3',
         marginRight:'2%',
-        '&:hover':{
-            color:'white',
-            
-            borderRadius:'50px',
-            backgroundColor:'#0145E3',
-            marginRight:'2%',
-        }
+
     },
     updateButton:{
         color:'#0145E3',
@@ -33,22 +27,22 @@ const useStyles = makeStyles((theme)=>({
     }
 }))
 
-function SavedJobs(props) {
+function AppliedJobs(props) {
     const classes = useStyles();
-    const {saved_jobs,applied_job,id} = useSelector(state=>state.login.loggedUser)
+    const {saved_jobs,applied_job} = useSelector(state=>state.login.loggedUser)
     const jobKeys = Object.keys(saved_jobs).reverse()
     const applied = Object.keys(applied_job).reverse()
-    
+    console.log(applied,applied_job)
     const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
 
     const dispatch = useDispatch();
-   
+    const loggedUser = useSelector(state=>state.login.loggedUser)
     // console.log(loggedUser)
     const [open, setOpen] = useState(false)
     const [jobId, setJobId] = useState("")
 
     const removeFromSaved = ({jobkey})=>{
-       
+        const {id} = loggedUser
         delete saved_jobs[jobkey]
         dispatch(makeSaveJobRequest({user_id:id,saved_jobs}))
         forceUpdate();
@@ -65,7 +59,7 @@ function SavedJobs(props) {
     }
 
     const handleApply=()=>{
-       
+        const {id} = loggedUser
         console.log(jobId)
         applied_job[jobId]={...saved_jobs[jobId],dateSaved:new Date().getTime()}
         delete saved_jobs[jobId]
@@ -94,8 +88,13 @@ function SavedJobs(props) {
                             Saved {jobKeys.length}
                         </NavLink>
                         <NavLink to="/appliedjobs"
+                        activeStyle={{
+                            color:"#0145E3",
+                            textDecoration:'underline'
+                        }}
                         style={{
-                            fontSize:'25px'
+                            fontSize:'25px',
+                            marginRight:"30px"
                         }}
                         
                         >
@@ -106,34 +105,34 @@ function SavedJobs(props) {
                     <Box>
                         
                             {
-                                jobKeys.map((key)=>{
+                                applied.map((key)=>{
                                     return (
                                         <Box style={{display:'flex'}}   key={key} >
                                         
                                             <Box style={{width:'500px'}}>
                                                 <Typography variant='h5' style={{fontSize:'18px',marginBottom:'15px'}}> 
-                                                    {saved_jobs[key].jobTitle}
+                                                    {applied_job[key].jobTitle}
                                                 </Typography>
                                                 <Box style={{marginBottom:'15px',fontWeight:'600',color:'grey'}}>
-                                                {saved_jobs[key].companyName} | {saved_jobs[key].location}
+                                                {applied_job[key].companyName} | {applied_job[key].location}
                                                 </Box>
                                                 <Box style={{marginBottom:'30px',fontSize:'14px',fontWeight:'400',color:'grey'}}>
-                                                    Saved { timeDifference(saved_jobs[key].dateSaved)}
+                                                    Applied { timeDifference(applied_job[key].dateSaved)}
                                                 </Box>
                                             </Box>
                                             <Box style={{display:'flex'}}>
                                             <Button className={classes.applyButton} onClick={()=>handleOpen(key)} disabled={applied_job[key]?true:false}>
                                                     {applied_job[key]?"Already applied":"Apply"}
                                                 </Button>
-                                            <Button className={classes.updateButton}>
+                                            {/* <Button className={classes.updateButton}>
                                                     Update
-                                            </Button>
+                                            </Button> */}
                                             </Box>
-                                            <Box onClick={()=>{removeFromSaved({jobkey:key})}} style={{cursor:"pointer",width:"40px",height:'40px',display:'flex',justifyContent:'center',alignItems:'center'}} >
+                                            {/* <Box onClick={()=>{removeFromSaved({jobkey:key})}} style={{cursor:"pointer",width:"40px",height:'40px',display:'flex',justifyContent:'center',alignItems:'center'}} >
                                                 <span>
                                                     X
                                                 </span>
-                                            </Box>
+                                            </Box> */}
                                     </Box>
                                     )
                                 })
@@ -155,4 +154,4 @@ function SavedJobs(props) {
     );
 }
 
-export default SavedJobs;
+export default AppliedJobs;
