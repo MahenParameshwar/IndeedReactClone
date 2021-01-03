@@ -51,14 +51,14 @@ export function Review(props) {
     const query = new URLSearchParams(props.location.search);
     const id =query.get('id')
     const dispatch = useDispatch()
-    const {isAuth,isError,errorMsg} = useSelector(state=>state.login)
+    const {isAuth} = useSelector(state=>state.login)
     useEffect(()=>{
         dispatch(getCompanyReviews(id));
 
-        axios.get(`http://localhost:8000/reviews?company_id=${id}`)
+        axios.get(`https://indeed-mock-server.herokuapp.com/reviews?company_id=${id}`)
             .then((res) => {
                 setReviews(res.data)
-                console.log(res.data)
+                
             })
             .catch((err) => console.log("Error getting reviews" + err))
         

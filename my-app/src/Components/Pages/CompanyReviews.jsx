@@ -7,12 +7,12 @@ import { useHistory } from 'react-router-dom';
 import { searchCompany, getCompanyReviews } from '../../Redux/CompanyReviews/action';
 import SearchIcon from '@material-ui/icons/Search';
 import Rating from '@material-ui/lab/Rating';
-import { Box, 
+import { 
     Container,
     makeStyles,
     Grid,
     Typography,
-    OutlinedInput,
+
     Button,
     withStyles,
     InputAdornment,
@@ -94,12 +94,12 @@ export function CompanyReviews() {
     const dispatch = useDispatch();
     const history = useHistory();
    
-    const {isAuth,isError,errorMsg} = useSelector(state=>state.login)
-    console.log(companies)
+    const {isAuth} = useSelector(state=>state.login)
+    
 
     const onTextChange = (e) => {
         setQuery(e.target.value);
-        console.log(query)
+        
     }
 
     const handleSubmit = (e) => {
@@ -113,7 +113,7 @@ export function CompanyReviews() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8000/companies")
+        axios.get("https://indeed-mock-server.herokuapp.com/companies")
             .then((res) => {
                 
                 setCompanies(res.data)
