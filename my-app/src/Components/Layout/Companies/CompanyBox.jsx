@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Typography, makeStyles } from '@material-ui/core';
+import { Grid, Typography, makeStyles } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 export function CompanyBox({ logo, rating, name, handleClick, id}) {
     const classes = useStyles();
 
-    console.log(name)
+    
     return (
         
             <Grid item container lg={4} md={4} sm={6} xs={12} style={{display:'flex', border: "1px solid #f2f2f2", padding: "20px"}}>

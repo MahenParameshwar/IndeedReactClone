@@ -59,10 +59,11 @@ function SearchForm(props) {
     const classes = useStyles();
     const [job,setJob] = useState('');
     const [location,setLocation] = useState('');
-    const [jobOptions,setJobOptions] = useState(['Java Developer','Javascript Developer','React Developer','Government','Account']);
-    const [locationOptions,setLocationOptions] = useState(['Bangalore','Mumbai','Delhi','Kolkata','Chennai']);
+    const jobOptions = ['Java Developer','Javascript Developer','React Developer','Government','Account']
+    const locationOptions = ['Bangalore','Mumbai','Delhi','Kolkata','Chennai'];
     const history = useHistory()
-    const [error,setError] = useState(false)
+    const [error,setError] = useState(false);
+
     const handleSearch=e=>{
         
         e.preventDefault()
@@ -77,7 +78,7 @@ function SearchForm(props) {
 
         if(data.length === 4){
             data.reverse()
-            if(data.some(item=>item.category===str.category && item.query === item.query)){
+            if(data.some(item=>item.category===str.category && item.query === str.query)){
                 data = data.filter(item=>item.category !== str.category || item.query !== str.query)
                 data.push(str)
             }

@@ -1,6 +1,5 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React , {useReducer,useState} from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import  Section  from './Section';
 import { useSelector,useDispatch } from 'react-redux';
@@ -39,7 +38,7 @@ const useStyles = makeStyles(theme=>({
 })) 
 function JobDescription({jobData}) {
     const classes = useStyles()
-    const {companyName,location,companyUrl,snippet,jobTitle,jobDescription,startSalary,endSalary,jobkey} = jobData
+    const {companyName,location,snippet,jobTitle,jobDescription,startSalary,endSalary,jobkey} = jobData
     const {saved_jobs,applied_job,id} = useSelector(state=>state.login.loggedUser)
     const [open, setOpen] = useState(false)
     const [jobId, setJobId] = useState("")
@@ -58,7 +57,7 @@ function JobDescription({jobData}) {
 
     const handleApply=()=>{
        
-        console.log(jobId)
+        
         applied_job[jobId] = {
             jobkey,
             location,
@@ -83,7 +82,7 @@ function JobDescription({jobData}) {
             <Box style={{marginBottom:'10px'}}>
                 ₹ {Number(startSalary).toLocaleString('en-IN')} - ₹ {Number(endSalary).toLocaleString('en-IN')}
             </Box>
-            
+            {ignored ? null : null}
             <Button className={classes.link} onClick={()=>handleOpen(jobkey)} disabled={applied_job[jobkey]?true:false}  style={{marginBottom:'30px'}}>
                 {applied_job[jobkey]?'Applied':'Apply Now'}
             </Button>

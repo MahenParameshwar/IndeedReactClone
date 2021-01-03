@@ -2,19 +2,18 @@ import React, { useEffect, useState,  useReducer } from 'react';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios'
 import Pagination from '@material-ui/lab/Pagination';
 import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles';
 import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import FillterButton from '../Layout/FilterJobsButton/FillterButton';
-import { getSearchData, fetchSuccess, setCount } from '../../Redux/Search/actions';
+import { getSearchData, fetchSuccess } from '../../Redux/Search/actions';
 import JobDescription from '../Layout/JobDescription';
 import styled from 'styled-components'
 import {timeDifference} from '../../Utils/timeDifference'
 import JobMenu from '../Layout/Menu/JobMenu';
 import {makeSaveJobRequest} from '../../Redux/SaveJob/actions'
-import { Button } from '@material-ui/core';
+
 const useStyles = makeStyles(theme=>({
     jobContainer:{
         width:'450px',
@@ -146,7 +145,7 @@ function DisplayJobs(props) {
     let jt = query.get("jt") || ""
     let occu = query.get("occupation") || ""
     let edu = query.get("education") || ""
-    let sal = query.get("salary") || ""
+   
     
     const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
     
@@ -161,14 +160,11 @@ function DisplayJobs(props) {
     }
     
     const pageNo = query.get('page')
-    console.log(pageNo)
     let [page,setPage] = useState(pageNo)
     let [jobType,setJobType] = useState(jt) 
-    let [fromage,setFromage] = useState(0)
-    let [sortType,setSortType] = useState('salary')
     let [occupation, setOccupation] = useState(occu)
     let [education , setEducation] = useState(edu)
-    let [salary , setSalary] = useState(sal)
+    
 
 
     let [sortDateIsCliked,setSortDateIsCliked] = useState(false)
@@ -179,9 +175,12 @@ function DisplayJobs(props) {
     const limitWords = (snippet)=>{
 
         let str = "";
-        console.log(snippet)
+        
         for(let i = 0; i < 200 && !str[i]; i++){
+            if(!snippet[i])
+                break;
             str += snippet[i]
+            
         }
         str += '........'
         return str
@@ -236,7 +235,6 @@ function DisplayJobs(props) {
 
     const getJobDescription = (job)=>{
         
-       
                 setJobData(job)
             
     }
@@ -318,6 +316,7 @@ function DisplayJobs(props) {
             <Box className={classes.greyText}>
                 jobs in {location}
             </Box>
+            {ignored ? null : null}
             <Box className={classes.sort_container}>
                 <Box>
                     Sort by 

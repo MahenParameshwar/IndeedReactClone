@@ -1,11 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import {  Element, Events, animateScroll as scroll,  scroller } from 'react-scroll'
 
-const styles = {
-  fontFamily: 'sans-serif',
-  textAlign: 'center',
-};
+// const styles = {
+//   fontFamily: 'sans-serif',
+//   textAlign: 'center',
+// };
 
 export default class Section extends React.Component {
 

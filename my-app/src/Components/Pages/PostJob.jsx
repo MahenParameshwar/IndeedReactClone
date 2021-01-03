@@ -1,6 +1,6 @@
 import { Container,Grid,OutlinedInput,Typography ,InputAdornment, Button, TextareaAutosize} from '@material-ui/core';
 import {  IconButton, Snackbar } from '@material-ui/core';
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +27,7 @@ function PostJob(props) {
     
     const [companyName,setCompanyName] = useState(''); 
     const [jobTitle,setJobTitle] = useState(''); 
-    const [location,setLocation] = useState(''); 
+    const [location,setLocation] = useState('Pune'); 
     const [companyUrl,setCompanyUrl] = useState(''); 
     const [jobType,setJobType] = useState('Full-Time'); 
     const [occupation,setOccupation] = useState('Software');
@@ -41,7 +41,7 @@ function PostJob(props) {
     const [snippet,setSnippet] = useState('')
     
     const [snackBarOpen,setSnackBarOpen] = useState(false)
-    const [ignored, forceUpdate] =useReducer(x => x + 1, 0)
+   
 
     
     const dispatch = useDispatch()

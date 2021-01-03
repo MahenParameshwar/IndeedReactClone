@@ -9,7 +9,6 @@ import PostJob from '../Components/Pages/PostJob';
 import { Register } from '../Components/Pages/Register';
 import { Review } from '../Components/Pages/Review';
 import SavedJobs from '../Components/Pages/SavedJobs';
-import { SearchResult } from '../Components/Pages/SearchResult';
 import PrivateRoute from './PrivateRoute';
 
 function Routes(props) {
@@ -33,13 +32,6 @@ function Routes(props) {
                 <PrivateRoute   path="/jobs" Component={DisplayJobs}/>
                 <PrivateRoute  path="/companies" Component={CompanyReviews}/>
                 <PrivateRoute path = "/reviews" exact Component = { Review } />
-                {/* <Route path='/' exact>
-                    <Home/>
-                </Route>
-                <Route  path="/jobs" render={(props)=><DisplayJobs {...props}/>}/>
-                <Route path="/companies" exact render={()=><div>Company</div>} />
-                <Route path="/carrer/salary" exact render={()=><div>Salary</div>} />   */}
-                
             </Switch>
         </div>
         

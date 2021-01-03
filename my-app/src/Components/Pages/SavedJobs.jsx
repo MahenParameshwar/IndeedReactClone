@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Container, makeStyles, Typography } from '@material-ui/core';
 import React, { useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -102,7 +102,7 @@ function SavedJobs(props) {
                             Applied {applied.length}
                         </NavLink>
                     </ul>
-
+                        {ignored ? null : null}
                     <Box>
                         
                             {
