@@ -112,7 +112,7 @@ export function Register() {
     const dispatch = useDispatch();
     const [snackBarOpen,setSnackBarOpen] = useState(false)
     
-    const {isError,errorMsg} = useSelector(state=>state.register)
+    const {success,isError,errorMsg} = useSelector(state=>state.register)
     
     const onEmailChange = (e) => {
         setEmail(e.target.value)
@@ -132,7 +132,9 @@ export function Register() {
     return (
         !isAuth ?
         <Container className = {classes.container} maxWidth = "xl">
-            
+            {
+                success ? alert('User registered successfully') : <></>
+            }
             {isError ? 
                 <Box>
                     {errorMsg}

@@ -49,7 +49,7 @@ const checkUserExists = (email, password, usersData) => (dispatch) => {
 
 const registerNewUser = ({ email, password }) => (dispatch) => {
   axios
-    .post("https://indeed-mock-server.herokuapp.com//users", {
+    .post("https://indeed-mock-server.herokuapp.com/users", {
       email,
       password,
       user_id: uuid(),
