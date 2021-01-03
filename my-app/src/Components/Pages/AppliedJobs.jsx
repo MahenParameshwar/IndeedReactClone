@@ -1,10 +1,8 @@
-import { Box, Button, Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Container,  makeStyles, Typography } from '@material-ui/core';
 import React, { useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { makeSaveJobRequest } from '../../Redux/SaveJob/actions';
 import { timeDifference } from '../../Utils/timeDifference';
-import {ApplyModal} from "../Layout/JobApplyModal/ApplyModal"
 import {makeApplyRequest} from "../../Redux/JobApply/actions"
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -50,7 +48,7 @@ function AppliedJobs(props) {
     const [open, setOpen] = useState(false)
     const [jobId, setJobId] = useState("")
 
-   
+  
 
     const handleClose=() =>{
         setOpen(false)
@@ -128,7 +126,7 @@ function AppliedJobs(props) {
                                             </Box>
                                             <Box style={{display:'flex'}}>
                                             <Button className={classes.applyButton} onClick={()=>handleOpen(key)} >
-                                                    Cancel
+                                                    Cancel {jobId  ? null : null} {ignored ? null : null}
                                             </Button>
 
                                             </Box>

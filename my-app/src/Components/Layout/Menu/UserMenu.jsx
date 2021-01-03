@@ -5,9 +5,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import PersonIcon from '@material-ui/icons/Person';
 import { IconButton, Typography } from '@material-ui/core';
@@ -40,9 +37,9 @@ const StyledMenuItem = withStyles((theme) => ({
   root: {
       width:'400px',
     '&:focus': {
-     
+      
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-       
+        
       },
     },
   },

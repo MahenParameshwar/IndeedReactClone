@@ -5,16 +5,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import RateReviewIcon from '@material-ui/icons/RateReview';
-import PersonIcon from '@material-ui/icons/Person';
-import { IconButton, List, ListItem, Typography } from '@material-ui/core';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import { useHistory } from 'react-router-dom';
+import { IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import NotInterested from '@material-ui/icons/NotInterested';
 import ErrorIcon from '@material-ui/icons/Error';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,17 +33,7 @@ const StyledMenu = withStyles({
   />
 ));
 
-const StyledMenuItem = withStyles((theme) => ({
-  root: {
-    
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-}))(MenuItem);
+
 
 export default function JobMenu({job,handelSave,removeFromSaved}) {
 
@@ -123,8 +105,8 @@ const dispatch = useDispatch()
         }
 
         <MenuItem onClick={()=>{
-               handleClose();
-               removeFromList({jobkey,location,companyName,jobTitle})
+                handleClose();
+                removeFromList({jobkey,location,companyName,jobTitle})
             }}  >
           <ListItemIcon style={{display:'flex',justifyContent:'center'}}>
             <NotInterested fontSize="small" />

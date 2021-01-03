@@ -8,7 +8,6 @@ import ForumIcon from '@material-ui/icons/Forum';
 import { NavLink } from 'react-router-dom';
 import { Box, Container } from '@material-ui/core';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import PersonIcon from '@material-ui/icons/Person';
 import UserMenu from '../Menu/UserMenu';
 
 const useStyles = makeStyles((theme) => ({
