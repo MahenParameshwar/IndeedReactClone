@@ -27,7 +27,7 @@ function PostJob(props) {
     
     const [companyName,setCompanyName] = useState(''); 
     const [jobTitle,setJobTitle] = useState(''); 
-    const [location,setLocation] = useState('Pune'); 
+    const [location,setLocation] = useState(''); 
     const [companyUrl,setCompanyUrl] = useState(''); 
     const [jobType,setJobType] = useState('Full-Time'); 
     const [occupation,setOccupation] = useState('Software');
@@ -100,6 +100,7 @@ function PostJob(props) {
                     style={{width:'100%'}}
                     className={classes.input}
                     defaultValue={companyName}
+                    required
                     onChange={(e)=>{setCompanyName(e.target.value)}}
                     />
                 </Grid>
@@ -112,6 +113,7 @@ function PostJob(props) {
                     style={{width:'100%'}}
                     className={classes.input}
                     defaultValue = {jobTitle}
+                    required
                     onChange={(e)=>{setJobTitle(e.target.value)}}
                     />
                 </Grid>
@@ -124,6 +126,7 @@ function PostJob(props) {
                     style={{width:'100%'}}
                     className={classes.input }
                     defaultValue={location}
+                    required
                     onChange={(e)=>{setLocation(e.target.value)}}
                     />
                 </Grid>
@@ -135,6 +138,7 @@ function PostJob(props) {
                     <OutlinedInput
                     style={{width:'100%'}}
                     className={classes.input }
+                    required
                     defaultValue={companyUrl}
                     onChange={(e)=>{setCompanyUrl(e.target.value)}}
                     />
@@ -225,6 +229,7 @@ function PostJob(props) {
                     style={{width:'100%'}}
                     className={classes.input }
                     value={startSalary}
+                    required
                     onChange={(e)=>setStartSalary(e.target.value)}
                     /> 
                 </Grid>
@@ -239,6 +244,7 @@ function PostJob(props) {
                     className={classes.input }
                     value={endSalary}
                     onChange={(e)=>setEndSalary(e.target.value)}
+                    required
                     />
                 </Grid>
                 <Grid item lg={4} md={4} sm={4} xs={4}>

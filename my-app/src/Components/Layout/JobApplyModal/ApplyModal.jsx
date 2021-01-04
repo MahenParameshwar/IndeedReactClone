@@ -72,7 +72,7 @@ export const ApplyModal = ({open,handleClose,jobId,handleApply}) => {
                     Name
                 </label>
                 
-                <OutlinedInput style={{width:'500px'}}/>
+                <OutlinedInput required style={{width:'500px'}}/>
               </Grid>
             </Grid>
             <Grid container>
@@ -81,7 +81,7 @@ export const ApplyModal = ({open,handleClose,jobId,handleApply}) => {
                     Email
                 </label>
                 
-                <OutlinedInput style={{width:'500px'}} />
+                <OutlinedInput required style={{width:'500px'}} />
               </Grid>
             </Grid>
             <Grid container>
@@ -90,7 +90,7 @@ export const ApplyModal = ({open,handleClose,jobId,handleApply}) => {
                     Phone
                 </label>
                 
-                <OutlinedInput style={{width:'500px'}}/>
+                <OutlinedInput required style={{width:'500px'}}/>
               </Grid>
             </Grid>
               <UploadForm />

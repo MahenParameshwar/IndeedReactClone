@@ -27,7 +27,7 @@ export const makeSaveJobRequest = ({ user_id, saved_jobs }) => (dispatch) => {
   dispatch(saveJobRequest());
 
   axios
-    .patch(`https://indeed-mock-server.herokuapp.com/${user_id}`, {
+    .patch(`https://indeed-mock-server.herokuapp.com/users/${user_id}`, {
       saved_jobs,
     })
     .then((res) => {
