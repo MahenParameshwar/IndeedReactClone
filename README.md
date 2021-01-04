@@ -4,6 +4,30 @@
 
 Clone the repository, Do npm install and run mock server on --port 8000
 
+<h3></h3>
+
+![screenshot](./images/1.png)
+
+<h3></h3>
+
+![screenshot](./images/2.png)
+
+<h3></h3>
+
+![screenshot](./images/3.png)
+
+<h3></h3>
+
+![screenshot](./images/4.png)
+
+<h3></h3>
+
+![screenshot](./images/5.png)
+
+<h3></h3>
+
+![screenshot](./images/6.png)
+
 ## TECH STACK USED:
 - HTML
 - CSS
