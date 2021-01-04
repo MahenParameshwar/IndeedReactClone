@@ -1,21 +1,21 @@
-<h1 align="center">Indeed Clone.</h1>
+<h1 align="center">INDEED CLONE</h1>
 
 <h2>Getting Started</h2>
 
 Clone the repository, Do npm install and run mock server on --port 8000
 
 <h2>TECH STACK USED:</h2>
--HTML
--CSS
--Javascript
--React JS
+- HTML
+- CSS
+- Javascript
+- React JS
 
 <h2>TECH LIBRARY USED:</h2>
--React APP
--Redux
--React Router
--Axios
--Material UI
+- React APP
+- Redux
+- React Router
+- Axios
+- Material UI
 
 ## Usage
 
