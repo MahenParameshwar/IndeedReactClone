@@ -1,7 +1,7 @@
 import {
   COUNT_TOTAL_RESULT,
   FETCH_ERROR,
-  // FETCH_JOBS_ID_SUCCESS,
+  SET_PAGE,
   FETCH_LOADING,
   FETCH_SUCCESS,
 } from "./actionTypes";
@@ -27,6 +27,13 @@ const fetchError = () => {
   };
 };
 
+export const setCurrentPage = payload=>{
+    return{
+      type:SET_PAGE,
+      payload
+    }
+}
+
 // const putJobsById = (payload) => {
 //   return {
 //     type: FETCH_JOBS_ID_SUCCESS,
@@ -47,30 +54,8 @@ export const addJobs = (payload) => (dispatch) => {
   axios(config).then((res) => res.data);
 };
 
-// const getJobsId = payload=>dispatch=>{
 
-//     var config = {
-//         method: 'get',
-//         url: '${url}/jobs',
-//         headers: { }
-//     };
 
-//     axios(config)
-//     .then(res=>{
-//         let jobs = res.data
-//         console.log(jobs)
-//         for(let i =0 ; i<payload.length;i++)
-//         {
-
-//             if(!jobs[payload[i].jobkey])
-//             {
-//                 jobs[payload[i].jobkey] = payload[i]
-//             }
-//         }
-
-//         dispatch(addJobs(jobs))
-//     })
-// }
 export const setCount = (payload) => {
   return {
     type: COUNT_TOTAL_RESULT,

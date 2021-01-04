@@ -12,7 +12,7 @@ export const loginReducer = (state=initState,{type,payload})=>{
     switch (type){
         case LOGIN_REQUEST: return {
             ...state,
-            isLoding:true
+            isLoading:true
         };
         case LOGIN_SUCCESS: return {
             ...state,

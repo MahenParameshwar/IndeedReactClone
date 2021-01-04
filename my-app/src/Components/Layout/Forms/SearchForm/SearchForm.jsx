@@ -1,9 +1,9 @@
 import {  Box, Button, Grid} from '@material-ui/core';
 import React, { useState } from 'react';
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import { makeStyles } from '@material-ui/core/styles';
 import InputGrid from './InputGrid';
-import { getSearchData } from '../../../../Redux/Search/actions';
+import { getSearchData, setCurrentPage } from '../../../../Redux/Search/actions';
 import { loadData, saveData } from '../../../../Utils/localStorage';
 import { useHistory } from 'react-router-dom';
 
@@ -63,6 +63,7 @@ function SearchForm(props) {
     const locationOptions = ['Bangalore','Mumbai','Delhi','Kolkata','Chennai'];
     const history = useHistory()
     const [error,setError] = useState(false);
+    
 
     const handleSearch=e=>{
         
@@ -71,6 +72,7 @@ function SearchForm(props) {
             setError(true)
             return
         }
+        dispatch(setCurrentPage(1))
         dispatch(getSearchData(job === ""?"":job,location=== "" ? "" : location))
         
         let data = loadData("recent") || []

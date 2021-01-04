@@ -23,7 +23,7 @@ const postJobFailure = ()=>{
 export const makePostJobRequest = (payload)=>(dispatch)=>{
     dispatch(postJobRequest())
     
-    return axios.post('http://localhost:8000/jobs',{
+    return axios.post('https://indeed-mock-server.herokuapp.com/jobs',{
         ...payload,
         jobkey:uuid()
     }).then(res=>dispatch(postJobSuccess())).catch(err=>{

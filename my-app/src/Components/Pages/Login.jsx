@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 import { 
@@ -111,7 +112,7 @@ const HelperButton = withStyles((theme) => ({
 
 export function Login() {
     
-    const {isAuth,isError,errorMsg} = useSelector(state=>state.login)
+    const {isAuth,isLoading,isError,errorMsg} = useSelector(state=>state.login)
     const classes = useStyles();
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
@@ -157,9 +158,15 @@ export function Login() {
                                 label = "Keep me signed in on this device."
                             />
                             <br/>
-                            <SignInButton type = "submit" className = {classes.button} variant = "contained">
+                            <div style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+                            {
+                                isLoading?<CircularProgress disableShrink />:<></>
+                            }
+                            </div>
+                            <SignInButton type = "submit" className = {classes.button} variant = "contained" disabled={isLoading}>
                                 Sign In
                             </SignInButton>
+                            
                         </form>
                     </Grid>
                     <Grid style = {{margin: "10px 0"}} container item>

@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Home(props) {
     const classes = useStyles();
+    
     return (
         <Container className={classes.container}>
             <SearchForm />

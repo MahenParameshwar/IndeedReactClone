@@ -2,14 +2,16 @@ import { COUNT_TOTAL_RESULT,
         FETCH_ERROR, 
         FETCH_JOBS_ID_SUCCESS,
          FETCH_LOADING, 
-         FETCH_SUCCESS } from "./actionTypes"
+         FETCH_SUCCESS, 
+         SET_PAGE} from "./actionTypes"
 
 const init = {
     isLoading :false,
     isError:false,
     searched:[],
     jobsById:{},
-    totalCount:null
+    totalCount:null,
+    page:1
 }
 
 
@@ -47,6 +49,12 @@ export const searchReducer = (state=init, {type,payload}) =>{
             return{
                 ...state,
                 jobsById:payload
+            }
+
+        case SET_PAGE:
+            return{
+                ...state,
+                page:payload
             }
 
         default:

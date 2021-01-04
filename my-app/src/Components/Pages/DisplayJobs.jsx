@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles';
 import SearchForm from '../Layout/Forms/SearchForm/SearchForm';
 import FillterButton from '../Layout/FilterJobsButton/FillterButton';
-import { getSearchData, fetchSuccess } from '../../Redux/Search/actions';
+import { getSearchData, fetchSuccess, setCurrentPage } from '../../Redux/Search/actions';
 import JobDescription from '../Layout/JobDescription';
 import styled from 'styled-components'
 import {timeDifference} from '../../Utils/timeDifference'
@@ -136,6 +136,7 @@ const LoadingContainer = styled.div`
 
 function DisplayJobs(props) {
     
+    
     const query = new URLSearchParams(props.location.search)
 
     const classes = useStyles()
@@ -153,6 +154,7 @@ function DisplayJobs(props) {
     let totalCount = useSelector(state=>state.search.totalCount)
     const loggedUser = useSelector(state=>state.login.loggedUser);
     let isLoading = useSelector(state=>state.search.isLoading)
+    let p = useSelector(state=>state.search.page)
     
     const handelReset = ()=>{
         dispatch(getSearchData(job,location,page))
@@ -160,7 +162,7 @@ function DisplayJobs(props) {
     }
     
     const pageNo = query.get('page')
-    let [page,setPage] = useState(pageNo)
+    let [page,setPage] = useState(Number(pageNo))
     let [jobType,setJobType] = useState(jt) 
     let [occupation, setOccupation] = useState(occu)
     let [education , setEducation] = useState(edu)
@@ -197,7 +199,7 @@ function DisplayJobs(props) {
 
     const handlePageChange = (event, page) => {
         setPage(page)
-        // console.log(job)
+        dispatch(setCurrentPage(page))
         history.push(`/jobs?q=${job}&location=${location}&page=${page}`)
     };
 
@@ -376,7 +378,7 @@ function DisplayJobs(props) {
                 </Box>
                 <Pagination onChange={handlePageChange} count={
                     totalCount % 5 === 0 ?
-                    Math.floor(totalCount/5) : Math.floor(totalCount/5) + 1 } variant="outlined" shape="rounded" />
+                    Math.floor(totalCount/5) : Math.floor(totalCount/5) + 1 } variant="outlined" page={p} shape="rounded" />
                     </>
                 ) : <Box>No results found</Box>
             }
