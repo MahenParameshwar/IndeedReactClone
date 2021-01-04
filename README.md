@@ -1,6 +1,4 @@
-# IndeedReactClone
-
-<h1 align="center">LinkedIn clone.</h1>
+<h1 align="center">Indeed Clone.</h1>
 
 <h2>Getting Started</h2>
 
