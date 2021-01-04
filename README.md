@@ -4,13 +4,14 @@
 
 Clone the repository, Do npm install and run mock server on --port 8000
 
-<h2>TECH STACK USED:</h2>
+##TECH STACK USED:
+- HTML and CSS.
 - HTML
 - CSS
 - Javascript
 - React JS
 
-<h2>TECH LIBRARY USED:</h2>
+##TECH LIBRARY USED:
 - React APP
 - Redux
 - React Router
