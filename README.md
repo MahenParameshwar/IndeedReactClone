@@ -14,6 +14,7 @@ Clone the repository, Do npm install and run mock server on --port 8000
 - React APP
 - Redux
 - React Router
+- Redux Thunk
 - Axios
 - Material UI
 
