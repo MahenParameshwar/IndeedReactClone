@@ -53,7 +53,7 @@ json-server --watch db.json --port 8000
 ### For developers
 Clone the source locally:
 ```sh
-$ git clone https://github.com/MahenParameshwar/IndeedReactClone.git
+$ git clone https://github.com/HarshVerm/IndeedReactClone.git
 ```
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
