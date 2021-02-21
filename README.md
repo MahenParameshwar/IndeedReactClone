@@ -2,7 +2,7 @@
 
 <h2>Getting Started</h2>
 
-Clone the repository, Do npm install and run mock server on --port 8000
+Clone the repository, Do npm install and run the app using npm run start
 
 <h3></h3>
 
