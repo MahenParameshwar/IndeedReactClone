@@ -46,7 +46,6 @@ Clone the repository, Do npm install and run the app using npm run start
 
 ```bash
 npm start
-json-server --watch db.json --port 8000
 ```
 
 
